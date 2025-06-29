@@ -1,0 +1,8 @@
+checkpoints/
+log/
+log_seed_posSample/
+
+mmprertrain/
+datasets/
+.idea/
+__pycache__/
