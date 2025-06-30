@@ -81,7 +81,7 @@ def organize_ground_truth(gt_list: List[Dict]) -> Dict[str, Dict]:
         
     return organized
 
-def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_threshold: float = 1000.0) -> Dict:
+def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_threshold: float = 5.0) -> Dict:
     """
     计算预测结果的评估指标
     Args:
@@ -96,9 +96,15 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
     total_fn = 0
     total_mse = 0
     total_matched_points = 0
+    tau_square = distance_threshold * distance_threshold  # 阈值的平方作为惩罚项
     
     processed_images = 0
     skipped_images = 0
+
+    # 存储每张图片的指标
+    per_image_metrics = {}
+    # 存储每个序列的累积指标
+    sequence_metrics = {}
 
     # 组织真实标注数据
     organized_gt = organize_ground_truth(ground_truth)
@@ -115,6 +121,9 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         print(ground_truth[0])
 
     for img_name, pred_info in predictions.items():
+        # 获取序列ID
+        seq_id, _ = convert_filename_to_seq_frame(img_name)
+        
         # 直接使用图片名作为键
         if img_name not in organized_gt:
             print(f"警告：找不到图片 {img_name} 的真实标注")
@@ -128,29 +137,83 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         matches, unmatched_preds, unmatched_gts = match_points(
             pred_points, gt_points, distance_threshold)
 
-        # 计算TP, FP, FN
+        # 计算当前图片的指标
         tp = len(matches)
         fp = len(unmatched_preds)
         fn = len(unmatched_gts)
+        
+        # 计算当前图片的MSE
+        current_mse = 0
+        # 对匹配点计算实际距离的平方
+        for pred_idx, gt_idx in matches:
+            distance = calculate_distance(pred_points[pred_idx], gt_points[gt_idx])
+            if distance <= distance_threshold:
+                current_mse += 0  # 距离小于阈值时为0
+            else:
+                current_mse += distance * distance
+        
+        # 对未匹配点添加惩罚项
+        current_mse += (fp + fn) * tau_square  # 每个未匹配点都加上τ²
+        
+        # 计算当前图片的指标
+        img_precision = tp / (tp + fp) if (tp + fp) > 0 else 0
+        img_recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+        img_f1 = 2 * (img_precision * img_recall) / (img_precision + img_recall) if (img_precision + img_recall) > 0 else 0
+        img_mse = current_mse / max(len(gt_points), len(pred_points)) if max(len(gt_points), len(pred_points)) > 0 else 0
+        
+        # 存储每张图片的指标
+        per_image_metrics[img_name] = {
+            'precision': img_precision,
+            'recall': img_recall,
+            'f1': img_f1,
+            'mse': img_mse,
+            'tp': tp,
+            'fp': fp,
+            'fn': fn,
+            'matched_points': len(matches)
+        }
+        
+        # 更新序列指标
+        if seq_id not in sequence_metrics:
+            sequence_metrics[seq_id] = {
+                'tp': 0, 'fp': 0, 'fn': 0, 'total_mse': 0,
+                'total_points': 0, 'processed_images': 0
+            }
+        sequence_metrics[seq_id]['tp'] += tp
+        sequence_metrics[seq_id]['fp'] += fp
+        sequence_metrics[seq_id]['fn'] += fn
+        sequence_metrics[seq_id]['total_mse'] += current_mse
+        sequence_metrics[seq_id]['total_points'] += max(len(gt_points), len(pred_points))
+        sequence_metrics[seq_id]['processed_images'] += 1
 
+        # 更新总体指标
         total_tp += tp
         total_fp += fp
         total_fn += fn
-
-        # 计算MSE
-        for pred_idx, gt_idx in matches:
-            distance = calculate_distance(pred_points[pred_idx], gt_points[gt_idx])
-            total_mse += distance ** 2
-            total_matched_points += 1
-
+        total_mse += current_mse
+        total_matched_points += max(len(gt_points), len(pred_points))
         processed_images += 1
+
+    # 计算每个序列的最终指标
+    for seq_id in sequence_metrics:
+        seq = sequence_metrics[seq_id]
+        seq_precision = seq['tp'] / (seq['tp'] + seq['fp']) if (seq['tp'] + seq['fp']) > 0 else 0
+        seq_recall = seq['tp'] / (seq['tp'] + seq['fn']) if (seq['tp'] + seq['fn']) > 0 else 0
+        seq['f1'] = 2 * (seq_precision * seq_recall) / (seq_precision + seq_recall) if (seq_precision + seq_recall) > 0 else 0
+        seq['mse'] = seq['total_mse'] / seq['total_points'] if seq['total_points'] > 0 else 0
 
     # 计算总体指标
     precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) > 0 else 0
     recall = total_tp / (total_tp + total_fn) if (total_tp + total_fn) > 0 else 0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    mse = total_mse / total_matched_points if total_matched_points > 0 else float('inf')
+    mse = total_mse / total_matched_points if total_matched_points > 0 else 0
     rmse = np.sqrt(mse)
+
+    # 找出最佳性能的图片和序列
+    best_f1_image = max(per_image_metrics.items(), key=lambda x: x[1]['f1'])
+    best_mse_image = min(per_image_metrics.items(), key=lambda x: x[1]['mse'])
+    best_f1_sequence = max(sequence_metrics.items(), key=lambda x: x[1]['f1'])
+    best_mse_sequence = min(sequence_metrics.items(), key=lambda x: x[1]['mse'])
 
     return {
         'precision': precision,
@@ -163,7 +226,27 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         'skipped_images': skipped_images,
         'total_tp': total_tp,
         'total_fp': total_fp,
-        'total_fn': total_fn
+        'total_fn': total_fn,
+        'per_image_metrics': per_image_metrics,
+        'sequence_metrics': sequence_metrics,
+        'best_performance': {
+            'best_f1_image': {
+                'image_name': best_f1_image[0],
+                'f1_score': best_f1_image[1]['f1']
+            },
+            'best_mse_image': {
+                'image_name': best_mse_image[0],
+                'mse': best_mse_image[1]['mse']
+            },
+            'best_f1_sequence': {
+                'sequence_id': best_f1_sequence[0],
+                'f1_score': best_f1_sequence[1]['f1']
+            },
+            'best_mse_sequence': {
+                'sequence_id': best_mse_sequence[0],
+                'mse': best_mse_sequence[1]['mse']
+            }
+        }
     }
 
 def main():
@@ -191,21 +274,48 @@ def main():
 
     # 计算评估指标
     print("\n正在计算评估指标...")
-    metrics = calculate_metrics(predictions, ground_truth, distance_threshold=5.0)
+    metrics = calculate_metrics(predictions, ground_truth, distance_threshold=1000.0)
 
     # 打印评估结果
-    print("\n=== 评估结果 ===")
+    print("\n=== 总体评估结果 ===")
     print(f"Precision: {metrics['precision']:.4f}")
     print(f"Recall: {metrics['recall']:.4f}")
     print(f"F1 Score: {metrics['f1']:.4f}")
-    print(f"MSE: {metrics['mse']:.4f}")
-    print(f"RMSE: {metrics['rmse']:.4f}")
+    if metrics['mse'] >= 0:
+        print(f"MSE: {metrics['mse']:.4f}")
+        print(f"RMSE: {metrics['rmse']:.4f}")
+    else:
+        print("MSE: 无有效匹配点")
+        print("RMSE: 无有效匹配点")
+    
     print(f"\n处理的图片数: {metrics['processed_images']}")
     print(f"跳过的图片数: {metrics['skipped_images']}")
     print(f"总匹配点对数: {metrics['total_matched_points']}")
     print(f"True Positives: {metrics['total_tp']}")
     print(f"False Positives: {metrics['total_fp']}")
     print(f"False Negatives: {metrics['total_fn']}")
+
+    # 打印最佳性能结果
+    print("\n=== 最佳性能 ===")
+    print("\n单张图片最佳性能:")
+    print(f"F1分数最高的图片: {metrics['best_performance']['best_f1_image']['image_name']}")
+    print(f"最高F1分数: {metrics['best_performance']['best_f1_image']['f1_score']:.4f}")
+    
+    if metrics['best_performance']['best_mse_image']['mse'] >= 0:
+        print(f"MSE最低的图片: {metrics['best_performance']['best_mse_image']['image_name']}")
+        print(f"最低MSE: {metrics['best_performance']['best_mse_image']['mse']:.4f}")
+    else:
+        print("MSE: 所有图片都没有有效的匹配点")
+
+    print("\n序列级别最佳性能:")
+    print(f"F1分数最高的序列: {metrics['best_performance']['best_f1_sequence']['sequence_id']}")
+    print(f"最高F1分数: {metrics['best_performance']['best_f1_sequence']['f1_score']:.4f}")
+    
+    if metrics['best_performance']['best_mse_sequence']['mse'] >= 0:
+        print(f"MSE最低的序列: {metrics['best_performance']['best_mse_sequence']['sequence_id']}")
+        print(f"最低MSE: {metrics['best_performance']['best_mse_sequence']['mse']:.4f}")
+    else:
+        print("MSE: 所有序列都没有有效的匹配点")
 
     # 保存评估结果
     results_save_path = './results/spotgeov2/TADNet/evaluation_results.json'
