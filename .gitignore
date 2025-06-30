@@ -6,3 +6,7 @@ mmprertrain/
 datasets/
 .idea/
 __pycache__/
+
+mmprertrain/
+
+results/

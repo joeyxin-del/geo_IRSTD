@@ -80,8 +80,11 @@ def random_crop(img, mask, patch_size):
 
     return img_patch, mask_patch
 
-def Normalized(img, img_norm_cfg):
-    # return (img-img_norm_cfg['mean'])/img_norm_cfg['std']
+def Normalized(img, img_norm_cfg=None):
+    # 如果提供了img_norm_cfg，使用标准化
+    if img_norm_cfg is not None:
+        return (img-img_norm_cfg['mean'])/img_norm_cfg['std']
+    # 否则只进行简单的归一化
     return img/255.0
     
 def Denormalization(img, img_norm_cfg):

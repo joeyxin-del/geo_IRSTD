@@ -88,7 +88,8 @@ class Net(nn.Module):
             self.model = LinearVIT()
         elif model_name == "NoiseAttNet":
             self.model = NoiseAttNet()
-        
+        elif model_name == "TADNet":
+            self.model = TADNet()
     def forward(self, img,):
         return self.model(img)
 

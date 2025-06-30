@@ -24,3 +24,5 @@ from model.RepirDet.RepirDet_v2_s import RepirDet as RepirDet
 from model.NoiseNet.NoiseNet import NoiseNet as NoiseNet
 from model.NoiseAttNet.NoiseAttNet import NoiseAttNet as NoiseAttNet
 from model.LinearVIT.LinearVit import LinearVIT as LinearVIT
+
+from model.TADNet.model_TADNet import TADNet as TADNet
