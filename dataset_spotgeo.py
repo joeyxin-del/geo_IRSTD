@@ -43,7 +43,7 @@ class TrainSetLoader(Dataset):
         # mask = Resized["mask"]
         
         # img_patch, mask_patch = random_crop(img, mask, self.patch_size)
-        img_patch, mask_patch = random_crop(img, mask, self.patch_size, pos_prob=0.5) # 25年3月11日参考git仓库新增 pos_prob=0.5
+        img_patch, mask_patch = random_crop(img, mask, self.patch_size)
         img_patch, mask_patch = self.tranform(img_patch, mask_patch)
         img_patch, mask_patch = img_patch[np.newaxis, :], mask_patch[np.newaxis, :]  # (255,255)-->(1,255,255)
         img_patch = torch.from_numpy(np.ascontiguousarray(img_patch))

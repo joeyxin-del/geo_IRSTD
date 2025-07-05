@@ -2,11 +2,10 @@ checkpoints/
 log/
 log_seed_posSample/
 
-mmprertrain/
+mmpretrain/
 datasets/
 .idea/
 __pycache__/
 
-mmprertrain/
 
 results/

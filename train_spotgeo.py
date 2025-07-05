@@ -5,7 +5,7 @@ import torch
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from net import Net
-from dataset import *
+from dataset_spotgeo import *
 import matplotlib.pyplot as plt
 from metrics import *
 import numpy as np

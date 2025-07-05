@@ -45,6 +45,8 @@ class TrainSetLoader(Dataset):
                     A.MotionBlur(p=.2),  # 运动模糊
                     A.MedianBlur(blur_limit=3, p=0.1),  # 中值模糊
                     A.Blur(blur_limit=3, p=0.1), ], p=0.3),  # 普通模糊
+                
+                A.Resize(patch_size, patch_size),  # 确保所有图像都调整到相同尺寸
 
             ]
         )
