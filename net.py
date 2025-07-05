@@ -74,7 +74,7 @@ class Net(nn.Module):
             # torchinfo.summary(self.model)
         elif model_name == "WTNet":
             self.model = WTNet()
-            torchinfo.summary(self.model)
+            # torchinfo.summary(self.model)
         elif model_name == "RepirDet":
             if mode == 'train':
                 self.model = RepirDet(deploy=False, mode='train')

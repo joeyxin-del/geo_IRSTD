@@ -19,7 +19,7 @@ from tqdm import tqdm
 # Local imports
 from net import Net
 from dataset_spotgeo import TrainSetLoader, TestSetLoader
-from metrics import mIoU, PD_FA, SigmoidMetric, SamplewiseSigmoidMetric, F1Metric, MSEMetric
+from metrics import F1MSEMetric
 from CalculateFPS import FPSBenchmark
 
 # SwanLab monitoring
@@ -50,6 +50,7 @@ class TrainingConfig:
         
         # Training parameters
         self.batch_size: int = 2
+        self.val_batch_size: int = 4  # 验证时的batch_size
         self.patch_size: int = 512
         self.num_epochs: int = 400
         self.seed: int = 42
@@ -77,6 +78,7 @@ class TrainingConfig:
         self.save_interval: int = 10  # Save checkpoint every N epochs
         self.val_interval: int = 5    # Validate every N epochs
         self.use_swanlab: bool = True  # Enable SwanLab monitoring
+        self.validate_best_model: bool = False  # Whether to validate best model at the end
         
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> 'TrainingConfig':
@@ -87,6 +89,7 @@ class TrainingConfig:
         config.dataset_dir = args.dataset_dir
         config.img_norm_cfg = args.img_norm_cfg
         config.batch_size = args.batch_size
+        config.val_batch_size = args.val_batch_size
         config.patch_size = args.patch_size
         config.num_epochs = args.num_epochs
         config.seed = args.seed
@@ -106,6 +109,7 @@ class TrainingConfig:
         config.save_interval = args.save_interval
         config.val_interval = args.val_interval
         config.use_swanlab = args.use_swanlab
+        config.validate_best_model = args.validate_best_model
         return config
 
 
@@ -414,9 +418,9 @@ class ModelTrainer:
         
         self.val_loader = DataLoader(
             dataset=val_dataset,
-            batch_size=1,
+            batch_size=self.config.val_batch_size,
             shuffle=False,
-            num_workers=0
+            num_workers=self.config.num_threads  # 增加worker数量
         )
         
     def setup_model(self):
@@ -505,13 +509,8 @@ class ModelTrainer:
             
             if val_metrics:
                 log_data.update({
-                    "val_miou": val_metrics.get('mIoU', [0])[-1],
-                    "val_iou": val_metrics.get('IoU', 0),
-                    "val_niou": val_metrics.get('nIoU', 0),
-                    "val_pd": val_metrics.get('PD_FA', [0, 0])[0],
-                    "val_fa": val_metrics.get('PD_FA', [0, 0])[1],
-                    "val_f1": val_metrics.get('F1', 0),
-                    "val_mse": val_metrics.get('MSE', 0),
+                    "val_f1": float(val_metrics.get('F1', 0)),
+                    "val_mse": float(val_metrics.get('MSE', 0)),
                 })
             
             swanlab.log(log_data)
@@ -519,8 +518,6 @@ class ModelTrainer:
         # Log to file
         if val_metrics:
             logger.info(f"Epoch {epoch} - Train Loss: {train_loss:.4f}, "
-                       f"Val mIoU: {val_metrics.get('mIoU', [0])[-1]:.4f}, "
-                       f"Val IoU: {val_metrics.get('IoU', 0):.4f}, "
                        f"Val F1: {val_metrics.get('F1', 0):.4f}, "
                        f"Val MSE: {val_metrics.get('MSE', 0):.4f}")
         else:
@@ -563,6 +560,7 @@ class ModelTrainer:
         progress_bar = tqdm(self.train_loader, desc=f"Epoch {epoch+1}")
         
         for batch_idx, (images, targets) in enumerate(progress_bar):
+            # train_batch_start = time.time()
             images = images.to(self.device)
             targets = targets.to(self.device)
             
@@ -585,7 +583,7 @@ class ModelTrainer:
             else:
                 predictions = self.model(images)
                 loss = self.model.loss(predictions, targets, batch_idx, epoch, images)
-                loss += self.compute_orthogonal_loss()
+                # loss += self.compute_orthogonal_loss()
                 
                 loss.backward()
                 self.optimizer.step()
@@ -603,30 +601,32 @@ class ModelTrainer:
                 'loss': f'{avg_loss:.4f}',
                 'lr': f'{current_lr:.6f}'
             })
-            
+            # train_batch_end = time.time()
+            # train_batch_time = train_batch_end - train_batch_start
+            # logger.info(f"Train batch time22222222222222: {train_batch_time:.2f}s")
         return np.mean(epoch_losses)
         
-    def validate(self, checkpoint_path: str) -> Dict[str, Any]:
+    def validate(self, checkpoint_path: Optional[str] = None) -> Dict[str, Any]:
         """Validate model and return metrics"""
-        # Load model for validation
-        val_model = Net(model_name=self.model_name, mode='test').to(self.device)
-        checkpoint = torch.load(checkpoint_path, map_location=self.device)
-        val_model.load_state_dict(checkpoint['state_dict'])
+        # 如果没有指定checkpoint_path，直接使用训练中的模型
+        if checkpoint_path is None:
+            val_model = self.model
+            # 保存当前训练状态
+            was_training = val_model.training
+            # 切换到评估模式
+            val_model.eval()
+        else:
+            # 如果需要验证特定检查点，才创建新模型
+            logger.info(f"Loading checkpoint for validation: {checkpoint_path}")
+            val_model = Net(model_name=self.model_name, mode='test').to(self.device)
+            checkpoint = torch.load(checkpoint_path, map_location=self.device)
+            val_model.load_state_dict(checkpoint['state_dict'])
+            val_model.eval()
+            was_training = False  # 新创建的模型默认是eval模式
         
-        # Switch to deploy mode for specific models
-        if self.model_name in ['RepirDet', 'ExtractOne']:
-            val_model.model.switch_to_deploy()
-            
-        val_model.eval()
-        
-        # Initialize metrics
+        # Initialize metrics - 只计算F1和MSE
         metrics = {
-            'mIoU': mIoU(),
-            'PD_FA': PD_FA(),
-            'IoU': SigmoidMetric(),
-            'nIoU': SamplewiseSigmoidMetric(1, score_thresh=0.5),
-            'F1': F1Metric(threshold=0.5, distance_threshold=5.0),
-            'MSE': MSEMetric(threshold=0.5, distance_threshold=5.0)
+            'F1_MSE': F1MSEMetric(threshold=0.5, distance_threshold=1000.0, use_multiprocessing=True, num_workers=64)
         }
         
         # Reset metrics
@@ -636,9 +636,19 @@ class ModelTrainer:
                 
         inference_time = 0.0
         
+        # Add progress bar for validation
+        progress_bar = tqdm(self.val_loader, desc="Validating", leave=False)
+        
         with torch.no_grad():
-            for images, targets, sizes, _ in self.val_loader:
+            for batch_data in progress_bar:
+                # Handle both single and batch data formats
+                if len(batch_data) == 4:  # (images, targets, sizes, filenames)
+                    images, targets, sizes, filenames = batch_data
+                else:  # Fallback for single item
+                    images, targets, sizes, filenames = batch_data[0], batch_data[1], [batch_data[2]], [batch_data[3]]
+                
                 images = images.to(self.device)
+                targets = targets.to(self.device)
                 
                 # Measure inference time
                 start_time = time.time()
@@ -658,32 +668,37 @@ class ModelTrainer:
                 threshold_tensor = torch.tensor(threshold, device=predictions.device)
                 binary_predictions = (predictions > threshold_tensor).float()
                 
-                # Update metrics
-                metrics['mIoU'].update(binary_predictions.cpu(), targets)
-                metrics['PD_FA'].update(binary_predictions[0, 0].cpu(), targets[0, 0], sizes)
-                metrics['nIoU'].update(binary_predictions.cpu(), targets)
-                metrics['IoU'].update(binary_predictions.cpu(), targets)
-                metrics['F1'].update(predictions.cpu(), targets)
-                metrics['MSE'].update(predictions.cpu(), targets)
+                # Update metrics - 只计算F1和MSE
+                batch_size = images.shape[0]
+                
+                # 只计算F1和MSE
+                metrics['F1_MSE'].update(predictions, targets)
+                
+                end_time = time.time()
+                
+                # Update progress bar with current inference time
+                avg_inference_time = inference_time / (progress_bar.n + 1)
+                progress_bar.set_postfix({
+                    'avg_time': f'{avg_inference_time:.3f}s',
+                    'batch_size': batch_size
+                })
         
-        # Get results
+        # 恢复训练状态
+        if was_training:
+            val_model.train()
+        
+        # Get results - 只返回F1和MSE
+        f1_score, mse_score = metrics['F1_MSE'].get()
         results = {
-            'mIoU': metrics['mIoU'].get(),
-            'PD_FA': metrics['PD_FA'].get(),
-            'IoU': metrics['IoU'].get(),
-            'nIoU': metrics['nIoU'].get()[-1],
-            'F1': metrics['F1'].get(),
-            'MSE': metrics['MSE'].get()
+            'F1': f1_score,
+            'MSE': mse_score
         }
         
         # Log results
         logger.info(f"Validation Results:")
-        logger.info(f"  mIoU: {results['mIoU']}")
-        logger.info(f"  PD, FA: {results['PD_FA']}")
-        logger.info(f"  IoU: {results['IoU']}")
-        logger.info(f"  nIoU: {results['nIoU']}")
-        logger.info(f"  F1: {results['F1']:.4f}")
-        logger.info(f"  MSE: {results['MSE']:.4f}")
+        logger.info(f"  F1: {f1_score:.4f}")
+        logger.info(f"  MSE: {mse_score:.4f}")
+        
         logger.info(f"  Inference time: {inference_time:.4f}s")
         
         # Calculate FPS if requested
@@ -711,47 +726,86 @@ class ModelTrainer:
         logger.info(f"Training for {self.config.num_epochs} epochs")
         logger.info(f"Save interval: {self.config.save_interval}, Validation interval: {self.config.val_interval}")
         
+        forward_start = time.time()
         for epoch in range(self.current_epoch, self.config.num_epochs):
             # Train one epoch
+            # train_epoch_start = time.time()
             epoch_loss = self.train_epoch(epoch)
             self.total_loss_history.append(epoch_loss)
             
+            # train_epoch_end = time.time()
+            # train_epoch_time = train_epoch_end - train_epoch_start
+            # logger.info(f"Train epoch time11111111111111: {train_epoch_time:.2f}s")
+
+            # log_start = time.time()
             # Log metrics
             self.log_metrics(epoch + 1, epoch_loss)
+            # log_end = time.time()
+            # log_time = log_end - log_start
+            # logger.info(f"Log time11111111111111: {log_time:.2f}s")
             
-            # Save regular checkpoint
+            # save_start = time.time()
+            # Save regular checkpoint (for resume training)
             if (epoch + 1) % self.config.save_interval == 0:
                 self.save_checkpoint(epoch + 1, is_regular=True)
+            # save_end = time.time()
+            # save_time = save_end - save_start
+            # logger.info(f"Save time11111111111111: {save_time:.2f}s")
             
+            # validate_start = time.time()
             # Validate and save best model
             if (epoch + 1) % self.config.val_interval == 0:
-                checkpoint_path = self.save_checkpoint(epoch + 1)
-                val_metrics = self.validate(checkpoint_path)
+                # 直接使用当前模型进行验证，不加载检查点
+                val_metrics = self.validate()
                 
                 # Update best model if improved
                 current_f1 = val_metrics['F1']
                 if current_f1 > self.best_f1:
                     self.best_f1 = current_f1
+                    # 只有在F1提高时才保存检查点
                     self.save_checkpoint(epoch + 1, is_best=True)
                     logger.info(f"New best F1: {self.best_f1:.4f} at epoch {epoch+1}")
+                else:
+                    logger.info(f"F1 not improved: {current_f1:.4f} (best: {self.best_f1:.4f})")
                 
                 # Log validation metrics
                 self.log_metrics(epoch + 1, epoch_loss, val_metrics)
             
+            # validate_end = time.time()
+            # validate_time = validate_end - validate_start
+            # logger.info(f"Validate time11111111111111: {validate_time:.2f}s")
+            
+            # step_start = time.time()
             # Step scheduler
             self.scheduler.step()
-            
+            # step_end = time.time()
+            # step_time = step_end - step_start
+            # logger.info(f"scheduler Step time11111111111111: {step_time:.2f}s")
+        
+        forward_end = time.time()
+        forward_time = forward_end - forward_start
+        logger.info(f"Forward time11111111111111: {forward_time:.2f}s")
+
         # Save final checkpoint
         if (self.config.num_epochs) % self.config.save_interval != 0:
             self.save_checkpoint(self.config.num_epochs, is_regular=True)
-            
+
         # Final validation
         if (self.config.num_epochs) % self.config.val_interval != 0:
-            checkpoint_path = self.save_checkpoint(self.config.num_epochs)
-            val_metrics = self.validate(checkpoint_path)
+            # 直接使用当前模型进行最终验证
+            val_metrics = self.validate()
             self.log_metrics(self.config.num_epochs, self.total_loss_history[-1], val_metrics)
             
         logger.info(f"Training completed. Best F1: {self.best_f1:.4f}")
+
+        # Validate best model if requested
+        if self.config.validate_best_model:
+            best_model_path = self.experiment_dir / "best.pth"
+            if best_model_path.exists():
+                logger.info("Validating best model...")
+                val_metrics = self.validate(str(best_model_path))
+                logger.info(f"Best model validation - F1: {val_metrics['F1']:.4f}, MSE: {val_metrics['MSE']:.4f}")
+
         
         # Close SwanLab run
         if self.swanlab_run is not None:
@@ -767,14 +821,16 @@ def parse_arguments():
                        help="Model names to train")
     parser.add_argument("--dataset_names", default=['spotgeov2-IRSTD'], nargs='+',
                        help="Dataset names to use")
-    parser.add_argument("--dataset_dir", default='./datasets', type=str,
+    parser.add_argument("--dataset_dir", default='/autodl-fs/data', type=str,
                        help="Dataset directory")
     parser.add_argument("--img_norm_cfg", default=None, type=dict,
                        help="Image normalization configuration")
     
     # Training parameters
-    parser.add_argument("--batch_size", type=int, default=2,
+    parser.add_argument("--batch_size", type=int, default=64,
                        help="Training batch size")
+    parser.add_argument("--val_batch_size", type=int, default=64,
+                       help="Validation batch size")
     parser.add_argument("--patch_size", type=int, default=512,
                        help="Training patch size")
     parser.add_argument("--num_epochs", type=int, default=400,
@@ -793,7 +849,7 @@ def parse_arguments():
                        help="Scheduler settings")
     
     # System
-    parser.add_argument("--num_threads", type=int, default=0,
+    parser.add_argument("--num_threads", type=int, default=64,
                        help="Number of data loader threads")
     parser.add_argument("--save_dir", default='./log', type=str,
                        help="Save directory")
@@ -821,6 +877,8 @@ def parse_arguments():
                        help="Validate every N epochs")
     parser.add_argument("--use_swanlab", type=bool, default=True,
                        help="Enable SwanLab monitoring")
+    parser.add_argument("--validate_best_model", type=bool, default=True,
+                       help="Validate best model at the end")
     
     return parser.parse_args()
 

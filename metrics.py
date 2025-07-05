@@ -2,16 +2,61 @@ import numpy as np
 import torch
 from skimage import measure
 from scipy.optimize import linear_sum_assignment
+from scipy.spatial.distance import cdist  # 从scipy导入cdist用于计算距离矩阵
 from typing import List, Tuple
-       
+import multiprocessing as mp
+from functools import partial
+import warnings
+import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import os
+
 def calculate_distance(point1: List[float], point2: List[float]) -> float:
     """计算两点之间的欧氏距离"""
     return np.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
+def match_points_optimized(pred_points: List[List[float]], gt_points: List[List[float]], 
+                          distance_threshold: float = 5.0) -> Tuple[List[Tuple[int, int]], List[int], List[int]]:
+    """
+    使用优化的匈牙利算法匹配预测点和真实点
+    参考score_frame函数的实现，使用cdist高效计算距离矩阵
+    """
+    if len(pred_points) == 0 or len(gt_points) == 0:
+        return [], list(range(len(pred_points))), list(range(len(gt_points)))
+
+    # 转换为numpy数组以便使用cdist
+    X = np.array(pred_points)
+    Y = np.array(gt_points)
+    
+    # 使用cdist高效计算欧几里得距离矩阵
+    D = cdist(X, Y)
+    
+    # 截断超过阈值的距离
+    D[D > distance_threshold] = 1000
+    
+    # 使用匈牙利算法解决线性分配问题
+    row_ind, col_ind = linear_sum_assignment(D)
+    matching = D[row_ind, col_ind]
+    
+    # 筛选有效匹配（距离在阈值内）
+    valid_matches = []
+    for i, (pred_idx, gt_idx) in enumerate(zip(row_ind, col_ind)):
+        if matching[i] <= distance_threshold:
+            valid_matches.append((pred_idx, gt_idx))
+    
+    # 计算未匹配的点
+    matched_preds = set(match[0] for match in valid_matches)
+    matched_gts = set(match[1] for match in valid_matches)
+    
+    unmatched_preds = [i for i in range(len(pred_points)) if i not in matched_preds]
+    unmatched_gts = [i for i in range(len(gt_points)) if i not in matched_gts]
+    
+    return valid_matches, unmatched_preds, unmatched_gts
+
 def match_points(pred_points: List[List[float]], gt_points: List[List[float]], 
                 distance_threshold: float = 5.0) -> Tuple[List[Tuple[int, int]], List[int], List[int]]:
     """
-    使用匈牙利算法匹配预测点和真实点
+    使用匈牙利算法匹配预测点和真实点（优化版本）
     Args:
         pred_points: 预测的点坐标列表 [[x1,y1], [x2,y2], ...]
         gt_points: 真实的点坐标列表 [[x1,y1], [x2,y2], ...]
@@ -21,41 +66,15 @@ def match_points(pred_points: List[List[float]], gt_points: List[List[float]],
         unmatched_preds: 未匹配的预测点索引
         unmatched_gts: 未匹配的真实点索引
     """
-    if len(pred_points) == 0 or len(gt_points) == 0:
-        return [], list(range(len(pred_points))), list(range(len(gt_points)))
-
-    # 构建代价矩阵
-    cost_matrix = np.zeros((len(pred_points), len(gt_points)))
-    for i, pred in enumerate(pred_points):
-        for j, gt in enumerate(gt_points):
-            distance = calculate_distance(pred, gt)
-            cost_matrix[i, j] = distance
-
-    # 使用匈牙利算法进行匹配
-    pred_indices, gt_indices = linear_sum_assignment(cost_matrix)
-
-    # 根据距离阈值筛选有效匹配
-    matches = []
-    unmatched_preds = list(range(len(pred_points)))
-    unmatched_gts = list(range(len(gt_points)))
-
-    for pred_idx, gt_idx in zip(pred_indices, gt_indices):
-        if cost_matrix[pred_idx, gt_idx] <= distance_threshold:
-            matches.append((pred_idx, gt_idx))
-            if pred_idx in unmatched_preds:
-                unmatched_preds.remove(pred_idx)
-            if gt_idx in unmatched_gts:
-                unmatched_gts.remove(gt_idx)
-
-    return matches, unmatched_preds, unmatched_gts
+    return match_points_optimized(pred_points, gt_points, distance_threshold)
 
 def extract_points_from_mask(mask):
     """
-    从mask中提取坐标点
+    从mask中提取质心坐标点
     Args:
         mask: 二值化掩码图像
     Returns:
-        points: 坐标点列表 [[x1,y1], [x2,y2], ...]
+        points: 质心坐标点列表 [[x1,y1], [x2,y2], ...]
     """
     if isinstance(mask, torch.Tensor):
         mask = mask.cpu().numpy()
@@ -64,15 +83,18 @@ def extract_points_from_mask(mask):
     if mask.ndim == 3:
         mask = mask.squeeze()
     
-    # 找到所有非零点的坐标
-    points = np.where(mask > 0)
-    points = np.array(list(zip(points[1], points[0])))  # 转换为[[x,y], [x,y], ...]格式
+    # 使用skimage的label和regionprops来找到连通区域并计算质心
+    labeled_mask = measure.label(mask, connectivity=2)
+    regions = measure.regionprops(labeled_mask)
     
-    # 如果没有点，返回空数组
-    if len(points) == 0:
-        return np.array([])
-        
-    return points
+    # 提取每个区域的质心坐标
+    points = []
+    for region in regions:
+        # region.centroid返回(y, x)格式，需要转换为(x, y)
+        centroid_y, centroid_x = region.centroid
+        points.append([centroid_x, centroid_y])
+    
+    return np.array(points) if points else np.array([])
 
 class mIoU():
     
@@ -117,10 +139,29 @@ class PD_FA():
         self.dismatch_pixel = 0
         self.all_pixel = 0
         self.PD = 0
-        self.target= 0
-    def update(self, preds, labels, size):
-        predits  = np.array((preds).cpu()).astype('int64')
-        labelss = np.array((labels).cpu()).astype('int64') 
+        self.target = 0
+        # 添加缺失的bins属性
+        self.bins = 1
+        
+    def update(self, preds, labels, size=None):
+        # 支持批量输入
+        if preds.ndim == 4:  # [B, 1, H, W]
+            batch_size = preds.shape[0]
+            for i in range(batch_size):
+                self._update_single_sample(preds[i, 0], labels[i, 0], size)
+        else:  # [1, H, W] or [H, W]
+            self._update_single_sample(preds.squeeze(), labels.squeeze(), size)
+    
+    def _update_single_sample(self, preds, labels, size):
+        """更新单个样本的PD_FA指标"""
+        # 确保张量在CPU上再转换为numpy
+        if isinstance(preds, torch.Tensor):
+            preds = preds.cpu()
+        if isinstance(labels, torch.Tensor):
+            labels = labels.cpu()
+            
+        predits  = np.array(preds).astype('int64')
+        labelss = np.array(labels).astype('int64') 
 
         image = measure.label(predits, connectivity=2)
         coord_image = measure.regionprops(image)
@@ -150,30 +191,39 @@ class PD_FA():
                     break
 
         self.dismatch_pixel += (predits - true_img).sum()
-        self.all_pixel +=size[0]*size[1]
-        self.PD +=len(self.distance_match)
+        if size is not None:
+            self.all_pixel += size[0] * size[1]
+        else:
+            # 如果没有提供size，使用图像的实际尺寸
+            self.all_pixel += predits.shape[0] * predits.shape[1]
+        self.PD += len(self.distance_match)
 
     def get(self):
         Final_FA =  self.dismatch_pixel / self.all_pixel
-        Final_PD =  self.PD /self.target
-        return Final_PD, float(Final_FA.cpu().detach().numpy())
+        Final_PD =  self.PD / self.target
+        return Final_PD, float(Final_FA)
 
     def reset(self):
-        self.FA  = np.zeros([self.bins+1])
-        self.PD  = np.zeros([self.bins+1])
+        # 修复reset方法，重置所有相关属性
+        self.image_area_total = []
+        self.image_area_match = []
+        self.dismatch_pixel = 0
+        self.all_pixel = 0
+        self.PD = 0
+        self.target = 0
 
 def batch_pix_accuracy(output, target):   
     if len(target.shape) == 3:
-        target = np.expand_dims(target.float(), axis=1)
+        target = np.expand_dims(target.astype('float64'), axis=1)
     elif len(target.shape) == 4:
-        target = target.float()
+        target = target.astype('float64')
     else:
         raise ValueError("Unknown target dimension")
 
     assert output.shape == target.shape, "Predict and Label Shape Don't Match"
-    predict = (output > 0).float()
-    pixel_labeled = (target > 0).float().sum()
-    pixel_correct = (((predict == target).float())*((target > 0)).float()).sum()
+    predict = (output > 0).astype('float64')
+    pixel_labeled = (target > 0).astype('float64').sum()
+    pixel_correct = (((predict == target).astype('float64'))*((target > 0).astype('float64'))).sum()
     assert pixel_correct <= pixel_labeled, "Correct area should be smaller than Labeled"
     return pixel_correct, pixel_labeled
 
@@ -181,19 +231,32 @@ def batch_intersection_union(output, target):
     mini = 1
     maxi = 1
     nbins = 1
-    predict = (output > 0).float()
+    predict = (output > 0).astype('float64')
     if len(target.shape) == 3:
-        target = np.expand_dims(target.float(), axis=1)
+        target = np.expand_dims(target.astype('float64'), axis=1)
     elif len(target.shape) == 4:
-        target = target.float()
+        target = target.astype('float64')
     else:
         raise ValueError("Unknown target dimension")
-    intersection = predict * ((predict == target).float())
+    intersection = predict * ((predict == target).astype('float64'))
 
-    area_inter, _  = np.histogram(intersection.cpu(), bins=nbins, range=(mini, maxi))
-    area_pred,  _  = np.histogram(predict.cpu(), bins=nbins, range=(mini, maxi))
-    area_lab,   _  = np.histogram(target.cpu(), bins=nbins, range=(mini, maxi))
-    area_union     = area_pred + area_lab - area_inter
+    # 优化：减少CPU-GPU数据传输，在GPU上计算histogram
+    if hasattr(torch, 'histc') and isinstance(intersection, torch.Tensor):  # 使用torch的histc函数
+        area_inter = torch.histc(intersection, bins=nbins, min=mini, max=maxi)
+        area_pred = torch.histc(predict, bins=nbins, min=mini, max=maxi)
+        area_lab = torch.histc(target, bins=nbins, min=mini, max=maxi)
+        area_union = area_pred + area_lab - area_inter
+        return area_inter, area_union
+    else:
+        # 回退到原来的numpy方法
+        if isinstance(intersection, torch.Tensor):
+            intersection = intersection.cpu()
+            predict = predict.cpu()
+            target = target.cpu()
+        area_inter, _  = np.histogram(intersection, bins=nbins, range=(mini, maxi))
+        area_pred,  _  = np.histogram(predict, bins=nbins, range=(mini, maxi))
+        area_lab,   _  = np.histogram(target, bins=nbins, range=(mini, maxi))
+        area_union     = area_pred + area_lab - area_inter
 
     assert (area_inter <= area_union).all(), \
         "Error: Intersection area should be smaller than Union area"
@@ -228,19 +291,49 @@ class SigmoidMetric():
 
     def batch_pix_accuracy(self, output, target):
         assert output.shape == target.shape
-        output = output.detach().numpy()
-        target = target.detach().numpy()
+        # 优化：如果输入是tensor，在GPU上计算，最后再转到numpy
+        if isinstance(output, torch.Tensor):
+            output = output.detach()
+            target = target.detach()
+            
+            predict = (output > 0).float()
+            pixel_labeled = (target > 0).float().sum()
+            pixel_correct = ((predict == target).float() * (target > 0).float()).sum()
+            
+            return pixel_correct.item(), pixel_labeled.item()
+        else:
+            # 原来的numpy方法
+            output = output.detach().numpy()
+            target = target.detach().numpy()
 
-        predict = (output > 0).astype('int64') # P
-        pixel_labeled = np.sum(target > 0) # T
-        pixel_correct = np.sum((predict == target)*(target > 0)) # TP
-        assert pixel_correct <= pixel_labeled
-        return pixel_correct, pixel_labeled
+            predict = (output > 0).astype('int64') # P
+            pixel_labeled = np.sum(target > 0) # T
+            pixel_correct = np.sum((predict == target)*(target > 0)) # TP
+            assert pixel_correct <= pixel_labeled
+            return pixel_correct, pixel_labeled
 
     def batch_intersection_union(self, output, target):
         mini = 1
         maxi = 1 # nclass
         nbins = 1 # nclass
+        
+        # 优化：如果输入是tensor，在GPU上计算
+        if isinstance(output, torch.Tensor):
+            output = output.detach()
+            target = target.detach()
+            
+            predict = (output > 0).float()
+            intersection = predict * (predict == target).float()
+            
+            # 使用torch的histc函数在GPU上计算
+            if hasattr(torch, 'histc'):
+                area_inter = torch.histc(intersection, bins=nbins, min=mini, max=maxi)
+                area_pred = torch.histc(predict, bins=nbins, min=mini, max=maxi)
+                area_lab = torch.histc(target, bins=nbins, min=mini, max=maxi)
+                area_union = area_pred + area_lab - area_inter
+                return area_inter, area_union
+        
+        # 原来的numpy方法
         predict = (output.detach().numpy()).astype('int64') # P
         target = target.numpy().astype('int64') # T
         intersection = predict * (predict == target) # TP
@@ -299,8 +392,15 @@ class SamplewiseSigmoidMetric():
         nbins = 1  # nclass
         # 大于score_thresh
         #> score_thresh
-        predict = output.detach().numpy().astype('int64') # P
-        target = target.detach().numpy().astype('int64') # T
+        
+        # 确保张量在CPU上再转换为numpy
+        if isinstance(output, torch.Tensor):
+            output = output.detach().cpu().numpy()
+        if isinstance(target, torch.Tensor):
+            target = target.detach().cpu().numpy()
+            
+        predict = output.astype('int64') # P
+        target = target.astype('int64') # T
         # 计算交集（真正例）
         intersection = predict * (predict == target) # TP
 
@@ -330,139 +430,280 @@ class SamplewiseSigmoidMetric():
 
         return area_inter_arr, area_union_arr
 
-class F1Metric():
-    """F1 Score metric using Hungarian algorithm for point matching"""
+def _process_single_sample_worker(args):
+    """
+    工作函数：处理单个样本的F1和MSE计算
+    这个函数需要在模块级别定义以便多进程使用
+    """
+    pred_mask, gt_mask, threshold, distance_threshold = args
     
-    def __init__(self, threshold=0.5, distance_threshold=5.0):
-        self.threshold = threshold
-        self.distance_threshold = distance_threshold
-        self.reset()
-    
-    def update(self, preds, labels):
-        """Update F1 score with new predictions and labels"""
-        if isinstance(preds, torch.Tensor):
-            preds = preds.detach().cpu().numpy()
-        if isinstance(labels, torch.Tensor):
-            labels = labels.detach().cpu().numpy()
-        
-        # 处理批次维度
-        if preds.ndim == 4:  # [B, 1, H, W]
-            batch_size = preds.shape[0]
-            for b in range(batch_size):
-                self._update_single_sample(preds[b, 0], labels[b, 0])
-        else:  # [1, H, W] or [H, W]
-            self._update_single_sample(preds.squeeze(), labels.squeeze())
-    
-    def _update_single_sample(self, pred_mask, gt_mask):
-        """更新单个样本的F1分数"""
+    try:
         # 应用阈值获取二值化预测
-        pred_binary = (pred_mask > self.threshold).astype(np.int64)
+        pred_binary = (pred_mask > threshold).astype(np.int64)
         gt_binary = (gt_mask > 0).astype(np.int64)
         
         # 从掩码中提取点坐标
         pred_points = extract_points_from_mask(pred_binary)
         gt_points = extract_points_from_mask(gt_binary)
         
-        # 使用匈牙利算法匹配点
-        matches, unmatched_preds, unmatched_gts = match_points(
-            pred_points.tolist() if len(pred_points) > 0 else [],
-            gt_points.tolist() if len(gt_points) > 0 else [],
-            self.distance_threshold
+        # 使用优化的score_frame函数计算指标
+        # print(f"pred_points: {pred_points[:10]},{len(pred_points)}, gt_points: {gt_points},{len(gt_points)}" )    
+        # score_time_start = time.time()
+        TP, FN, FP, sse = _score_frame_optimized_worker(
+            pred_points, 
+            gt_points, 
+            tau=distance_threshold, 
+            eps=3
         )
-        
-        # 计算TP, FP, FN
-        tp = len(matches)
-        fp = len(unmatched_preds)
-        fn = len(unmatched_gts)
-        
-        self.total_tp += tp
-        self.total_fp += fp
-        self.total_fn += fn
-    
-    def get(self):
-        """Get current F1 score"""
-        precision = self.total_tp / (self.total_tp + self.total_fp + np.spacing(1))
-        recall = self.total_tp / (self.total_tp + self.total_fn + np.spacing(1))
-        f1_score = 2 * precision * recall / (precision + recall + np.spacing(1))
-        return float(f1_score)
-    
-    def reset(self):
-        """Reset metric state"""
-        self.total_tp = 0
-        self.total_fp = 0
-        self.total_fn = 0
-
-
-class MSEMetric():
-    """Mean Squared Error metric using Hungarian algorithm for point matching"""
-    
-    def __init__(self, threshold=0.5, distance_threshold=5.0):
-        self.threshold = threshold
-        self.distance_threshold = distance_threshold
-        self.reset()
-    
-    def update(self, preds, labels):
-        """Update MSE with new predictions and labels"""
-        if isinstance(preds, torch.Tensor):
-            preds = preds.detach().cpu().numpy()
-        if isinstance(labels, torch.Tensor):
-            labels = labels.detach().cpu().numpy()
-        
-        # 处理批次维度
-        if preds.ndim == 4:  # [B, 1, H, W]
-            batch_size = preds.shape[0]
-            for b in range(batch_size):
-                self._update_single_sample(preds[b, 0], labels[b, 0])
-        else:  # [1, H, W] or [H, W]
-            self._update_single_sample(preds.squeeze(), labels.squeeze())
-    
-    def _update_single_sample(self, pred_mask, gt_mask):
-        """更新单个样本的MSE"""
-        # 应用阈值获取二值化预测
-        pred_binary = (pred_mask > self.threshold).astype(np.int64)
-        gt_binary = (gt_mask > 0).astype(np.int64)
-        
-        # 从掩码中提取点坐标
-        pred_points = extract_points_from_mask(pred_binary)
-        gt_points = extract_points_from_mask(gt_binary)
-        
-        # 使用匈牙利算法匹配点
-        matches, unmatched_preds, unmatched_gts = match_points(
-            pred_points.tolist() if len(pred_points) > 0 else [],
-            gt_points.tolist() if len(gt_points) > 0 else [],
-            self.distance_threshold
-        )
-        
-        # 计算当前样本的MSE
-        current_mse = 0
-        tau_square = self.distance_threshold * self.distance_threshold
-        
-        # 对匹配点计算实际距离的平方
-        for pred_idx, gt_idx in matches:
-            distance = calculate_distance(pred_points[pred_idx], gt_points[gt_idx])
-            if distance <= self.distance_threshold:
-                current_mse += 0  # 距离小于阈值时为0
-            else:
-                current_mse += distance * distance
-        
-        # 对未匹配点添加惩罚项
-        current_mse += (len(unmatched_preds) + len(unmatched_gts)) * tau_square
+        # score_time_end = time.time()
+        # score_time = score_time_end - score_time_start
+        # print(f"Score time: {score_time:.2f}s")
         
         # 计算当前样本的平均MSE
         total_points = max(len(gt_points), len(pred_points))
         if total_points > 0:
-            current_mse = current_mse / total_points
+            current_mse = sse / total_points
+        else:
+            current_mse = 0
+        
+        return {
+            'tp': TP,
+            'fp': FP,
+            'fn': FN,
+            'mse': current_mse,
+            'success': True
+        }
+        
+    except Exception as e:
+        # 返回错误信息
+        return {
+            'tp': 0,
+            'fp': 0,
+            'fn': 0,
+            'mse': 0,
+            'success': False,
+            'error': str(e)
+        }
+
+def _score_frame_optimized_worker(X, Y, tau=1000.0, eps=3.0):
+    """ 
+    优化的评分函数，专门用于多进程工作函数
+    Scoring Prediction X on ground-truth Y by linear assignment.
+    """
+    if len(X) == 0 and len(Y) == 0:
+        # no objects, no predictions means perfect score
+        TP, FN, FP, sse = 0, 0, 0, 0
+    elif len(X) == 0 and len(Y) > 0:
+        # no predictions but objects means false negatives
+        TP, FN, FP, sse = 0, len(Y), 0, len(Y) * tau**2
+    elif len(X) > 0 and len(Y) == 0:
+        # predictions but no objects means false positives
+        TP, FN, FP, sse = 0, 0, len(X), len(X) * tau**2
+    else:
+        # compute Euclidean distances between prediction and ground truth
+        D = cdist(X, Y)
+        
+        # truncate distances that violate the threshold
+        D[D > tau] = 1000
+        
+        # compute matching by solving linear assignment problem
+        row_ind, col_ind = linear_sum_assignment(D)
+        matching = D[row_ind, col_ind]
+        
+        # true positives are matches within the threshold
+        TP = sum(matching <= tau)
+        
+        # false negatives are missed ground truth points or matchings that violate the threshold
+        FN = len(Y) - len(row_ind) + sum(matching > tau)
+        
+        # false positives are missing predictions or matchings that violate the threshold
+        FP = len(X) - len(row_ind) + sum(matching > tau)
+        
+        # compute truncated regression error
+        tp_distances = matching[matching < tau]
+        # truncation
+        tp_distances[tp_distances < eps] = 0
+        # squared error with constant punishment for false negatives and true positives
+        sse = sum(tp_distances) + (FN + FP) * tau**2
+    
+    return TP, FN, FP, sse
+
+class F1MSEMetric():
+    """Combined F1 Score and MSE metric using Hungarian algorithm for point matching"""
+    
+    def __init__(self, threshold=0.5, distance_threshold=5.0, use_multiprocessing=False, num_workers=None, chunk_size=None):
+        self.threshold = threshold
+        self.distance_threshold = distance_threshold
+        self.use_multiprocessing = use_multiprocessing
+        self.num_workers = num_workers if num_workers is not None else min(mp.cpu_count(), 8)
+        # 设置chunk_size以优化多进程性能
+        self.chunk_size = chunk_size if chunk_size is not None else max(1, 32 // self.num_workers)
+        self.reset()
+    
+    def score_frame_optimized(self, X, Y, tau=10.0, eps=3.0):
+        """ 
+        优化的评分函数，参考用户提供的score_frame实现
+        Scoring Prediction X on ground-truth Y by linear assignment.
+        """
+        if len(X) == 0 and len(Y) == 0:
+            # no objects, no predictions means perfect score
+            TP, FN, FP, sse = 0, 0, 0, 0
+        elif len(X) == 0 and len(Y) > 0:
+            # no predictions but objects means false negatives
+            TP, FN, FP, sse = 0, len(Y), 0, len(Y) * tau**2
+        elif len(X) > 0 and len(Y) == 0:
+            # predictions but no objects means false positives
+            TP, FN, FP, sse = 0, 0, len(X), len(X) * tau**2
+        else:
+            # compute Euclidean distances between prediction and ground truth
+            D = cdist(X, Y)
+            
+            # truncate distances that violate the threshold
+            D[D > tau] = 1000
+            
+            # compute matching by solving linear assignment problem
+            row_ind, col_ind = linear_sum_assignment(D)
+            matching = D[row_ind, col_ind]
+            
+            # true positives are matches within the threshold
+            TP = sum(matching <= tau)
+            
+            # false negatives are missed ground truth points or matchings that violate the threshold
+            FN = len(Y) - len(row_ind) + sum(matching > tau)
+            
+            # false positives are missing predictions or matchings that violate the threshold
+            FP = len(X) - len(row_ind) + sum(matching > tau)
+            
+            # compute truncated regression error
+            tp_distances = matching[matching < tau]
+            # truncation
+            tp_distances[tp_distances < eps] = 0
+            # squared error with constant punishment for false negatives and true positives
+            sse = sum(tp_distances) + (FN + FP) * tau**2
+        
+        return TP, FN, FP, sse
+    
+    def update(self, preds, labels):
+        """Update both F1 and MSE with new predictions and labels"""
+        # 确保张量在CPU上再转换为numpy
+        if isinstance(preds, torch.Tensor):
+            preds = preds.detach().cpu().numpy()
+        if isinstance(labels, torch.Tensor):
+            labels = labels.detach().cpu().numpy()
+        
+        # 处理批次维度
+        if preds.ndim == 4:  # [B, 1, H, W]
+            batch_size = preds.shape[0]
+            
+            if self.use_multiprocessing and batch_size > 1:
+                self._update_batch_multiprocessing(preds, labels, batch_size)
+            else:
+                # 单进程处理
+                for b in range(batch_size):
+                    self._update_single_sample(preds[b, 0], labels[b, 0])
+        else:  # [1, H, W] or [H, W]
+            self._update_single_sample(preds.squeeze(), labels.squeeze())
+    
+    def _update_batch_multiprocessing(self, preds, labels, batch_size):
+        """使用优化的多进程处理批次数据"""
+        try:
+            # 准备参数
+            args_list = []
+            for b in range(batch_size):
+                args = (
+                    preds[b, 0].copy(),  # 使用copy避免共享内存问题
+                    labels[b, 0].copy(), 
+                    self.threshold, 
+                    self.distance_threshold
+                )
+                args_list.append(args)
+            
+            # 使用进程池处理，设置chunk_size优化性能
+            with mp.Pool(processes=self.num_workers, 
+                        initializer=_init_worker, 
+                        initargs=(self.threshold, self.distance_threshold)) as pool:
+                results = pool.map(_process_single_sample_worker, args_list, 
+                                 chunksize=self.chunk_size)
+            
+            # 收集结果
+            successful_results = 0
+            for result in results:
+                if result['success']:
+                    self.total_tp += result['tp']
+                    self.total_fp += result['fp']
+                    self.total_fn += result['fn']
+                    self.total_mse += result['mse']
+                    successful_results += 1
+                else:
+                    # 记录错误但继续处理
+                    warnings.warn(f"Sample processing failed: {result.get('error', 'Unknown error')}")
+            
+            self.count += successful_results
+                    
+        except Exception as e:
+            # 如果多进程失败，回退到单进程
+            warnings.warn(f"Multiprocessing failed, falling back to single process: {e}")
+            for b in range(batch_size):
+                self._update_single_sample(preds[b, 0], labels[b, 0])
+    
+    def _update_single_sample(self, pred_mask, gt_mask):
+        """更新单个样本的F1和MSE分数（优化版本）"""
+        # 应用阈值获取二值化预测
+        pred_binary = (pred_mask > self.threshold).astype(np.int64)
+        gt_binary = (gt_mask > 0).astype(np.int64)
+        
+        # 从掩码中提取点坐标
+        pred_points = extract_points_from_mask(pred_binary)
+        gt_points = extract_points_from_mask(gt_binary)
+        
+        # 使用优化的score_frame函数计算指标
+        TP, FN, FP, sse = self.score_frame_optimized(
+            pred_points, 
+            gt_points, 
+            tau=self.distance_threshold, 
+            eps=3
+        )
+        
+        # 更新累计指标
+        self.total_tp += TP
+        self.total_fp += FP
+        self.total_fn += FN
+        
+        # 计算当前样本的平均MSE
+        total_points = max(len(gt_points), len(pred_points))
+        if total_points > 0:
+            current_mse = sse / total_points
         else:
             current_mse = 0
         
         self.total_mse += current_mse
         self.count += 1
     
-    def get(self):
+    def get_f1(self):
+        """Get current F1 score"""
+        precision = self.total_tp / (self.total_tp + self.total_fp + np.spacing(1))
+        recall = self.total_tp / (self.total_tp + self.total_fn + np.spacing(1))
+        f1_score = 2 * precision * recall / (precision + recall + np.spacing(1))
+        return float(f1_score)
+    
+    def get_mse(self):
         """Get current average MSE"""
         return float(self.total_mse / (self.count + np.spacing(1)))
     
+    def get(self):
+        """Get both F1 and MSE scores"""
+        return self.get_f1(), self.get_mse()
+    
     def reset(self):
         """Reset metric state"""
+        self.total_tp = 0
+        self.total_fp = 0
+        self.total_fn = 0
         self.total_mse = 0.0
         self.count = 0
+
+def _init_worker(threshold, distance_threshold):
+    """初始化工作进程，设置全局变量"""
+    global _worker_threshold, _worker_distance_threshold
+    _worker_threshold = threshold
+    _worker_distance_threshold = distance_threshold

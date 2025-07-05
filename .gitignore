@@ -10,4 +10,7 @@ __pycache__/
 
 results/
 
-swanlog/ 
+swanlog/
+
+=*
+.ipynb_checkpoints/ 

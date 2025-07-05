@@ -1,6 +1,7 @@
 from utils import *
 import matplotlib.pyplot as plt
 import os
+import time
 import albumentations
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
@@ -23,15 +24,33 @@ class TrainSetLoader(Dataset):
         self.tranform = augumentation()
         self.Resize = albumentations.Resize(patch_size, patch_size)
         
-    def __getitem__(self, idx):
+        # Pre-cache file extension and build file paths
+        self._cache_file_info()
+        
+    def _cache_file_info(self):
+        """Cache file extension and pre-build file paths for faster loading"""
         img_list = os.listdir(self.dataset_dir + '/images/')
-        img_ext = os.path.splitext(img_list[0])[-1]
-        a = not img_ext
-        if not img_ext in IMG_EXTENSIONS:
+        self.img_ext = os.path.splitext(img_list[0])[-1]
+        if not self.img_ext in IMG_EXTENSIONS:
             raise TypeError("Unrecognized image extensions.")
-
-        img = Image.open((self.dataset_dir + '/images/' + self.train_list[idx] + img_ext).replace('//','/')).convert('I')
-        mask = Image.open((self.dataset_dir + '/masks/' + self.train_list[idx] + img_ext).replace('//','/'))
+        
+        # Pre-build file paths
+        self.img_paths = []
+        self.mask_paths = []
+        for filename in self.train_list:
+            img_path = os.path.join(self.dataset_dir, 'images', filename + self.img_ext)
+            mask_path = os.path.join(self.dataset_dir, 'masks', filename + self.img_ext)
+            self.img_paths.append(img_path)
+            self.mask_paths.append(mask_path)
+        
+    def __getitem__(self, idx):
+        # print(f"Processing image {idx} of {len(self.train_list)}")
+        data_load_start = time.time()
+        
+        # Use pre-built paths instead of constructing them each time
+        img = Image.open(self.img_paths[idx]).convert('I')
+        mask = Image.open(self.mask_paths[idx])
+        
         # img = Normalized(np.array(img, dtype=np.float32), self.img_norm_cfg)
         img = Normalized(np.array(img, dtype=np.float32))
         mask = np.array(mask, dtype=np.float32) / 255.0
@@ -48,6 +67,12 @@ class TrainSetLoader(Dataset):
         img_patch, mask_patch = img_patch[np.newaxis, :], mask_patch[np.newaxis, :]  # (255,255)-->(1,255,255)
         img_patch = torch.from_numpy(np.ascontiguousarray(img_patch))
         mask_patch = torch.from_numpy(np.ascontiguousarray(mask_patch))
+        
+        # Remove debug print to reduce overhead
+        # data_load_end = time.time()
+        # data_load_time = data_load_end - data_load_start
+        # print(f"Data load time1111111111111111111: {data_load_time:.2f}s")
+        
         return img_patch, mask_patch
     def __len__(self):
         return len(self.train_list)
@@ -89,20 +114,32 @@ class TestSetLoader(Dataset):
             #     )
             # ], p=1.)
         
-    def __getitem__(self, idx):
+        # Pre-cache file extension and build file paths
+        self._cache_file_info()
+        
+    def _cache_file_info(self):
+        """Cache file extension and pre-build file paths for faster loading"""
         img_list = os.listdir(self.dataset_dir + '/images/')
-        img_ext = os.path.splitext(img_list[0])[-1]
-        if not img_ext in IMG_EXTENSIONS:
+        self.img_ext = os.path.splitext(img_list[0])[-1]
+        if not self.img_ext in IMG_EXTENSIONS:
             raise TypeError("Unrecognized image extensions.")
-        # print("getitem=======111")
-        # print(self.dataset_dir+ '/images/')
-        # print(self.dataset_dir + '/images/' + self.test_list[idx])
-        # print(self.dataset_dir + '/images/' + self.test_list[idx]+ img_ext)
-        # print((self.dataset_dir + '/images/' + self.train_list[idx] + img_ext).replace('//','/'))
-        #img = Image.open((self.dataset_dir + '/images/' + self.train_list[idx] + img_ext).replace('//','/')).convert('I')
-        img = Image.open((self.dataset_dir + '/images/' + self.test_list[idx] + img_ext).replace('//','/')).convert('I')
-        #mask = Image.open((self.dataset_dir + '/masks/' + self.train_list[idx] + img_ext).replace('//','/'))
-        mask = Image.open((self.dataset_dir + '/masks/' + self.test_list[idx] + img_ext).replace('//','/'))
+        
+        # Pre-build file paths
+        self.img_paths = []
+        self.mask_paths = []
+        for filename in self.test_list:
+            img_path = os.path.join(self.dataset_dir, 'images', filename + self.img_ext)
+            mask_path = os.path.join(self.dataset_dir, 'masks', filename + self.img_ext)
+            self.img_paths.append(img_path)
+            self.mask_paths.append(mask_path)
+        
+    def __getitem__(self, idx):
+        # print(self.img_paths[idx])
+        # test_load_start = time.time()
+        # Use pre-built paths instead of constructing them each time
+        img = Image.open(self.img_paths[idx]).convert('I')
+        mask = Image.open(self.mask_paths[idx])
+        
         # img = Normalized(np.array(img, dtype=np.float32), self.img_norm_cfg)
         img = Normalized(np.array(img, dtype=np.float32))
         mask = np.array(mask, dtype=np.float32)  / 255.0
@@ -121,6 +158,10 @@ class TestSetLoader(Dataset):
         
         img = torch.from_numpy(np.ascontiguousarray(img))
         mask = torch.from_numpy(np.ascontiguousarray(mask))
+        # test_load_end = time.time()
+        # test_load_time = test_load_end - test_load_start
+        # print(f"Test load time: {test_load_time:.2f}s")
+        
         return img, mask, [h, w], self.test_list[idx]
     def __len__(self):
         return len(self.test_list)
@@ -137,10 +178,10 @@ class EvalSetLoader(Dataset):
 
     def __getitem__(self, idx):
         img_list_pred = os.listdir(self.mask_pred_dir + self.test_dataset_name + '/' + self.model_name + '/')
-        img_ext_pred = os.path.splitext(img_list[0])[-1]
+        img_ext_pred = os.path.splitext(img_list_pred[0])[-1]
 
         img_list_gt = os.listdir(self.dataset_dir + '/masks/')
-        img_ext_gt = os.path.splitext(img_list[0])[-1]
+        img_ext_gt = os.path.splitext(img_list_gt[0])[-1]
         
         if not img_ext_gt in IMG_EXTENSIONS:
             raise TypeError("Unrecognized GT image extensions.")
@@ -156,7 +197,9 @@ class EvalSetLoader(Dataset):
         if len(mask_gt.shape)>3:
             mask_gt = mask_gt[:,:,0]
             
-        h, w = mask_pred.shape
+        # Get height and width from the mask array
+        shape = mask_pred.shape
+        h, w = shape[0], shape[1]
         
         mask_pred, mask_gt = mask_pred[np.newaxis,:], mask_gt[np.newaxis,:]
         
