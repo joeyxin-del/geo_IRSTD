@@ -48,8 +48,17 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 6. 安装 mmcv 和 mmdet (兼容版本)
-echo "6. 安装 MMCV 和 MMDet..."
+# 6. 安装 SwanLab 监控工具
+echo "6. 安装 SwanLab 监控工具..."
+pip install swanlab
+
+if [ $? -ne 0 ]; then
+    echo "错误: SwanLab 安装失败"
+    exit 1
+fi
+
+# 7. 安装 mmcv 和 mmdet (兼容版本)
+echo "7. 安装 MMCV 和 MMDet..."
 pip install mmcv==2.0.0 -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.12.0/index.html
 
 if [ $? -ne 0 ]; then
@@ -64,8 +73,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 7. 安装其他依赖
-echo "7. 安装其他依赖..."
+# 8. 安装其他依赖
+echo "8. 安装其他依赖..."
 pip install fvcore
 pip install -U openmim
 
@@ -74,8 +83,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 8. 克隆并安装 mmpretrain
-echo "8. 克隆 mmpretrain..."
+# 9. 克隆并安装 mmpretrain
+echo "9. 克隆 mmpretrain..."
 if [ -d "mmpretrain" ]; then
     echo "mmpretrain 目录已存在，跳过克隆"
 else
@@ -86,7 +95,7 @@ else
     fi
 fi
 
-echo "9. 安装 mmpretrain..."
+echo "10. 安装 mmpretrain..."
 cd mmpretrain
 pip install -e .
 
@@ -97,19 +106,20 @@ fi
 
 cd ..
 
-# 9. 验证安装
-echo "10. 验证安装..."
+# 11. 验证安装
+echo "11. 验证安装..."
 python -c "import numpy; print(f'✓ NumPy: {numpy.__version__}')"
 python -c "import scipy; print(f'✓ SciPy: {scipy.__version__}')"
 python -c "import mmcv; import mmdet; print('✓ MMCV and MMDet OK')"
 python -c "import mmpretrain; print('✓ MMPretrain OK')"
+python -c "import swanlab; print('✓ SwanLab OK')"
 
 echo ""
 echo "=== 环境创建完成！ ==="
 echo ""
 echo "使用方法："
 echo "conda activate geo"
-echo "python train1.py"
+echo "python train_geo_modified.py"
 echo ""
 echo "环境信息："
 echo "- Python: 3.8"
@@ -118,6 +128,12 @@ echo "- SciPy: 1.7.3"
 echo "- MMCV: 2.0.0"
 echo "- MMDet: 3.0.0"
 echo "- MMPretrain: 已安装 (开发模式)"
+echo "- SwanLab: 已安装 (用于训练监控)"
+echo ""
+echo "SwanLab 使用说明："
+echo "1. 训练时会自动启动 SwanLab 监控"
+echo "2. 在浏览器中打开显示的 URL 查看训练进度"
+echo "3. 可以通过 --use_swanlab False 禁用监控"
 echo ""
 echo "注意：此版本不包含 PyTorch，需要单独安装或使用系统已有的 PyTorch"
 echo ""

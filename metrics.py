@@ -257,3 +257,71 @@ class SamplewiseSigmoidMetric():
             assert (area_inter <= area_union).all()
 
         return area_inter_arr, area_union_arr
+
+class F1Metric():
+    """F1 Score metric for binary segmentation"""
+    
+    def __init__(self, threshold=0.5):
+        self.threshold = threshold
+        self.reset()
+    
+    def update(self, preds, labels):
+        """Update F1 score with new predictions and labels"""
+        if isinstance(preds, torch.Tensor):
+            preds = preds.detach().cpu().numpy()
+        if isinstance(labels, torch.Tensor):
+            labels = labels.detach().cpu().numpy()
+        
+        # Apply threshold to get binary predictions
+        preds_binary = (preds > self.threshold).astype(np.int64)
+        labels_binary = (labels > 0).astype(np.int64)
+        
+        # Calculate TP, FP, FN
+        tp = np.sum((preds_binary == 1) & (labels_binary == 1))
+        fp = np.sum((preds_binary == 1) & (labels_binary == 0))
+        fn = np.sum((preds_binary == 0) & (labels_binary == 1))
+        
+        self.total_tp += tp
+        self.total_fp += fp
+        self.total_fn += fn
+    
+    def get(self):
+        """Get current F1 score"""
+        precision = self.total_tp / (self.total_tp + self.total_fp + np.spacing(1))
+        recall = self.total_tp / (self.total_tp + self.total_fn + np.spacing(1))
+        f1_score = 2 * precision * recall / (precision + recall + np.spacing(1))
+        return float(f1_score)
+    
+    def reset(self):
+        """Reset metric state"""
+        self.total_tp = 0
+        self.total_fp = 0
+        self.total_fn = 0
+
+
+class MSEMetric():
+    """Mean Squared Error metric"""
+    
+    def __init__(self):
+        self.reset()
+    
+    def update(self, preds, labels):
+        """Update MSE with new predictions and labels"""
+        if isinstance(preds, torch.Tensor):
+            preds = preds.detach().cpu().numpy()
+        if isinstance(labels, torch.Tensor):
+            labels = labels.detach().cpu().numpy()
+        
+        # Calculate MSE
+        mse = np.mean((preds - labels) ** 2)
+        self.total_mse += mse
+        self.count += 1
+    
+    def get(self):
+        """Get current average MSE"""
+        return float(self.total_mse / (self.count + np.spacing(1)))
+    
+    def reset(self):
+        """Reset metric state"""
+        self.total_mse = 0.0
+        self.count = 0

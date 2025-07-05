@@ -9,6 +9,7 @@ matplotlib.use('Agg')  # 设置为非交互式后端
 import matplotlib.pyplot as plt
 import torchinfo
 from metrics import *
+from metrics import F1Metric, MSEMetric
 import os
 import time
 import cv2
@@ -340,6 +341,10 @@ def test():
     )
     fps_calculateFPS = benchmark.measure_inference_speed()
 
+    # 初始化指标
+    f1_metric = F1Metric(threshold=opt.threshold)
+    mse_metric = MSEMetric()
+    
     total_time = 0
     num_frames = 0
     all_predictions = {}  # 存储所有预测结果
@@ -361,6 +366,10 @@ def test():
             if isinstance(pred, list):
                 pred = pred[0]
             pred = pred[:, :, :size[0], :size[1]]
+            
+            # 更新F1和MSE指标
+            f1_metric.update(pred, gt_mask)
+            mse_metric.update(pred, gt_mask)
             
             # 将预测掩码转换为坐标形式
             coords = mask_to_coords(pred, conf_thresh=opt.threshold)
@@ -438,6 +447,10 @@ def test():
 
     # 计算FPS
     fps_time_method = num_frames / total_time
+    
+    # 获取F1和MSE指标结果
+    f1_score = f1_metric.get()
+    mse_score = mse_metric.get()
 
     # 保存预测结果到json文件
     save_path = os.path.join(opt.save_img_dir, opt.test_dataset_name, opt.model_name, 'predictions.json')
@@ -448,6 +461,8 @@ def test():
     print("\n=== 测试结果 ===")
     print(f"FPS (time method): {fps_time_method:.2f}")
     print(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}")
+    print(f"F1 Score: {f1_score:.4f}")
+    print(f"MSE: {mse_score:.4f}")
     print(f"Successfully processed {num_frames} images")
     print(f"预测结果已保存到: {save_path}")
     print("================\n")
@@ -456,6 +471,8 @@ def test():
     opt.f.write("\n=== 测试结果 ===\n")
     opt.f.write(f"FPS (time method): {fps_time_method:.2f}\n")
     opt.f.write(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}\n")
+    opt.f.write(f"F1 Score: {f1_score:.4f}\n")
+    opt.f.write(f"MSE: {mse_score:.4f}\n")
     opt.f.write(f"Successfully processed {num_frames} images\n")
     opt.f.write(f"预测结果已保存到: {save_path}\n")
     opt.f.write("================\n")
