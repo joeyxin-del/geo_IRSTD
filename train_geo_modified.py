@@ -252,7 +252,7 @@ class ModelTrainer:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         # Training state
-        self.best_iou = -1.0
+        self.best_f1 = -1.0
         self.current_epoch = 0
         self.total_loss_history = [0]
         
@@ -269,11 +269,25 @@ class ModelTrainer:
         
     def setup_logging(self):
         """Setup logging for this training run"""
-        log_dir = Path(self.config.save_dir) / self.dataset_name
-        log_dir.mkdir(parents=True, exist_ok=True)
-        
+        # 创建新的目录结构: ./log/{dataset_name}/{model_name}/timestamp/
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        log_file = log_dir / f"{self.model_name}_{timestamp}.log"
+        self.experiment_dir = Path(self.config.save_dir) / self.dataset_name / self.model_name / timestamp
+        self.experiment_dir.mkdir(parents=True, exist_ok=True)
+        
+        # 创建子目录
+        self.model_dir = self.experiment_dir / "model"
+        self.checkpoints_dir = self.experiment_dir / "checkpoints"
+        self.model_dir.mkdir(exist_ok=True)
+        self.checkpoints_dir.mkdir(exist_ok=True)
+        
+        # 复制模型定义文件
+        self._copy_model_files()
+        
+        # 保存实验配置
+        self._save_config()
+        
+        # 设置日志文件
+        log_file = self.experiment_dir / f"training_{timestamp}.log"
         
         # Create file handler
         file_handler = logging.FileHandler(log_file)
@@ -286,6 +300,64 @@ class ModelTrainer:
         # Add handler to logger
         logger.addHandler(file_handler)
         self.log_file = log_file
+        
+        logger.info(f"Experiment directory created: {self.experiment_dir}")
+        
+    def _copy_model_files(self):
+        """复制模型定义文件到model目录"""
+        try:
+            # 复制net.py文件
+            net_source = Path("net.py")
+            if net_source.exists():
+                net_dest = self.model_dir / "net.py"
+                import shutil
+                shutil.copy2(net_source, net_dest)
+                logger.info(f"Copied net.py to {net_dest}")
+            
+            # 复制dataset_spotgeo.py文件
+            dataset_source = Path("dataset_spotgeo.py")
+            if dataset_source.exists():
+                dataset_dest = self.model_dir / "dataset_spotgeo.py"
+                import shutil
+                shutil.copy2(dataset_source, dataset_dest)
+                logger.info(f"Copied dataset_spotgeo.py to {dataset_dest}")
+            
+            # 复制metrics.py文件
+            metrics_source = Path("metrics.py")
+            if metrics_source.exists():
+                metrics_dest = self.model_dir / "metrics.py"
+                import shutil
+                shutil.copy2(metrics_source, metrics_dest)
+                logger.info(f"Copied metrics.py to {metrics_dest}")
+                
+        except Exception as e:
+            logger.warning(f"Failed to copy model files: {e}")
+    
+    def _save_config(self):
+        """保存实验配置到config.json"""
+        try:
+            config_data = {
+                'model_name': self.model_name,
+                'dataset_name': self.dataset_name,
+                'timestamp': time.strftime("%Y%m%d_%H%M%S"),
+                'training_config': self.config.__dict__,
+                'system_info': {
+                    'device': str(self.device),
+                    'cuda_available': torch.cuda.is_available(),
+                    'cuda_version': torch.version.cuda if torch.cuda.is_available() else None,
+                    'pytorch_version': torch.__version__
+                }
+            }
+            
+            config_file = self.experiment_dir / "config.json"
+            import json
+            with open(config_file, 'w', encoding='utf-8') as f:
+                json.dump(config_data, f, indent=2, ensure_ascii=False)
+            
+            logger.info(f"Config saved to {config_file}")
+            
+        except Exception as e:
+            logger.warning(f"Failed to save config: {e}")
         
     def setup_swanlab(self):
         """Setup SwanLab monitoring"""
@@ -380,7 +452,7 @@ class ModelTrainer:
                     self.model.load_state_dict(checkpoint['state_dict'])
                     self.current_epoch = checkpoint.get('epoch', 0)
                     self.total_loss_history = checkpoint.get('total_loss', [0])
-                    self.best_iou = checkpoint.get('best_iou', -1.0)
+                    self.best_f1 = checkpoint.get('best_f1', -1.0)
                     
                     # Load optimizer and scheduler state if available
                     if 'optimizer_state_dict' in checkpoint:
@@ -395,9 +467,6 @@ class ModelTrainer:
                     
     def save_checkpoint(self, epoch: int, is_best: bool = False, is_regular: bool = False) -> str:
         """Save model checkpoint"""
-        save_dir = Path(self.config.save_dir) / self.dataset_name
-        save_dir.mkdir(parents=True, exist_ok=True)
-        
         checkpoint = {
             'epoch': epoch,
             'model_name': self.model_name,
@@ -406,16 +475,19 @@ class ModelTrainer:
             'optimizer_state_dict': self.optimizer.state_dict(),
             'scheduler_state_dict': self.scheduler.state_dict(),
             'total_loss': self.total_loss_history,
-            'best_iou': self.best_iou,
+            'best_f1': self.best_f1,
             'config': self.config.__dict__
         }
         
         if is_best:
-            save_path = save_dir / f"{self.model_name}_best.pth"
+            # 最佳模型保存在实验根目录
+            save_path = self.experiment_dir / "best.pth"
         elif is_regular:
-            save_path = save_dir / f"{self.model_name}_epoch_{epoch}.pth"
+            # 定期检查点保存在checkpoints目录
+            save_path = self.checkpoints_dir / f"epoch_{epoch}.pth"
         else:
-            save_path = save_dir / f"{self.model_name}_latest.pth"
+            # 最新模型保存在实验根目录
+            save_path = self.experiment_dir / "latest.pth"
             
         torch.save(checkpoint, save_path)
         logger.info(f"Checkpoint saved to {save_path}")
@@ -657,11 +729,11 @@ class ModelTrainer:
                 val_metrics = self.validate(checkpoint_path)
                 
                 # Update best model if improved
-                current_iou = val_metrics['mIoU'][-1]
-                if current_iou > self.best_iou:
-                    self.best_iou = current_iou
+                current_f1 = val_metrics['F1']
+                if current_f1 > self.best_f1:
+                    self.best_f1 = current_f1
                     self.save_checkpoint(epoch + 1, is_best=True)
-                    logger.info(f"New best IoU: {self.best_iou:.4f} at epoch {epoch+1}")
+                    logger.info(f"New best F1: {self.best_f1:.4f} at epoch {epoch+1}")
                 
                 # Log validation metrics
                 self.log_metrics(epoch + 1, epoch_loss, val_metrics)
@@ -679,7 +751,7 @@ class ModelTrainer:
             val_metrics = self.validate(checkpoint_path)
             self.log_metrics(self.config.num_epochs, self.total_loss_history[-1], val_metrics)
             
-        logger.info(f"Training completed. Best IoU: {self.best_iou:.4f}")
+        logger.info(f"Training completed. Best F1: {self.best_f1:.4f}")
         
         # Close SwanLab run
         if self.swanlab_run is not None:
