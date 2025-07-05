@@ -342,8 +342,8 @@ def test():
     fps_calculateFPS = benchmark.measure_inference_speed()
 
     # 初始化指标
-    f1_metric = F1Metric(threshold=opt.threshold)
-    mse_metric = MSEMetric()
+    f1_metric = F1Metric(threshold=opt.threshold, distance_threshold=5.0)
+    mse_metric = MSEMetric(threshold=opt.threshold, distance_threshold=5.0)
     
     total_time = 0
     num_frames = 0

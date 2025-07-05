@@ -1,7 +1,79 @@
 import numpy as np
 import torch
 from skimage import measure
+from scipy.optimize import linear_sum_assignment
+from typing import List, Tuple
        
+def calculate_distance(point1: List[float], point2: List[float]) -> float:
+    """计算两点之间的欧氏距离"""
+    return np.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+
+def match_points(pred_points: List[List[float]], gt_points: List[List[float]], 
+                distance_threshold: float = 5.0) -> Tuple[List[Tuple[int, int]], List[int], List[int]]:
+    """
+    使用匈牙利算法匹配预测点和真实点
+    Args:
+        pred_points: 预测的点坐标列表 [[x1,y1], [x2,y2], ...]
+        gt_points: 真实的点坐标列表 [[x1,y1], [x2,y2], ...]
+        distance_threshold: 匹配的距离阈值
+    Returns:
+        matches: 匹配的点对索引
+        unmatched_preds: 未匹配的预测点索引
+        unmatched_gts: 未匹配的真实点索引
+    """
+    if len(pred_points) == 0 or len(gt_points) == 0:
+        return [], list(range(len(pred_points))), list(range(len(gt_points)))
+
+    # 构建代价矩阵
+    cost_matrix = np.zeros((len(pred_points), len(gt_points)))
+    for i, pred in enumerate(pred_points):
+        for j, gt in enumerate(gt_points):
+            distance = calculate_distance(pred, gt)
+            cost_matrix[i, j] = distance
+
+    # 使用匈牙利算法进行匹配
+    pred_indices, gt_indices = linear_sum_assignment(cost_matrix)
+
+    # 根据距离阈值筛选有效匹配
+    matches = []
+    unmatched_preds = list(range(len(pred_points)))
+    unmatched_gts = list(range(len(gt_points)))
+
+    for pred_idx, gt_idx in zip(pred_indices, gt_indices):
+        if cost_matrix[pred_idx, gt_idx] <= distance_threshold:
+            matches.append((pred_idx, gt_idx))
+            if pred_idx in unmatched_preds:
+                unmatched_preds.remove(pred_idx)
+            if gt_idx in unmatched_gts:
+                unmatched_gts.remove(gt_idx)
+
+    return matches, unmatched_preds, unmatched_gts
+
+def extract_points_from_mask(mask):
+    """
+    从mask中提取坐标点
+    Args:
+        mask: 二值化掩码图像
+    Returns:
+        points: 坐标点列表 [[x1,y1], [x2,y2], ...]
+    """
+    if isinstance(mask, torch.Tensor):
+        mask = mask.cpu().numpy()
+    
+    # 确保mask是2D的
+    if mask.ndim == 3:
+        mask = mask.squeeze()
+    
+    # 找到所有非零点的坐标
+    points = np.where(mask > 0)
+    points = np.array(list(zip(points[1], points[0])))  # 转换为[[x,y], [x,y], ...]格式
+    
+    # 如果没有点，返回空数组
+    if len(points) == 0:
+        return np.array([])
+        
+    return points
+
 class mIoU():
     
     def __init__(self):
@@ -259,10 +331,11 @@ class SamplewiseSigmoidMetric():
         return area_inter_arr, area_union_arr
 
 class F1Metric():
-    """F1 Score metric for binary segmentation"""
+    """F1 Score metric using Hungarian algorithm for point matching"""
     
-    def __init__(self, threshold=0.5):
+    def __init__(self, threshold=0.5, distance_threshold=5.0):
         self.threshold = threshold
+        self.distance_threshold = distance_threshold
         self.reset()
     
     def update(self, preds, labels):
@@ -272,14 +345,35 @@ class F1Metric():
         if isinstance(labels, torch.Tensor):
             labels = labels.detach().cpu().numpy()
         
-        # Apply threshold to get binary predictions
-        preds_binary = (preds > self.threshold).astype(np.int64)
-        labels_binary = (labels > 0).astype(np.int64)
+        # 处理批次维度
+        if preds.ndim == 4:  # [B, 1, H, W]
+            batch_size = preds.shape[0]
+            for b in range(batch_size):
+                self._update_single_sample(preds[b, 0], labels[b, 0])
+        else:  # [1, H, W] or [H, W]
+            self._update_single_sample(preds.squeeze(), labels.squeeze())
+    
+    def _update_single_sample(self, pred_mask, gt_mask):
+        """更新单个样本的F1分数"""
+        # 应用阈值获取二值化预测
+        pred_binary = (pred_mask > self.threshold).astype(np.int64)
+        gt_binary = (gt_mask > 0).astype(np.int64)
         
-        # Calculate TP, FP, FN
-        tp = np.sum((preds_binary == 1) & (labels_binary == 1))
-        fp = np.sum((preds_binary == 1) & (labels_binary == 0))
-        fn = np.sum((preds_binary == 0) & (labels_binary == 1))
+        # 从掩码中提取点坐标
+        pred_points = extract_points_from_mask(pred_binary)
+        gt_points = extract_points_from_mask(gt_binary)
+        
+        # 使用匈牙利算法匹配点
+        matches, unmatched_preds, unmatched_gts = match_points(
+            pred_points.tolist() if len(pred_points) > 0 else [],
+            gt_points.tolist() if len(gt_points) > 0 else [],
+            self.distance_threshold
+        )
+        
+        # 计算TP, FP, FN
+        tp = len(matches)
+        fp = len(unmatched_preds)
+        fn = len(unmatched_gts)
         
         self.total_tp += tp
         self.total_fp += fp
@@ -300,9 +394,11 @@ class F1Metric():
 
 
 class MSEMetric():
-    """Mean Squared Error metric"""
+    """Mean Squared Error metric using Hungarian algorithm for point matching"""
     
-    def __init__(self):
+    def __init__(self, threshold=0.5, distance_threshold=5.0):
+        self.threshold = threshold
+        self.distance_threshold = distance_threshold
         self.reset()
     
     def update(self, preds, labels):
@@ -312,9 +408,54 @@ class MSEMetric():
         if isinstance(labels, torch.Tensor):
             labels = labels.detach().cpu().numpy()
         
-        # Calculate MSE
-        mse = np.mean((preds - labels) ** 2)
-        self.total_mse += mse
+        # 处理批次维度
+        if preds.ndim == 4:  # [B, 1, H, W]
+            batch_size = preds.shape[0]
+            for b in range(batch_size):
+                self._update_single_sample(preds[b, 0], labels[b, 0])
+        else:  # [1, H, W] or [H, W]
+            self._update_single_sample(preds.squeeze(), labels.squeeze())
+    
+    def _update_single_sample(self, pred_mask, gt_mask):
+        """更新单个样本的MSE"""
+        # 应用阈值获取二值化预测
+        pred_binary = (pred_mask > self.threshold).astype(np.int64)
+        gt_binary = (gt_mask > 0).astype(np.int64)
+        
+        # 从掩码中提取点坐标
+        pred_points = extract_points_from_mask(pred_binary)
+        gt_points = extract_points_from_mask(gt_binary)
+        
+        # 使用匈牙利算法匹配点
+        matches, unmatched_preds, unmatched_gts = match_points(
+            pred_points.tolist() if len(pred_points) > 0 else [],
+            gt_points.tolist() if len(gt_points) > 0 else [],
+            self.distance_threshold
+        )
+        
+        # 计算当前样本的MSE
+        current_mse = 0
+        tau_square = self.distance_threshold * self.distance_threshold
+        
+        # 对匹配点计算实际距离的平方
+        for pred_idx, gt_idx in matches:
+            distance = calculate_distance(pred_points[pred_idx], gt_points[gt_idx])
+            if distance <= self.distance_threshold:
+                current_mse += 0  # 距离小于阈值时为0
+            else:
+                current_mse += distance * distance
+        
+        # 对未匹配点添加惩罚项
+        current_mse += (len(unmatched_preds) + len(unmatched_gts)) * tau_square
+        
+        # 计算当前样本的平均MSE
+        total_points = max(len(gt_points), len(pred_points))
+        if total_points > 0:
+            current_mse = current_mse / total_points
+        else:
+            current_mse = 0
+        
+        self.total_mse += current_mse
         self.count += 1
     
     def get(self):

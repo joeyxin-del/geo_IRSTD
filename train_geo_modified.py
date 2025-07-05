@@ -553,8 +553,8 @@ class ModelTrainer:
             'PD_FA': PD_FA(),
             'IoU': SigmoidMetric(),
             'nIoU': SamplewiseSigmoidMetric(1, score_thresh=0.5),
-            'F1': F1Metric(threshold=0.5),
-            'MSE': MSEMetric()
+            'F1': F1Metric(threshold=0.5, distance_threshold=5.0),
+            'MSE': MSEMetric(threshold=0.5, distance_threshold=5.0)
         }
         
         # Reset metrics
