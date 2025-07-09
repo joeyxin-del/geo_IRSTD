@@ -9,7 +9,7 @@ matplotlib.use('Agg')  # 设置为非交互式后端
 import matplotlib.pyplot as plt
 import torchinfo
 from metrics import *
-from metrics import F1Metric, MSEMetric
+from metrics import F1MSEMetric  # 使用组合的F1MSEMetric替代单独的metrics
 import os
 import time
 import cv2
@@ -24,13 +24,15 @@ import json
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 parser = argparse.ArgumentParser(description="PyTorch BasicIRSTD test")
 # parser.add_argument("--model_names", default=['LKUnet'], type=list,
-parser.add_argument("--model_names", default=['TADNet'], type=list,
+# parser.add_argument("--model_names", default=['TADNet'], type=list,
+parser.add_argument("--model_names", default=['WTNet'], type=list,
                     help="model_name: 'ACM', 'ALCNet', 'DNANet', 'ISNet', 'UIUNet', 'RDIAN', 'ISTDU-Net', 'U-Net', 'RISTDnet','LKUnetK'")
 # parser.add_argument("--pth_dirs", default=['checkpoint/1k/LKUnet_best.pth'], type=list,
 # parser.add_argument("--pth_dirs", default=['checkpoint/NUDT-SIRST/LKUnetlr_best.pth'], type=list,
 #parser.add_argument("--pth_dirs", default=['checkpoint/NUDT-SIRST/LKUnet_best.pth'], type=list,
 # parser.add_argument("--pth_dirs", default=['log/IRSTD-1K/LKUnet_best.pth'], type=list,
-parser.add_argument("--pth_dirs", default=['checkpoints/TADNet_780.pth'], type=list,
+# parser.add_argument("--pth_dirs", default=['checkpoints/TADNet_780.pth'], type=list,
+parser.add_argument("--pth_dirs", default=['log/best.pth'], type=list,
                     help="checkpoint dir, default=None or ['NUDT-SIRST/ACM_400.pth.tar','NUAA-SIRST/ACM_400.pth.tar']")
 parser.add_argument("--dataset_dir", default='./datasets', type=str, help="train_dataset_dir")
 #parser.add_argument("--dataset_names", default=['NUDT-SIRST'], type=list,
@@ -208,28 +210,28 @@ def save_visualization_results(img, pred_points, gt_points, save_dir, img_dir, i
     seq_dir = os.path.join(save_dir, f'sequence_{seq_id}')
     os.makedirs(seq_dir, exist_ok=True)
     
-    # 设置matplotlib后端为Agg
-    plt.switch_backend('Agg')
+    # # 设置matplotlib后端为Agg
+    # plt.switch_backend('Agg')
     
-    # 创建图像
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.axis('off')
+    # # 创建图像
+    # plt.figure(figsize=(8, 8), dpi=100)
+    # plt.axis('off')
     
-    # 保存预测结果
-    plt.clf()
-    plt.imshow(img.squeeze(), cmap='gray')
-    if len(pred_points) > 0:
-        plt.scatter(pred_points[:, 0], pred_points[:, 1], c='r', s=40, marker='x', linewidth=2)
-    plt.savefig(os.path.join(seq_dir, f'{frame_id}_pred.png'), bbox_inches='tight', pad_inches=0)
+    # # 保存预测结果
+    # plt.clf()
+    # plt.imshow(img.squeeze(), cmap='gray')
+    # if len(pred_points) > 0:
+    #     plt.scatter(pred_points[:, 0], pred_points[:, 1], c='r', s=40, marker='x', linewidth=2)
+    # plt.savefig(os.path.join(seq_dir, f'{frame_id}_pred.png'), bbox_inches='tight', pad_inches=0)
     
-    # 保存真实标注
-    plt.clf()
-    plt.imshow(img.squeeze(), cmap='gray')
-    if len(gt_points) > 0:
-        plt.scatter(gt_points[:, 0], gt_points[:, 1], c='g', s=40, marker='x', linewidth=2)
-    plt.savefig(os.path.join(seq_dir, f'{frame_id}_gt.png'), bbox_inches='tight', pad_inches=0)
+    # # 保存真实标注
+    # plt.clf()
+    # plt.imshow(img.squeeze(), cmap='gray')
+    # if len(gt_points) > 0:
+    #     plt.scatter(gt_points[:, 0], gt_points[:, 1], c='g', s=40, marker='x', linewidth=2)
+    # plt.savefig(os.path.join(seq_dir, f'{frame_id}_gt.png'), bbox_inches='tight', pad_inches=0)
     
-    plt.close()
+    # plt.close()
     
     return seq_id, frame_id, img_size, pred_points, gt_points
 
@@ -330,20 +332,19 @@ def test():
     net.eval()
 
     # FPSBenchmark setup
-    benchmark = FPSBenchmark(
-        datasets=test_loader,
-        iterations=100,
-        model=net,
-        device="cuda:0",
-        warmup_num=5,
-        log_interval=10,
-        repeat_num=1
-    )
-    fps_calculateFPS = benchmark.measure_inference_speed()
+    # benchmark = FPSBenchmark(
+    #     datasets=test_loader,
+    #     iterations=100,
+    #     model=net,
+    #     device="cuda:0",
+    #     warmup_num=5,
+    #     log_interval=10,
+    #     repeat_num=1
+    # )
+    # fps_calculateFPS = benchmark.measure_inference_speed()
 
     # 初始化指标
-    f1_metric = F1Metric(threshold=opt.threshold, distance_threshold=5.0)
-    mse_metric = MSEMetric(threshold=opt.threshold, distance_threshold=5.0)
+    f1_metric = F1MSEMetric(threshold=opt.threshold, distance_threshold=5.0)
     
     total_time = 0
     num_frames = 0
@@ -367,9 +368,8 @@ def test():
                 pred = pred[0]
             pred = pred[:, :, :size[0], :size[1]]
             
-            # 更新F1和MSE指标
+            # 更新F1指标
             f1_metric.update(pred, gt_mask)
-            mse_metric.update(pred, gt_mask)
             
             # 将预测掩码转换为坐标形式
             coords = mask_to_coords(pred, conf_thresh=opt.threshold)
@@ -401,8 +401,8 @@ def test():
             for batch_idx in range(len(img)):
                 try:
                     # 打印调试信息
-                    print(f"\n处理批次 {idx_iter} 中的第 {batch_idx} 张图片")
-                    print(f"图片信息: {img_dir[batch_idx]}")
+                    # print(f"\n处理批次 {idx_iter} 中的第 {batch_idx} 张图片")
+                    # print(f"图片信息: {img_dir[batch_idx]}")
                     
                     # 从gt_mask中提取真实坐标点
                     current_gt_mask = gt_mask[batch_idx]
@@ -442,40 +442,38 @@ def test():
             continue
     
     # 创建序列可视化
-    create_sequence_visualization(opt.save_img_dir, sequence_data, 
-                               annotation_file='datasets/spotgeov2/test_anno.json')
+    # create_sequence_visualization(opt.save_img_dir, sequence_data, 
+                            #    annotation_file='datasets/spotgeov2/test_anno.json')
 
     # 计算FPS
-    fps_time_method = num_frames / total_time
+    # fps_time_method = num_frames / total_time
     
     # 获取F1和MSE指标结果
-    f1_score = f1_metric.get()
-    mse_score = mse_metric.get()
+    f1_score, mse_score = f1_metric.get()
 
     # 保存预测结果到json文件
     save_path = os.path.join(opt.save_img_dir, opt.test_dataset_name, opt.model_name, 'predictions.json')
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     with open(save_path, 'w') as f:
-        json.dump(all_predictions, f, indent=2)
+        json.dump(all_predictions, f, indent=4)
 
-    print("\n=== 测试结果 ===")
-    print(f"FPS (time method): {fps_time_method:.2f}")
-    print(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}")
+    # 打印结果
+    print(f"Average processing time per frame: {total_time/num_frames*1000:.2f}ms")
+    # print(f"FPS (time method): {fps_time_method:.2f}")
+    # print(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}")
     print(f"F1 Score: {f1_score:.4f}")
     print(f"MSE: {mse_score:.4f}")
     print(f"Successfully processed {num_frames} images")
     print(f"预测结果已保存到: {save_path}")
-    print("================\n")
-
-    # 写入结果到文件
-    opt.f.write("\n=== 测试结果 ===\n")
-    opt.f.write(f"FPS (time method): {fps_time_method:.2f}\n")
-    opt.f.write(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}\n")
+    
+    # 写入日志文件
+    opt.f.write(f"Average processing time per frame: {total_time/num_frames*1000:.2f}ms\n")
+    # opt.f.write(f"FPS (time method): {fps_time_method:.2f}\n")
+    # opt.f.write(f"FPS (calculateFPS method): {fps_calculateFPS:.2f}\n")
     opt.f.write(f"F1 Score: {f1_score:.4f}\n")
     opt.f.write(f"MSE: {mse_score:.4f}\n")
     opt.f.write(f"Successfully processed {num_frames} images\n")
     opt.f.write(f"预测结果已保存到: {save_path}\n")
-    opt.f.write("================\n")
 
 
 if __name__ == '__main__':
