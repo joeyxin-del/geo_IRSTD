@@ -251,8 +251,9 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
 
 def main():
     # 加载预测结果和真实标注
-    pred_path = './results/spotgeov2/TADNet/predictions.json'
-    gt_path = './datasets/spotgeov2/test_anno.json'
+    # pred_path = 'results/WTNet/predictions.json'
+    pred_path = 'results/WTNet/balanced_processed_predictions.json'
+    gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
     with open(pred_path, 'r') as f:
@@ -318,7 +319,7 @@ def main():
         print("MSE: 所有序列都没有有效的匹配点")
 
     # 保存评估结果
-    results_save_path = './results/spotgeov2/TADNet/evaluation_results.json'
+    results_save_path = './results/WTNet/balanced_evaluation_results.json'
     with open(results_save_path, 'w') as f:
         json.dump(metrics, f, indent=2)
     print(f"\n评估结果已保存到: {results_save_path}")
