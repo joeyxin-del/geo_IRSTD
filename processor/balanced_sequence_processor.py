@@ -272,6 +272,10 @@ class BalancedSequenceProcessor:
         if distance_threshold is None:
             distance_threshold = self.statistical_distance_threshold
             
+        # 使用更宽松的补全阈值，允许更多的补全
+        completion_threshold = distance_threshold * 2.0  # 放宽到2倍阈值
+        aggressive_threshold = distance_threshold * 3.0  # 激进补全阈值
+            
         completed_data = copy.deepcopy(sequence_data)
         
         for sequence_id, frames_data in completed_data.items():
@@ -311,12 +315,12 @@ class BalancedSequenceProcessor:
                             if cost_matrix.size > 0:
                                 row_indices, col_indices = linear_sum_assignment(cost_matrix)
                                 
-                                # 只对距离合理的匹配进行插值
+                                # 使用更宽松的阈值进行匹配
                                 valid_matches = []
                                 for row_idx, col_idx in zip(row_indices, col_indices):
                                     distance = cost_matrix[row_idx, col_idx]
-                                    # 使用统计阈值判断是否合理
-                                    if distance <= distance_threshold:
+                                    # 使用宽松阈值判断是否合理
+                                    if distance <= completion_threshold:
                                         valid_matches.append((row_idx, col_idx, distance))
                                 
                                 if valid_matches:
@@ -344,12 +348,22 @@ class BalancedSequenceProcessor:
                                     }
                                     print(f"  补全帧 {missing_frame}，位置: {interpolated_pos}")
                     
-                    # 如果只有前帧或只有后帧，使用外推
+                    # 如果只有前帧或只有后帧，使用增强的外推
                     elif prev_frame is not None:
                         prev_coords = frames_data[prev_frame]['coords']
                         if prev_coords:
-                            # 使用前帧的位置作为估计
-                            estimated_pos = prev_coords[0]  # 使用第一个检测点
+                            # 尝试找到更多前帧来预测运动趋势
+                            motion_vector = self.estimate_motion_vector(frames_data, prev_frame, look_back=3)
+                            if motion_vector is not None:
+                                # 使用运动向量进行外推
+                                estimated_pos = [
+                                    prev_coords[0][0] + motion_vector[0] * (missing_frame - prev_frame),
+                                    prev_coords[0][1] + motion_vector[1] * (missing_frame - prev_frame)
+                                ]
+                            else:
+                                # 使用前帧的位置作为估计
+                                estimated_pos = prev_coords[0]
+                            
                             frames_data[missing_frame] = {
                                 'coords': [estimated_pos],
                                 'num_objects': 1,
@@ -360,8 +374,18 @@ class BalancedSequenceProcessor:
                     elif next_frame is not None:
                         next_coords = frames_data[next_frame]['coords']
                         if next_coords:
-                            # 使用后帧的位置作为估计
-                            estimated_pos = next_coords[0]  # 使用第一个检测点
+                            # 尝试找到更多后帧来预测运动趋势
+                            motion_vector = self.estimate_motion_vector(frames_data, next_frame, look_forward=3)
+                            if motion_vector is not None:
+                                # 使用运动向量进行外推
+                                estimated_pos = [
+                                    next_coords[0][0] + motion_vector[0] * (missing_frame - next_frame),
+                                    next_coords[0][1] + motion_vector[1] * (missing_frame - next_frame)
+                                ]
+                            else:
+                                # 使用后帧的位置作为估计
+                                estimated_pos = next_coords[0]
+                            
                             frames_data[missing_frame] = {
                                 'coords': [estimated_pos],
                                 'num_objects': 1,
@@ -412,7 +436,8 @@ class BalancedSequenceProcessor:
                                             min_cost = cost_matrix[row_idx, col_idx]
                                             best_match = (row_idx, col_idx)
                                     
-                                    if best_match and min_cost <= distance_threshold:
+                                    # 使用更宽松的阈值
+                                    if best_match and min_cost <= completion_threshold:
                                         row_idx, col_idx = best_match
                                         pos1 = prev_coords[row_idx]
                                         pos2 = next_coords[col_idx]
@@ -426,8 +451,124 @@ class BalancedSequenceProcessor:
                                         frames_data[frame]['coords'] = [interpolated_pos]
                                         frames_data[frame]['num_objects'] = 1
                                         print(f"  补全序列 {sequence_id} 帧 {frame}，位置: {interpolated_pos}")
+                        
+                        # 如果插值失败，尝试激进补全
+                        elif prev_frame is not None or next_frame is not None:
+                            estimated_pos = self.aggressive_completion(frames_data, frame, prev_frame, next_frame, aggressive_threshold)
+                            if estimated_pos is not None:
+                                frames_data[frame]['coords'] = [estimated_pos]
+                                frames_data[frame]['num_objects'] = 1
+                                print(f"  激进补全序列 {sequence_id} 帧 {frame}，位置: {estimated_pos}")
         
         return completed_data
+    
+    def estimate_motion_vector(self, frames_data: Dict[int, Dict], reference_frame: int, look_back: int = 3, look_forward: int = 0) -> Optional[List[float]]:
+        """
+        估计运动向量，用于外推预测
+        
+        Args:
+            frames_data: 帧数据
+            reference_frame: 参考帧
+            look_back: 向后看的帧数
+            look_forward: 向前看的帧数
+            
+        Returns:
+            运动向量 [dx, dy]，如果无法估计则返回None
+        """
+        frames = sorted(frames_data.keys())
+        motion_vectors = []
+        
+        # 向后看
+        for i in range(1, look_back + 1):
+            check_frame = reference_frame - i
+            if check_frame in frames_data and frames_data[check_frame]['coords']:
+                ref_coords = frames_data[reference_frame]['coords']
+                check_coords = frames_data[check_frame]['coords']
+                
+                if ref_coords and check_coords:
+                    # 找到最近的匹配
+                    min_dist = float('inf')
+                    best_pair = None
+                    
+                    for ref_pos in ref_coords:
+                        for check_pos in check_coords:
+                            dist = self.calculate_distance(ref_pos, check_pos)
+                            if dist < min_dist:
+                                min_dist = dist
+                                best_pair = (ref_pos, check_pos)
+                    
+                    if best_pair and min_dist <= self.statistical_distance_threshold * 2:
+                        ref_pos, check_pos = best_pair
+                        dx = (ref_pos[0] - check_pos[0]) / i
+                        dy = (ref_pos[1] - check_pos[1]) / i
+                        motion_vectors.append([dx, dy])
+        
+        # 向前看
+        for i in range(1, look_forward + 1):
+            check_frame = reference_frame + i
+            if check_frame in frames_data and frames_data[check_frame]['coords']:
+                ref_coords = frames_data[reference_frame]['coords']
+                check_coords = frames_data[check_frame]['coords']
+                
+                if ref_coords and check_coords:
+                    # 找到最近的匹配
+                    min_dist = float('inf')
+                    best_pair = None
+                    
+                    for ref_pos in ref_coords:
+                        for check_pos in check_coords:
+                            dist = self.calculate_distance(ref_pos, check_pos)
+                            if dist < min_dist:
+                                min_dist = dist
+                                best_pair = (ref_pos, check_pos)
+                    
+                    if best_pair and min_dist <= self.statistical_distance_threshold * 2:
+                        ref_pos, check_pos = best_pair
+                        dx = (check_pos[0] - ref_pos[0]) / i
+                        dy = (check_pos[1] - ref_pos[1]) / i
+                        motion_vectors.append([dx, dy])
+        
+        # 计算平均运动向量
+        if motion_vectors:
+            avg_dx = np.mean([v[0] for v in motion_vectors])
+            avg_dy = np.mean([v[1] for v in motion_vectors])
+            return [avg_dx, avg_dy]
+        
+        return None
+    
+    def aggressive_completion(self, frames_data: Dict[int, Dict], target_frame: int, prev_frame: Optional[int], next_frame: Optional[int], threshold: float) -> Optional[List[float]]:
+        """
+        激进补全策略，使用更宽松的条件进行补全
+        
+        Args:
+            frames_data: 帧数据
+            target_frame: 目标帧
+            prev_frame: 前帧
+            next_frame: 后帧
+            threshold: 距离阈值
+            
+        Returns:
+            估计的位置，如果无法估计则返回None
+        """
+        # 策略1: 使用最近的检测点
+        if prev_frame is not None and frames_data[prev_frame]['coords']:
+            return frames_data[prev_frame]['coords'][0]
+        
+        if next_frame is not None and frames_data[next_frame]['coords']:
+            return frames_data[next_frame]['coords'][0]
+        
+        # 策略2: 使用序列中所有检测点的中心
+        all_coords = []
+        for frame, frame_data in frames_data.items():
+            if frame_data['coords']:
+                all_coords.extend(frame_data['coords'])
+        
+        if all_coords:
+            center_x = np.mean([pos[0] for pos in all_coords])
+            center_y = np.mean([pos[1] for pos in all_coords])
+            return [center_x, center_y]
+        
+        return None
     
     def analyze_trajectory_statistics(self, sequence_data: Dict[int, Dict]) -> Dict:
         """
@@ -553,11 +694,11 @@ class BalancedSequenceProcessor:
         if statistics['comparison_with_prior']['distance_mean_diff'] > 20:
             print("检测到实际距离与先验差异较大，调整距离阈值...")
             # 如果实际距离明显大于先验，适当放宽阈值
-            adjusted_threshold = self.statistical_distance_threshold * 1.2
+            adjusted_threshold = self.statistical_distance_threshold * 1.5  # 更宽松的调整
         elif statistics['comparison_with_prior']['distance_mean_diff'] < -20:
             print("检测到实际距离与先验差异较大，收紧距离阈值...")
             # 如果实际距离明显小于先验，适当收紧阈值
-            adjusted_threshold = self.statistical_distance_threshold * 0.8
+            adjusted_threshold = self.statistical_distance_threshold * 0.9  # 不那么严格的收紧
         else:
             adjusted_threshold = self.statistical_distance_threshold
         
@@ -568,20 +709,23 @@ class BalancedSequenceProcessor:
         for sequence_id, frames_data in sequence_data.items():
             print(f"处理序列 {sequence_id}，包含 {len(frames_data)} 帧")
             
-            # 1. 自适应时序过滤
-            filtered_data = self.adaptive_temporal_filtering({sequence_id: frames_data})
-            
+            # # 1. 自适应时序过滤
+            # filtered_data = self.adaptive_temporal_filtering({sequence_id: frames_data})
+            filtered_data = {sequence_id: frames_data}
             # 2. 智能插值
             interpolated_data = self.smart_interpolation(filtered_data)
             
             # 3. 移除噪声检测点
-            # cleaned_data = self.remove_noise_detections(interpolated_data)
-            cleaned_data = interpolated_data
+            cleaned_data = self.remove_noise_detections(interpolated_data)
+            # cleaned_data = interpolated_data
             # 4. 利用先验知识补全漏检
             completed_data = self.complete_missing_detections(cleaned_data, adjusted_threshold)
             
+            # 5. 激进补全：基于序列模式的补全
+            aggressive_completed_data = self.aggressive_sequence_completion(completed_data, adjusted_threshold)
+            
             # 转换回原始格式
-            for frame, frame_data in completed_data[sequence_id].items():
+            for frame, frame_data in aggressive_completed_data[sequence_id].items():
                 image_name = frame_data['image_name']
                 processed_predictions[image_name] = {
                     'coords': frame_data['coords'],
@@ -590,6 +734,149 @@ class BalancedSequenceProcessor:
         
         print(f"平衡的序列后处理完成，处理了 {len(processed_predictions)} 张图像")
         return processed_predictions
+    
+    def aggressive_sequence_completion(self, sequence_data: Dict[int, Dict], distance_threshold: float) -> Dict[int, Dict]:
+        """
+        激进序列补全，基于序列模式和统计信息进行更激进的补全
+        
+        Args:
+            sequence_data: 序列数据
+            distance_threshold: 距离阈值
+            
+        Returns:
+            补全后的序列数据
+        """
+        aggressive_data = copy.deepcopy(sequence_data)
+        
+        for sequence_id, frames_data in aggressive_data.items():
+            frames = sorted(frames_data.keys())
+            
+            # 计算序列的统计特征
+            all_coords = []
+            for frame_data in frames_data.values():
+                all_coords.extend(frame_data['coords'])
+            
+            if not all_coords:
+                continue
+            
+            # 计算序列中心
+            center_x = np.mean([pos[0] for pos in all_coords])
+            center_y = np.mean([pos[1] for pos in all_coords])
+            
+            # 计算序列的边界
+            min_x = min([pos[0] for pos in all_coords])
+            max_x = max([pos[0] for pos in all_coords])
+            min_y = min([pos[1] for pos in all_coords])
+            max_y = max([pos[1] for pos in all_coords])
+            
+            # 计算序列的期望帧范围
+            if frames:
+                expected_start = min(frames)
+                expected_end = max(frames)
+                expected_frames = set(range(expected_start, expected_end + 1))
+                missing_frames = expected_frames - set(frames)
+                
+                print(f"序列 {sequence_id} 激进补全: 期望帧 {expected_start}-{expected_end}, 缺失 {len(missing_frames)} 帧")
+                
+                for missing_frame in missing_frames:
+                    # 如果缺失帧还没有检测点，尝试补全
+                    if missing_frame not in frames_data or not frames_data[missing_frame]['coords']:
+                        estimated_pos = self.estimate_position_from_sequence_pattern(
+                            frames_data, missing_frame, center_x, center_y, 
+                            min_x, max_x, min_y, max_y, distance_threshold
+                        )
+                        
+                        if estimated_pos is not None:
+                            if missing_frame not in frames_data:
+                                frames_data[missing_frame] = {
+                                    'coords': [],
+                                    'num_objects': 0,
+                                    'image_name': f"{sequence_id}_{missing_frame}_test"
+                                }
+                            
+                            frames_data[missing_frame]['coords'] = [estimated_pos]
+                            frames_data[missing_frame]['num_objects'] = 1
+                            print(f"  激进补全帧 {missing_frame}，位置: {estimated_pos}")
+        
+        return aggressive_data
+    
+    def estimate_position_from_sequence_pattern(self, frames_data: Dict[int, Dict], target_frame: int, 
+                                              center_x: float, center_y: float,
+                                              min_x: float, max_x: float, min_y: float, max_y: float,
+                                              distance_threshold: float) -> Optional[List[float]]:
+        """
+        基于序列模式估计位置
+        
+        Args:
+            frames_data: 帧数据
+            target_frame: 目标帧
+            center_x, center_y: 序列中心
+            min_x, max_x, min_y, max_y: 序列边界
+            distance_threshold: 距离阈值
+            
+        Returns:
+            估计的位置
+        """
+        frames = sorted(frames_data.keys())
+        
+        # 策略1: 基于时间位置的线性插值
+        if len(frames) >= 2:
+            # 找到目标帧在序列中的相对位置
+            frame_positions = []
+            frame_coords = []
+            
+            for frame in frames:
+                if frames_data[frame]['coords']:
+                    frame_positions.append(frame)
+                    frame_coords.append(frames_data[frame]['coords'][0])  # 使用第一个检测点
+            
+            if len(frame_positions) >= 2:
+                # 使用线性回归估计位置
+                try:
+                    # 对x坐标进行线性回归
+                    x_coords = [pos[0] for pos in frame_coords]
+                    y_coords = [pos[1] for pos in frame_coords]
+                    
+                    # 简单的线性插值
+                    if target_frame < min(frame_positions):
+                        # 外推
+                        alpha = (target_frame - min(frame_positions)) / (max(frame_positions) - min(frame_positions))
+                        estimated_x = x_coords[0] + alpha * (x_coords[-1] - x_coords[0])
+                        estimated_y = y_coords[0] + alpha * (y_coords[-1] - y_coords[0])
+                    elif target_frame > max(frame_positions):
+                        # 外推
+                        alpha = (target_frame - min(frame_positions)) / (max(frame_positions) - min(frame_positions))
+                        estimated_x = x_coords[0] + alpha * (x_coords[-1] - x_coords[0])
+                        estimated_y = y_coords[0] + alpha * (y_coords[-1] - y_coords[0])
+                    else:
+                        # 内插
+                        # 找到最近的两个帧
+                        prev_frame = max([f for f in frame_positions if f < target_frame], default=None)
+                        next_frame = min([f for f in frame_positions if f > target_frame], default=None)
+                        
+                        if prev_frame is not None and next_frame is not None:
+                            prev_idx = frame_positions.index(prev_frame)
+                            next_idx = frame_positions.index(next_frame)
+                            
+                            alpha = (target_frame - prev_frame) / (next_frame - prev_frame)
+                            estimated_x = x_coords[prev_idx] + alpha * (x_coords[next_idx] - x_coords[prev_idx])
+                            estimated_y = y_coords[prev_idx] + alpha * (y_coords[next_idx] - y_coords[prev_idx])
+                        else:
+                            # 使用序列中心
+                            estimated_x = center_x
+                            estimated_y = center_y
+                    
+                    # 确保估计位置在合理范围内
+                    estimated_x = max(min_x - distance_threshold, min(max_x + distance_threshold, estimated_x))
+                    estimated_y = max(min_y - distance_threshold, min(max_y + distance_threshold, estimated_y))
+                    
+                    return [estimated_x, estimated_y]
+                    
+                except Exception as e:
+                    print(f"    线性插值失败: {e}")
+        
+        # 策略2: 使用序列中心
+        return [center_x, center_y]
     
     def evaluate_improvement(self, original_predictions: Dict, processed_predictions: Dict, ground_truth: List[Dict]) -> Dict:
         """评估后处理的效果改善"""
@@ -633,14 +920,14 @@ def main():
     with open(gt_path, 'r') as f:
         ground_truth = json.load(f)
     
-    # 创建平衡的序列后处理器
+    # 创建平衡的序列后处理器，使用更激进的参数
     processor = BalancedSequenceProcessor(
-        base_distance_threshold=1000,  # 适中的距离阈值
-        temporal_window=3,
-        confidence_threshold=0.05,     # 较低的置信度阈值
-        min_track_length=2,            # 适中的最小轨迹长度
-        max_frame_gap=3,               # 适中的最大帧间隔
-        adaptive_threshold=True,        # 启用自适应阈值
+        base_distance_threshold=1000,  # 更宽松的距离阈值
+        temporal_window=5,            # 更大的时间窗口
+        confidence_threshold=0.0001,   # 较低的置信度阈值
+        min_track_length=1,           # 更小的最小轨迹长度，允许更短的轨迹
+        max_frame_gap=5,              # 更大的最大帧间隔，允许更大的间隔补全
+        adaptive_threshold=True,       # 启用自适应阈值
         # 基于轨迹距离统计的新参数
         expected_sequence_length=5,
         trajectory_mean_distance=116.53,
@@ -679,10 +966,10 @@ def main():
     print(f"MSE: {improvement['processed_metrics']['mse']:.4f}")
     
     # 保存处理后的结果
-    output_path = 'results/WTNet/balanced_processed_predictions.json'
+    output_path = 'results/WTNet/aggressive_balanced_processed_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
-    print(f"\n平衡的处理后的预测结果已保存到: {output_path}")
+    print(f"\n激进平衡的处理后的预测结果已保存到: {output_path}")
 
 if __name__ == '__main__':
     main() 
