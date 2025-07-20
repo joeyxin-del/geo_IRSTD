@@ -251,8 +251,12 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
 
 def main():
     # 加载预测结果和真实标注
-    pred_path = './results/spotgeov2/TADNet/predictions.json'
-    gt_path = './datasets/spotgeov2/test_anno.json'
+    # pred_path = 'results/WTNet/predictions.json'
+    # pred_path = 'results/WTNet/balanced_processed_predictions.json'
+    # pred_path = 'results/WTNet/improved_kmeans_predictions.json'
+    # pred_path = 'results/WTNet/aggressive_balanced_processed_predictions.json'
+    pred_path = 'results/WTNet/slope_based_processed_predictions.json'
+    gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
     with open(pred_path, 'r') as f:
@@ -317,8 +321,81 @@ def main():
     else:
         print("MSE: 所有序列都没有有效的匹配点")
 
+    # 列出F1分数小于0.5的序列号
+    print("\n=== F1分数小于0.5的序列 ===")
+    low_f1_sequences = []
+    for seq_id, seq_metrics in metrics['sequence_metrics'].items():
+        if seq_metrics['f1'] < 1 and seq_metrics['mse'] > 0:
+            low_f1_sequences.append({
+                'sequence_id': seq_id,
+                'f1_score': seq_metrics['f1'],
+                'mse': seq_metrics['mse'],
+                # 'precision': seq_metrics.get('precision', 0),
+                # 'recall': seq_metrics.get('recall', 0),
+                # 'tp': seq_metrics['tp'],
+                # 'fp': seq_metrics['fp'],
+                # 'fn': seq_metrics['fn'],
+                # 'processed_images': seq_metrics['processed_images']
+            })
+    
+    if low_f1_sequences:
+        print(f"找到 {len(low_f1_sequences)} 个F1分数小于0.5的序列:")
+        # 按F1分数从低到高排序
+        low_f1_sequences.sort(key=lambda x: x['f1_score'])
+        for seq_info in low_f1_sequences:
+            print(f"序列 {seq_info['sequence_id']}: F1 = {seq_info['f1_score']:.4f}, MSE = {seq_info['mse']:.4f}")
+        
+        # 保存低F1序列到JSON文件
+        low_f1_save_path = './results/WTNet/low_f1_sequences.json'
+        low_f1_data = {
+            'total_sequences_below_0_5': len(low_f1_sequences),
+            'total_sequences': len(metrics['sequence_metrics']),
+            'percentage_below_0_5': (len(low_f1_sequences) / len(metrics['sequence_metrics'])) * 100,
+            'sequences': low_f1_sequences,
+            'statistics': {
+                'f1_0_0': len([s for s in low_f1_sequences if s['f1_score'] == 0.0]),
+                'f1_0_0_to_0_1': len([s for s in low_f1_sequences if 0.0 < s['f1_score'] <= 0.1]),
+                'f1_0_1_to_0_2': len([s for s in low_f1_sequences if 0.1 < s['f1_score'] <= 0.2]),
+                'f1_0_2_to_0_3': len([s for s in low_f1_sequences if 0.2 < s['f1_score'] <= 0.3]),
+                'f1_0_3_to_0_4': len([s for s in low_f1_sequences if 0.3 < s['f1_score'] <= 0.4]),
+                'f1_0_4_to_0_5': len([s for s in low_f1_sequences if 0.4 < s['f1_score'] < 0.5]),
+                'f1_0_5_to_0_6': len([s for s in low_f1_sequences if 0.5 < s['f1_score'] <= 0.6]),
+                'f1_0_6_to_0_7': len([s for s in low_f1_sequences if 0.6 < s['f1_score'] <= 0.7]),
+                'f1_0_7_to_0_8': len([s for s in low_f1_sequences if 0.7 < s['f1_score'] <= 0.8]),
+                'f1_0_8_to_0_9': len([s for s in low_f1_sequences if 0.8 < s['f1_score'] <= 0.9]),
+                'f1_0_9_to_1_0': len([s for s in low_f1_sequences if 0.9 < s['f1_score'] <= 1.0])
+            }
+        }
+        
+        with open(low_f1_save_path, 'w') as f:
+            json.dump(low_f1_data, f, indent=2)
+        print(f"\n低F1序列信息已保存到: {low_f1_save_path}")
+        print(f"总序列数: {len(metrics['sequence_metrics'])}")
+        print(f"F1 < 0.5的序列数: {len(low_f1_sequences)}")
+        print(f"占比: {(len(low_f1_sequences) / len(metrics['sequence_metrics'])) * 100:.2f}%")
+        
+        # 打印统计信息
+        print("\n=== F1分数分布统计 ===")
+        stats = low_f1_data['statistics']
+        print(f"F1 = 0.0: {stats['f1_0_0']} 个序列")
+        print(f"F1 0.0-0.1: {stats['f1_0_0_to_0_1']} 个序列")
+        print(f"F1 0.1-0.2: {stats['f1_0_1_to_0_2']} 个序列")
+        print(f"F1 0.2-0.3: {stats['f1_0_2_to_0_3']} 个序列")
+        print(f"F1 0.3-0.4: {stats['f1_0_3_to_0_4']} 个序列")
+        print(f"F1 0.4-0.5: {stats['f1_0_4_to_0_5']} 个序列")
+        print(f"F1 0.5-0.6: {stats['f1_0_5_to_0_6']} 个序列")
+        print(f"F1 0.6-0.7: {stats['f1_0_6_to_0_7']} 个序列")
+        print(f"F1 0.7-0.8: {stats['f1_0_7_to_0_8']} 个序列")
+        print(f"F1 0.8-0.9: {stats['f1_0_8_to_0_9']} 个序列")
+        print(f"F1 0.9-1.0: {stats['f1_0_9_to_1_0']} 个序列")
+        
+    else:
+        print("没有找到F1分数小于0.5的序列")
+
     # 保存评估结果
-    results_save_path = './results/spotgeov2/TADNet/evaluation_results.json'
+    # results_save_path = './results/WTNet/improved_kmeans_evaluation_results.json'
+    # results_save_path = './results/WTNet/aggressive_balanced_processed_evaluation_results.json'
+    results_save_path = './results/WTNet/slope_based_evaluation_results.json'
     with open(results_save_path, 'w') as f:
         json.dump(metrics, f, indent=2)
     print(f"\n评估结果已保存到: {results_save_path}")
