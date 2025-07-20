@@ -14,14 +14,20 @@ class TrajectoryChangeAnalyzer:
     """轨迹变化分析器"""
     
     def __init__(self, 
-                 original_pred_path: str = 'results/WTNet/predictions.json',
+                 original_pred_path: str = 'results/spotgeov2/WTNet/predictions.json',
                 #  processed_pred_path: str = 'results/WTNet/kmeans_trajectory_predictions.json',
                 #  processed_pred_path: str = 'results/WTNet/aggressive_balanced_processed_predictions.json',
-                 processed_pred_path: str = 'results/WTNet/sequence_slope_processed_predictions.json',
-                 gt_path: str = 'datasets/spotgeov2-IRSTD/test_anno.json',
-                #  save_dir: str = 'trajectory_analysis_results'):
-                #  save_dir: str = 'aggressive_balanced_trajectory_analysis_results'):
-                 save_dir: str = 'sequence_slope_based_trajectory_analysis_results'):
+                #  processed_pred_path: str = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json',
+                #  processed_pred_path: str = 'results/spotgeov2/WTNet/outlier_filtered_predictions.json',
+                #  processed_pred_path: str = 'results/spotgeov2/WTNet/dbscan_outlier_filtered_predictions.json',
+                 processed_pred_path: str = 'results/spotgeov2/WTNet/dominant_slope_filtered_predictions.json',
+                gt_path: str = 'datasets/spotgeov2-IRSTD/test_anno.json',
+                #  save_dir: str = 'trajectory_change/trajectory_analysis_results'):
+                #  save_dir: str = 'trajectory_change/aggressive_balanced_trajectory_analysis_results'):
+                #  save_dir: str = 'trajectory_change/sequence_slope_based_trajectory_analysis_results'):
+                #  save_dir: str = 'trajectory_change/outlier_filtered_trajectory_analysis_results'):
+                #  save_dir: str = 'trajatory_change/dbscan_outlier_filtered_trajectory_analysis_results'):
+                 save_dir: str = 'trajatory_change/dominant_slope_filtered_trajectory_analysis_results'):
         """
         初始化分析器
         

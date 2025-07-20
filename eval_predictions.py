@@ -255,7 +255,9 @@ def main():
     # pred_path = 'results/WTNet/balanced_processed_predictions.json'
     # pred_path = 'results/WTNet/improved_kmeans_predictions.json'
     # pred_path = 'results/WTNet/aggressive_balanced_processed_predictions.json'
-    pred_path = 'results/WTNet/slope_based_processed_predictions.json'
+    # pred_path = 'results/WTNet/slope_based_processed_predictions.json'
+    pred_path = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json'
+    # pred_path = 'results/spotgeov2/WTNet/outlier_filtered_predictions.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -278,7 +280,7 @@ def main():
 
     # 计算评估指标
     print("\n正在计算评估指标...")
-    metrics = calculate_metrics(predictions, ground_truth, distance_threshold=1000.0)
+    metrics = calculate_metrics(predictions, ground_truth, distance_threshold=500.0)
 
     # 打印评估结果
     print("\n=== 总体评估结果 ===")
@@ -342,11 +344,12 @@ def main():
         print(f"找到 {len(low_f1_sequences)} 个F1分数小于0.5的序列:")
         # 按F1分数从低到高排序
         low_f1_sequences.sort(key=lambda x: x['f1_score'])
-        for seq_info in low_f1_sequences:
-            print(f"序列 {seq_info['sequence_id']}: F1 = {seq_info['f1_score']:.4f}, MSE = {seq_info['mse']:.4f}")
+        # for seq_info in low_f1_sequences:
+        #     print(f"序列 {seq_info['sequence_id']}: F1 = {seq_info['f1_score']:.4f}, MSE = {seq_info['mse']:.4f}")
         
         # 保存低F1序列到JSON文件
-        low_f1_save_path = './results/WTNet/low_f1_sequences.json'
+        # low_f1_save_path = './results/WTNet/low_f1_sequences.json'
+        low_f1_save_path = './results/spotgeov2/WTNet/low_f1_sequences.json'
         low_f1_data = {
             'total_sequences_below_0_5': len(low_f1_sequences),
             'total_sequences': len(metrics['sequence_metrics']),
@@ -395,7 +398,9 @@ def main():
     # 保存评估结果
     # results_save_path = './results/WTNet/improved_kmeans_evaluation_results.json'
     # results_save_path = './results/WTNet/aggressive_balanced_processed_evaluation_results.json'
-    results_save_path = './results/WTNet/slope_based_evaluation_results.json'
+    # results_save_path = './results/WTNet/slope_based_evaluation_results.json'
+    results_save_path = './results/spotgeov2/WTNet/sequence_slope_evaluation_results.json'
+    # results_save_path = './results/spotgeov2/WTNet/outlier_filtered_evaluation_results.json'
     with open(results_save_path, 'w') as f:
         json.dump(metrics, f, indent=2)
     print(f"\n评估结果已保存到: {results_save_path}")
