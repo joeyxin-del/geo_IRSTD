@@ -66,14 +66,30 @@ class ImprovedSlopeProcessor:
         return sequence_data
     
     def collect_sequence_slopes(self, frames_data: Dict[int, Dict]) -> Dict:
-        """收集单个序列内所有帧间配对的斜率统计"""
+        """收集单个序列内所有帧间配对的斜率统计，并标识参与主导斜率的点"""
         frames = sorted(frames_data.keys())
         
         if len(frames) < 2:
-            return {'slopes': [], 'slope_pairs': [], 'dominant_slopes': []}
+            return {'slopes': [], 'slope_pairs': [], 'dominant_slopes': [], 'point_participation': {}}
         
         all_slopes = []
         slope_pairs = []  # 存储斜率对应的点对信息
+        
+        # 创建点参与哈希表，用于标识每个点是否参与了主导斜率的形成
+        # 格式: {(frame_id, point_idx): {'participated': False, 'point': [x, y]}}
+        point_participation = {}
+        
+        # 初始化点参与哈希表
+        for frame_id, frame_data in frames_data.items():
+            if frame_data['coords']:
+                for point_idx, point in enumerate(frame_data['coords']):
+                    point_key = (frame_id, point_idx)
+                    point_participation[point_key] = {
+                        'participated': False,
+                        'point': point,
+                        'frame_id': frame_id,
+                        'point_idx': point_idx
+                    }
         
         # 计算所有可能的帧间配对
         for i in range(len(frames)):
@@ -120,6 +136,30 @@ class ImprovedSlopeProcessor:
             if count >= self.min_slope_count:
                 dominant_slopes.append((slope, count))
         
+        # 标记参与主导斜率的点
+        dominant_slope_values = [slope for slope, _ in dominant_slopes]
+        for pair_info in slope_pairs:
+            slope = pair_info['slope']
+            
+            # 检查是否属于主导斜率
+            is_dominant = False
+            for dominant_slope in dominant_slope_values:
+                if abs(slope - dominant_slope) <= self.slope_tolerance:
+                    is_dominant = True
+                    break
+            
+            if is_dominant:
+                # 标记这两个点参与了主导斜率的形成
+                frame1, pos1_idx = pair_info['frame1'], pair_info['pos1_idx']
+                frame2, pos2_idx = pair_info['frame2'], pair_info['pos2_idx']
+                
+                point_key1 = (frame1, pos1_idx)
+                point_key2 = (frame2, pos2_idx)
+                
+                if point_key1 in point_participation:
+                    point_participation[point_key1]['participated'] = True
+                if point_key2 in point_participation:
+                    point_participation[point_key2]['participated'] = True
         
         return {
             'slopes': all_slopes,
@@ -128,10 +168,10 @@ class ImprovedSlopeProcessor:
             'total_slopes': len(all_slopes),
             'unique_slopes': len(slope_counter),
             'total_pairs_considered': len(slope_pairs),
-            'frames_processed': len(frames)
+            'frames_processed': len(frames),
+            'point_participation': point_participation
         }
     
-
     def collect_sequence_slopes_hungarian(self, frames_data: Dict[int, Dict]) -> Dict:
         """收集单个序列内所有帧间配对的斜率统计"""
         frames = sorted(frames_data.keys())
@@ -399,40 +439,33 @@ class ImprovedSlopeProcessor:
         
         return [estimated_x, estimated_y]
     
-    def filter_outliers_by_slope(self, frames_data: Dict[int, Dict], 
-                               dominant_slopes: List[Tuple[float, int]]) -> Dict[int, Dict]:
-        """基于主导斜率过滤异常点"""
-        if not dominant_slopes:
+    def filter_outliers_by_dominant(self, frames_data: Dict[int, Dict], 
+                                  point_participation: Dict) -> Dict[int, Dict]:
+        """基于主导斜率参与情况过滤异常点"""
+        if not point_participation:
             return frames_data
         
         filtered_frames = copy.deepcopy(frames_data)
-        dominant_slope_values = [slope for slope, _ in dominant_slopes]
         
-        for frame, frame_data in filtered_frames.items():
+        for frame_id, frame_data in filtered_frames.items():
             if not frame_data['coords']:
                 continue
             
             kept_coords = []
-            for pos in frame_data['coords']:
-                # 检查该点与其他帧中点的斜率是否符合主导斜率
-                slope_matches = 0
-                total_checks = 0
+            for point_idx, point in enumerate(frame_data['coords']):
+                point_key = (frame_id, point_idx)
                 
-                for other_frame, other_frame_data in frames_data.items():
-                    if other_frame != frame and other_frame_data['coords']:
-                        for other_pos in other_frame_data['coords']:
-                            slope = self.calculate_slope(pos, other_pos)
-                            
-                            # 检查是否与主导斜率匹配
-                            for dominant_slope in dominant_slope_values:
-                                if abs(slope - dominant_slope) <= self.slope_tolerance:
-                                    slope_matches += 1
-                                    break
-                            total_checks += 1
-                
-                # 如果斜率匹配率足够高，保留该点
-                if total_checks > 0 and (slope_matches / total_checks) >= 0.3:
-                    kept_coords.append(pos)
+                # 检查该点是否参与了主导斜率的形成
+                if point_key in point_participation:
+                    if point_participation[point_key]['participated']:
+                        # 该点参与了主导斜率的形成，保留
+                        kept_coords.append(point)
+                    else:
+                        # 该点没有参与主导斜率的形成，可能是异常点
+                        print(f"    移除未参与主导斜率的点: 帧{frame_id}, 位置{point}")
+                else:
+                    # 该点不在参与哈希表中，可能是新增的点，保留
+                    kept_coords.append(point)
             
             frame_data['coords'] = kept_coords
             frame_data['num_objects'] = len(kept_coords)
@@ -447,12 +480,11 @@ class ImprovedSlopeProcessor:
         if not slope_stats['dominant_slopes']:
             return frames_data, frames_data
         
-        dominant_slopes_range = max(len(slope_stats['dominant_slopes']),1)
         # 步骤1: 轨迹补全
-        completed_sequence, generated_points_from_pairs = self.complete_trajectory(frames_data, slope_stats['dominant_slopes'][:dominant_slopes_range])
+        completed_sequence, generated_points_from_pairs = self.complete_trajectory(frames_data, slope_stats['dominant_slopes'])
         
-        # 步骤2: 异常点筛选
-        filtered_sequence = self.filter_outliers_by_slope(completed_sequence, slope_stats['dominant_slopes'][:dominant_slopes_range])
+        # 步骤2: 异常点筛选 - 使用新的基于主导斜率参与情况的过滤方法
+        filtered_sequence = self.filter_outliers_by_dominant(completed_sequence, slope_stats['point_participation'])
         # filtered_sequence = completed_sequence
 
         return completed_sequence, filtered_sequence
@@ -587,9 +619,9 @@ def main():
                        help='真实标注文件路径')
     parser.add_argument('--output_path', type=str, default='results/WTNet/improved_slope_processed_predictions.json',
                        help='输出文件路径')
-    parser.add_argument('--base_distance_threshold', type=float, default=500.0,
+    parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
-    parser.add_argument('--slope_tolerance', type=float, default=0.1,
+    parser.add_argument('--slope_tolerance', type=float, default=0.05,
                        help='斜率容差')
     parser.add_argument('--min_slope_count', type=int, default=2,
                        help='最小斜率出现次数')
