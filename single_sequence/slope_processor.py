@@ -402,7 +402,7 @@ def main():
                        help='要分析的序列ID')
     parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
-    parser.add_argument('--slope_tolerance', type=float, default=0.05,
+    parser.add_argument('--slope_tolerance', type=float, default=0.01,
                        help='斜率容差')
     parser.add_argument('--min_slope_count', type=int, default=2,
                        help='最小斜率出现次数')

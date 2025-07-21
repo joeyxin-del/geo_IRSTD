@@ -76,7 +76,7 @@ class ImprovedSlopeProcessor:
         slope_pairs = []  # 存储斜率对应的点对信息
         
         # 创建点参与哈希表，用于标识每个点是否参与了主导斜率的形成
-        # 格式: {(frame_id, point_idx): {'participated': False, 'point': [x, y]}}
+        # 格式: {(frame_id, point_idx): {'participated': False, 'point': [x, y], 'min_dominant_distance': float('inf')}}
         point_participation = {}
         
         # 初始化点参与哈希表
@@ -88,7 +88,9 @@ class ImprovedSlopeProcessor:
                         'participated': False,
                         'point': point,
                         'frame_id': frame_id,
-                        'point_idx': point_idx
+                        'point_idx': point_idx,
+                        'min_dominant_distance': float('inf'),  # 记录与主导斜率点的最短距离
+                        'dominant_connections': []  # 记录与主导斜率点的连接信息
                     }
         
         # 计算所有可能的帧间配对
@@ -152,14 +154,51 @@ class ImprovedSlopeProcessor:
                 # 标记这两个点参与了主导斜率的形成
                 frame1, pos1_idx = pair_info['frame1'], pair_info['pos1_idx']
                 frame2, pos2_idx = pair_info['frame2'], pair_info['pos2_idx']
+                distance = pair_info['distance']
                 
                 point_key1 = (frame1, pos1_idx)
                 point_key2 = (frame2, pos2_idx)
                 
+                # 更新点1的信息
                 if point_key1 in point_participation:
                     point_participation[point_key1]['participated'] = True
+                    point_participation[point_key1]['min_dominant_distance'] = min(
+                        point_participation[point_key1]['min_dominant_distance'], distance
+                    )
+                    point_participation[point_key1]['dominant_connections'].append({
+                        'connected_point': point_key2,
+                        'distance': distance,
+                        'slope': slope
+                    })
+                
+                # 更新点2的信息
                 if point_key2 in point_participation:
                     point_participation[point_key2]['participated'] = True
+                    point_participation[point_key2]['min_dominant_distance'] = min(
+                        point_participation[point_key2]['min_dominant_distance'], distance
+                    )
+                    point_participation[point_key2]['dominant_connections'].append({
+                        'connected_point': point_key1,
+                        'distance': distance,
+                        'slope': slope
+                    })
+        
+        # 根据距离阈值重新评估参与状态
+        distance_threshold = 150  # 距离阈值
+        for point_key, point_info in point_participation.items():
+            if point_info['participated']:
+                # 检查该点与所有主导斜率连接点的距离
+                distances = [connection['distance'] for connection in point_info['dominant_connections']]
+                min_distance = min(distances) if distances else float('inf')
+                
+                print(f"    点 {point_key} {point_info['point']} 参与主导斜率，连接距离: {distances}, 最短距离: {min_distance}")
+                
+                # 如果最短距离大于阈值，则不算参与
+                if min_distance > distance_threshold:
+                    point_info['participated'] = False
+                    print(f"    点 {point_key} 最短距离 {min_distance} 大于阈值 {distance_threshold}，标记为非参与")
+                else:
+                    print(f"    点 {point_key} 最短距离 {min_distance} 小于等于阈值 {distance_threshold}，保持参与状态")
         
         return {
             'slopes': all_slopes,
@@ -619,7 +658,7 @@ def main():
                        help='真实标注文件路径')
     parser.add_argument('--output_path', type=str, default='results/WTNet/improved_slope_processed_predictions.json',
                        help='输出文件路径')
-    parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
+    parser.add_argument('--base_distance_threshold', type=float, default=500.0,
                        help='基础距离阈值')
     parser.add_argument('--slope_tolerance', type=float, default=0.05,
                        help='斜率容差')
