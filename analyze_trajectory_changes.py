@@ -14,20 +14,21 @@ class TrajectoryChangeAnalyzer:
     """轨迹变化分析器"""
     
     def __init__(self, 
-                 original_pred_path: str = 'results/spotgeov2/WTNet/predictions.json',
+                 original_pred_path: str = 'results/WTNet/predictions.json',
                 #  processed_pred_path: str = 'results/WTNet/kmeans_trajectory_predictions.json',
                 #  processed_pred_path: str = 'results/WTNet/aggressive_balanced_processed_predictions.json',
                 #  processed_pred_path: str = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json',
                 #  processed_pred_path: str = 'results/spotgeov2/WTNet/outlier_filtered_predictions.json',
                 #  processed_pred_path: str = 'results/spotgeov2/WTNet/dbscan_outlier_filtered_predictions.json',
-                 processed_pred_path: str = 'results/spotgeov2/WTNet/dominant_slope_filtered_predictions.json',
+                #  processed_pred_path: str = 'results/spotgeov2/WTNet/dominant_slope_filtered_predictions.json',
+                processed_pred_path: str = 'results/WTNet/improved_slope_processed_predictions.json',
                 gt_path: str = 'datasets/spotgeov2-IRSTD/test_anno.json',
                 #  save_dir: str = 'trajectory_change/trajectory_analysis_results'):
                 #  save_dir: str = 'trajectory_change/aggressive_balanced_trajectory_analysis_results'):
                 #  save_dir: str = 'trajectory_change/sequence_slope_based_trajectory_analysis_results'):
                 #  save_dir: str = 'trajectory_change/outlier_filtered_trajectory_analysis_results'):
                 #  save_dir: str = 'trajatory_change/dbscan_outlier_filtered_trajectory_analysis_results'):
-                 save_dir: str = 'trajatory_change/dominant_slope_filtered_trajectory_analysis_results'):
+                save_dir: str = 'trajatory_change/improved_slope_filtered_trajectory_analysis_results'):
         """
         初始化分析器
         
@@ -337,6 +338,23 @@ class TrajectoryChangeAnalyzer:
                           label='Prediction' if not legend_added['pred'] else "")
                 legend_added['pred'] = True
                 
+                # 在每个预测点上添加帧号标注
+                for i, point in enumerate(pred_points):
+                    # 提取帧号
+                    if isinstance(frame_id, str) and '_' in frame_id:
+                        frame_num = int(frame_id.split('_')[1])
+                    else:
+                        frame_num = frame_id
+                    
+                    ax.annotate(f'F{frame_num}', 
+                              (point[0], point[1]), 
+                              xytext=(5, 5), 
+                              textcoords='offset points',
+                              fontsize=10, 
+                              color='white',
+                              weight='bold',
+                              bbox=dict(boxstyle='round,pad=0.3', facecolor='red', alpha=0.7))
+                
                 # 只在处理后图像上显示变化标注
                 if show_changes and compare_seq is not None:
                     # 找出变化的点
@@ -374,8 +392,21 @@ class TrajectoryChangeAnalyzer:
         # 设置坐标轴
         ax.set_xlim(0, img_size[1])
         ax.set_ylim(img_size[0], 0)
-        ax.set_title(title, fontsize=12, fontweight='bold', color='white')
-        ax.axis('off')
+        ax.set_title(f"{title} - Sequence {sequence_id}", fontsize=12, fontweight='bold', color='white')
+        
+        # 添加坐标轴标签
+        ax.set_xlabel('X coordinate', color='white', fontsize=10)
+        ax.set_ylabel('Y coordinate', color='white', fontsize=10)
+        
+        # 添加网格线以便更好地理解坐标系统
+        ax.grid(True, alpha=0.3, color='gray')
+        
+        # 设置坐标轴颜色
+        ax.tick_params(colors='white')
+        ax.spines['bottom'].set_color('white')
+        ax.spines['top'].set_color('white')
+        ax.spines['left'].set_color('white')
+        ax.spines['right'].set_color('white')
         
         # 添加图例
         if any(legend_added.values()):

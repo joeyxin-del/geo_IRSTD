@@ -1077,7 +1077,7 @@ class SequenceSlopeProcessor:
 def main():
     """主函数，演示基于序列内主导斜率的轨迹补全"""
     # 加载预测结果和真实标注
-    pred_path = 'results/spotgeov2/WTNet/predictions.json'
+    pred_path = 'results/WTNet/predictions.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -1126,7 +1126,7 @@ def main():
     print(f"MSE: {improvement['processed_metrics']['mse']:.4f}")
     
     # 保存处理后的结果
-    output_path = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json'
+    output_path = 'results/WTNet/sequence_slope_processed_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
     print(f"\n基于序列内主导斜率的轨迹补全结果已保存到: {output_path}")
