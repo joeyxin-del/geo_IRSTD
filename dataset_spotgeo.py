@@ -3,18 +3,30 @@ import matplotlib.pyplot as plt
 import os
 import time
 import albumentations
+import logging
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
+logger = logging.getLogger(__name__)
 
 
 IMG_EXTENSIONS = ('.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.ppm',
                   '.PPM', '.bmp', '.BMP', '.tif', '.TIF', '.tiff', '.TIFF')
 
 class TrainSetLoader(Dataset):
-    def __init__(self, dataset_dir, dataset_name, patch_size, img_norm_cfg=None):
+    def __init__(self, dataset_dir, dataset_name, patch_size, img_norm_cfg=None, use_filtered_data=False):
         super(TrainSetLoader).__init__()
         self.dataset_dir = dataset_dir + '/' + dataset_name
         self.patch_size = patch_size
-        with open(self.dataset_dir+'/img_idx/train_' + dataset_name + '.txt', 'r') as f:
+        
+        # Choose between original and filtered index files
+        if use_filtered_data:
+            index_file = self.dataset_dir+'/img_idx/train_' + dataset_name + '_filtered.txt'
+            logger.info(f"Using filtered training data: {index_file}")
+        else:
+            index_file = self.dataset_dir+'/img_idx/train_' + dataset_name + '.txt'
+            logger.info(f"Using original training data: {index_file}")
+            
+        with open(index_file, 'r') as f:
             self.train_list = f.read().splitlines()
         # if img_norm_cfg == None:
         #     self.img_norm_cfg = get_img_norm_cfg(dataset_name, dataset_dir)
@@ -78,10 +90,19 @@ class TrainSetLoader(Dataset):
         return len(self.train_list)
 
 class TestSetLoader(Dataset):
-    def __init__(self, dataset_dir, train_dataset_name, test_dataset_name, patch_size, img_norm_cfg=None):
+    def __init__(self, dataset_dir, train_dataset_name, test_dataset_name, patch_size, img_norm_cfg=None, use_filtered_data=False):
         super(TestSetLoader).__init__()
         self.dataset_dir = dataset_dir + '/' + test_dataset_name      #datasets/IRSTD-1K
-        with open(self.dataset_dir+'/img_idx/test_' + test_dataset_name + '.txt', 'r') as f:
+        
+        # Choose between original and filtered index files
+        if use_filtered_data:
+            index_file = self.dataset_dir+'/img_idx/test_' + test_dataset_name + '_filtered.txt'
+            logger.info(f"Using filtered test data: {index_file}")
+        else:
+            index_file = self.dataset_dir+'/img_idx/test_' + test_dataset_name + '.txt'
+            logger.info(f"Using original test data: {index_file}")
+            
+        with open(index_file, 'r') as f:
             self.test_list = f.read().splitlines()
         self.patch_size = patch_size
         self.Resize = albumentations.Resize(patch_size, patch_size)

@@ -80,6 +80,9 @@ class TrainingConfig:
         self.use_swanlab: bool = True  # Enable SwanLab monitoring
         self.validate_best_model: bool = False  # Whether to validate best model at the end
         
+        # Data filtering
+        self.use_filtered_data: bool = False  # Use filtered dataset
+        
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> 'TrainingConfig':
         """Create config from command line arguments"""
@@ -110,6 +113,7 @@ class TrainingConfig:
         config.val_interval = args.val_interval
         config.use_swanlab = args.use_swanlab
         config.validate_best_model = args.validate_best_model
+        config.use_filtered_data = args.use_filtered_data
         return config
 
 
@@ -401,7 +405,8 @@ class ModelTrainer:
             dataset_dir=self.config.dataset_dir,
             dataset_name=self.dataset_name,
             patch_size=self.config.patch_size,
-            img_norm_cfg=self.config.img_norm_cfg
+            img_norm_cfg=self.config.img_norm_cfg,
+            use_filtered_data=self.config.use_filtered_data
         )
         
         self.train_loader = DataLoader(
@@ -417,7 +422,8 @@ class ModelTrainer:
             self.dataset_name,
             self.dataset_name,
             patch_size=self.config.patch_size,
-            img_norm_cfg=self.config.img_norm_cfg
+            img_norm_cfg=self.config.img_norm_cfg,
+            use_filtered_data=self.config.use_filtered_data
         )
         
         self.val_loader = DataLoader(
@@ -845,11 +851,11 @@ def parse_arguments():
     # Optimization
     parser.add_argument("--optimizer_name", default='Adamw', type=str,
                        help="Optimizer name")
-    parser.add_argument("--learning_rate", type=float, default=1e-3,
+    parser.add_argument("--learning_rate", type=float, default=1.2e-3,
                        help="Learning rate")
     parser.add_argument("--scheduler_name", default='CosineAnnealingLR', type=str,
                        help="Scheduler name")
-    parser.add_argument("--scheduler_settings", default={'epochs': 1500, 'min_lr': 0.00001}, type=dict,
+    parser.add_argument("--scheduler_settings", default={'epochs': 1500, 'min_lr': 0.000001}, type=dict,
                        help="Scheduler settings")
     
     # System
@@ -883,6 +889,10 @@ def parse_arguments():
                        help="Enable SwanLab monitoring")
     parser.add_argument("--validate_best_model", type=bool, default=True,
                        help="Validate best model at the end")
+    
+    # Data filtering
+    parser.add_argument("--use_filtered_data", type=bool, default=False,
+                       help="Use filtered dataset (remove empty sequences)")
     
     return parser.parse_args()
 

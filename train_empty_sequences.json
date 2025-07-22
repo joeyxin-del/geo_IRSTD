@@ -1,0 +1,9752 @@
+[
+  {
+    "sequence_id": 14,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 14,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 14,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 14,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 14,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 21,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 21,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 21,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 21,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 21,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 22,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 22,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 22,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 22,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 22,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 27,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 27,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 27,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 27,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 27,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 28,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 28,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 28,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 28,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 28,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 33,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 33,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 33,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 33,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 33,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 36,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 36,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 36,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 36,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 36,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 39,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 39,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 39,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 39,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 39,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 40,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 40,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 40,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 40,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 40,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 42,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 42,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 42,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 42,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 42,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 62,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 62,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 62,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 62,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 62,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 69,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 69,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 69,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 69,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 69,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 82,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 82,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 82,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 82,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 82,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 88,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 88,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 88,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 88,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 88,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 89,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 89,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 89,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 89,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 89,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 91,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 91,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 91,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 91,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 91,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 101,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 101,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 101,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 101,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 101,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 107,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 107,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 107,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 107,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 107,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 110,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 110,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 110,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 110,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 110,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 111,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 111,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 111,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 111,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 111,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 113,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 113,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 113,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 113,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 113,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 114,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 114,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 114,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 114,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 114,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 115,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 115,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 115,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 115,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 115,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 116,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 116,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 116,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 116,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 116,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 123,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 123,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 123,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 123,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 123,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 132,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 132,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 132,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 132,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 132,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 137,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 137,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 137,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 137,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 137,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 139,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 139,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 139,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 139,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 139,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 144,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 144,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 144,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 144,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 144,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 145,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 145,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 145,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 145,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 145,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 147,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 147,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 147,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 147,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 147,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 148,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 148,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 148,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 148,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 148,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 149,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 149,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 149,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 149,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 149,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 150,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 150,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 150,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 150,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 150,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 156,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 156,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 156,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 156,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 156,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 159,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 159,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 159,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 159,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 159,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 163,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 163,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 163,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 163,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 163,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 170,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 170,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 170,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 170,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 170,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 171,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 171,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 171,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 171,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 171,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 175,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 175,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 175,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 175,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 175,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 176,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 176,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 176,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 176,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 176,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 180,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 180,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 180,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 180,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 180,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 185,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 185,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 185,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 185,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 185,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 189,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 189,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 189,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 189,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 189,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 191,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 191,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 191,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 191,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 191,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 194,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 194,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 194,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 194,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 194,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 200,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 200,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 200,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 200,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 200,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 211,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 211,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 211,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 211,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 211,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 217,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 217,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 217,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 217,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 217,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 222,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 222,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 222,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 222,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 222,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 224,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 224,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 224,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 224,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 224,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 229,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 229,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 229,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 229,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 229,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 231,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 231,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 231,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 231,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 231,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 232,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 232,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 232,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 232,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 232,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 234,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 234,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 234,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 234,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 234,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 239,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 239,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 239,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 239,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 239,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 243,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 243,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 243,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 243,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 243,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 247,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 247,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 247,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 247,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 247,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 251,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 251,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 251,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 251,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 251,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 254,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 254,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 254,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 254,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 254,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 264,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 264,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 264,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 264,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 264,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 266,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 266,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 266,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 266,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 266,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 268,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 268,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 268,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 268,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 268,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 270,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 270,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 270,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 270,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 270,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 278,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 278,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 278,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 278,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 278,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 280,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 280,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 280,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 280,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 280,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 289,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 289,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 289,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 289,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 289,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 290,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 290,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 290,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 290,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 290,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 292,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 292,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 292,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 292,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 292,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 293,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 293,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 293,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 293,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 293,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 294,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 294,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 294,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 294,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 294,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 297,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 297,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 297,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 297,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 297,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 302,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 302,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 302,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 302,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 302,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 307,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 307,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 307,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 307,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 307,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 308,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 308,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 308,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 308,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 308,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 311,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 311,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 311,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 311,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 311,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 312,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 312,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 312,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 312,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 312,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 315,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 315,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 315,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 315,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 315,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 317,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 317,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 317,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 317,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 317,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 319,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 319,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 319,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 319,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 319,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 321,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 321,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 321,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 321,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 321,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 322,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 322,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 322,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 322,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 322,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 325,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 325,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 325,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 325,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 325,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 326,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 326,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 326,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 326,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 326,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 328,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 328,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 328,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 328,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 328,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 331,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 331,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 331,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 331,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 331,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 335,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 335,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 335,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 335,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 335,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 337,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 337,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 337,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 337,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 337,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 339,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 339,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 339,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 339,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 339,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 340,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 340,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 340,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 340,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 340,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 343,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 343,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 343,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 343,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 343,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 345,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 345,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 345,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 345,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 345,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 347,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 347,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 347,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 347,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 347,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 350,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 350,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 350,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 350,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 350,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 351,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 351,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 351,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 351,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 351,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 352,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 352,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 352,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 352,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 352,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 357,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 357,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 357,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 357,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 357,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 358,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 358,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 358,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 358,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 358,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 372,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 372,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 372,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 372,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 372,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 374,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 374,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 374,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 374,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 374,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 375,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 375,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 375,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 375,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 375,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 378,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 378,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 378,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 378,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 378,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 381,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 381,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 381,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 381,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 381,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 382,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 382,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 382,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 382,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 382,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 383,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 383,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 383,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 383,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 383,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 387,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 387,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 387,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 387,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 387,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 388,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 388,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 388,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 388,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 388,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 391,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 391,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 391,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 391,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 391,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 403,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 403,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 403,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 403,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 403,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 407,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 407,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 407,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 407,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 407,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 408,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 408,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 408,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 408,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 408,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 414,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 414,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 414,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 414,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 414,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 419,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 419,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 419,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 419,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 419,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 423,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 423,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 423,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 423,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 423,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 429,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 429,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 429,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 429,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 429,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 432,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 432,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 432,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 432,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 432,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 435,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 435,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 435,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 435,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 435,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 452,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 452,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 452,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 452,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 452,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 455,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 455,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 455,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 455,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 455,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 473,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 473,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 473,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 473,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 473,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 479,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 479,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 479,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 479,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 479,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 486,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 486,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 486,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 486,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 486,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 490,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 490,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 490,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 490,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 490,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 497,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 497,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 497,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 497,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 497,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 498,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 498,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 498,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 498,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 498,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 503,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 503,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 503,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 503,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 503,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 504,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 504,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 504,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 504,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 504,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 516,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 516,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 516,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 516,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 516,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 517,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 517,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 517,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 517,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 517,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 522,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 522,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 522,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 522,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 522,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 523,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 523,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 523,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 523,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 523,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 524,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 524,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 524,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 524,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 524,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 529,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 529,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 529,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 529,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 529,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 533,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 533,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 533,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 533,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 533,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 541,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 541,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 541,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 541,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 541,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 553,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 553,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 553,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 553,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 553,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 559,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 559,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 559,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 559,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 559,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 562,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 562,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 562,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 562,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 562,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 566,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 566,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 566,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 566,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 566,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 567,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 567,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 567,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 567,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 567,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 575,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 575,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 575,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 575,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 575,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 579,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 579,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 579,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 579,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 579,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 582,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 582,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 582,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 582,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 582,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 583,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 583,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 583,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 583,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 583,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 585,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 585,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 585,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 585,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 585,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 587,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 587,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 587,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 587,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 587,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 589,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 589,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 589,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 589,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 589,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 590,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 590,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 590,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 590,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 590,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 591,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 591,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 591,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 591,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 591,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 592,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 592,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 592,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 592,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 592,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 602,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 602,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 602,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 602,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 602,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 607,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 607,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 607,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 607,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 607,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 609,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 609,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 609,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 609,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 609,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 611,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 611,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 611,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 611,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 611,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 612,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 612,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 612,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 612,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 612,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 614,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 614,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 614,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 614,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 614,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 621,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 621,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 621,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 621,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 621,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 625,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 625,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 625,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 625,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 625,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 629,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 629,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 629,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 629,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 629,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 632,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 632,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 632,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 632,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 632,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 638,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 638,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 638,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 638,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 638,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 639,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 639,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 639,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 639,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 639,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 643,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 643,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 643,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 643,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 643,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 651,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 651,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 651,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 651,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 651,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 654,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 654,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 654,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 654,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 654,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 655,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 655,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 655,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 655,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 655,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 656,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 656,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 656,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 656,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 656,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 657,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 657,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 657,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 657,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 657,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 661,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 661,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 661,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 661,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 661,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 662,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 662,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 662,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 662,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 662,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 673,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 673,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 673,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 673,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 673,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 674,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 674,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 674,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 674,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 674,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 676,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 676,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 676,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 676,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 676,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 683,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 683,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 683,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 683,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 683,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 684,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 684,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 684,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 684,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 684,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 690,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 690,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 690,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 690,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 690,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 694,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 694,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 694,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 694,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 694,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 702,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 702,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 702,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 702,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 702,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 704,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 704,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 704,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 704,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 704,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 706,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 706,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 706,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 706,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 706,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 707,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 707,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 707,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 707,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 707,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 708,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 708,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 708,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 708,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 708,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 718,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 718,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 718,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 718,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 718,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 724,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 724,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 724,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 724,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 724,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 725,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 725,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 725,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 725,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 725,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 728,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 728,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 728,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 728,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 728,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 732,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 732,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 732,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 732,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 732,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 733,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 733,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 733,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 733,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 733,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 734,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 734,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 734,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 734,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 734,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 740,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 740,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 740,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 740,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 740,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 743,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 743,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 743,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 743,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 743,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 744,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 744,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 744,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 744,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 744,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 745,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 745,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 745,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 745,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 745,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 750,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 750,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 750,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 750,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 750,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 754,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 754,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 754,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 754,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 754,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 755,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 755,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 755,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 755,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 755,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 759,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 759,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 759,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 759,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 759,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 761,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 761,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 761,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 761,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 761,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 763,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 763,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 763,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 763,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 763,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 767,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 767,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 767,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 767,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 767,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 769,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 769,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 769,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 769,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 769,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 770,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 770,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 770,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 770,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 770,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 771,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 771,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 771,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 771,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 771,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 774,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 774,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 774,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 774,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 774,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 776,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 776,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 776,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 776,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 776,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 781,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 781,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 781,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 781,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 781,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 782,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 782,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 782,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 782,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 782,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 787,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 787,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 787,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 787,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 787,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 791,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 791,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 791,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 791,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 791,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 792,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 792,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 792,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 792,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 792,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 798,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 798,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 798,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 798,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 798,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 802,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 802,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 802,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 802,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 802,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 804,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 804,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 804,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 804,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 804,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 813,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 813,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 813,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 813,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 813,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 817,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 817,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 817,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 817,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 817,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 820,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 820,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 820,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 820,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 820,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 827,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 827,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 827,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 827,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 827,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 831,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 831,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 831,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 831,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 831,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 834,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 834,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 834,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 834,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 834,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 846,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 846,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 846,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 846,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 846,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 852,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 852,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 852,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 852,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 852,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 853,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 853,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 853,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 853,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 853,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 857,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 857,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 857,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 857,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 857,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 863,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 863,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 863,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 863,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 863,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 868,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 868,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 868,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 868,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 868,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 871,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 871,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 871,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 871,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 871,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 873,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 873,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 873,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 873,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 873,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 874,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 874,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 874,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 874,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 874,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 875,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 875,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 875,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 875,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 875,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 876,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 876,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 876,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 876,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 876,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 877,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 877,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 877,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 877,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 877,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 879,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 879,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 879,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 879,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 879,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 880,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 880,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 880,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 880,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 880,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 887,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 887,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 887,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 887,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 887,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 891,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 891,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 891,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 891,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 891,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 895,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 895,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 895,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 895,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 895,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 896,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 896,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 896,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 896,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 896,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 902,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 902,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 902,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 902,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 902,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 905,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 905,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 905,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 905,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 905,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 906,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 906,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 906,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 906,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 906,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 907,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 907,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 907,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 907,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 907,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 910,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 910,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 910,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 910,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 910,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 916,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 916,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 916,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 916,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 916,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 919,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 919,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 919,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 919,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 919,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 932,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 932,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 932,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 932,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 932,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 933,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 933,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 933,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 933,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 933,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 934,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 934,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 934,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 934,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 934,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 941,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 941,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 941,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 941,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 941,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 943,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 943,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 943,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 943,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 943,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 945,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 945,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 945,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 945,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 945,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 947,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 947,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 947,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 947,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 947,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 957,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 957,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 957,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 957,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 957,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 961,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 961,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 961,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 961,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 961,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 966,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 966,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 966,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 966,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 966,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 976,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 976,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 976,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 976,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 976,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 980,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 980,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 980,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 980,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 980,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 982,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 982,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 982,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 982,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 982,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1002,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1002,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1002,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1002,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1002,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1003,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1003,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1003,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1003,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1003,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1004,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1004,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1004,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1004,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1004,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1011,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1011,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1011,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1011,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1011,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1015,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1015,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1015,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1015,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1015,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1023,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1023,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1023,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1023,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1023,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1033,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1033,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1033,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1033,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1033,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1038,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1038,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1038,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1038,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1038,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1043,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1043,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1043,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1043,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1043,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1044,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1044,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1044,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1044,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1044,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1046,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1046,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1046,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1046,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1046,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1053,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1053,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1053,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1053,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1053,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1059,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1059,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1059,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1059,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1059,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1060,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1060,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1060,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1060,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1060,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1072,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1072,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1072,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1072,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1072,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1093,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1093,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1093,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1093,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1093,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1098,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1098,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1098,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1098,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1098,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1099,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1099,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1099,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1099,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1099,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1108,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1108,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1108,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1108,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1108,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1109,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1109,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1109,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1109,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1109,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1111,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1111,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1111,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1111,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1111,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1112,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1112,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1112,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1112,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1112,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1113,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1113,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1113,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1113,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1113,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1117,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1117,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1117,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1117,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1117,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1120,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1120,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1120,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1120,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1120,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1126,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1126,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1126,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1126,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1126,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1127,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1127,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1127,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1127,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1127,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1131,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1131,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1131,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1131,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1131,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1132,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1132,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1132,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1132,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1132,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1140,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1140,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1140,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1140,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1140,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1143,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1143,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1143,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1143,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1143,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1144,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1144,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1144,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1144,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1144,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1145,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1145,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1145,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1145,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1145,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1147,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1147,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1147,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1147,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1147,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1151,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1151,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1151,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1151,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1151,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1152,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1152,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1152,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1152,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1152,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1155,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1155,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1155,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1155,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1155,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1157,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1157,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1157,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1157,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1157,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1160,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1160,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1160,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1160,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1160,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1167,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1167,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1167,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1167,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1167,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1170,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1170,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1170,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1170,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1170,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1171,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1171,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1171,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1171,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1171,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1175,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1175,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1175,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1175,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1175,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1179,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1179,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1179,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1179,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1179,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1181,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1181,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1181,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1181,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1181,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1192,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1192,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1192,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1192,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1192,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1193,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1193,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1193,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1193,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1193,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1194,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1194,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1194,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1194,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1194,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1198,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1198,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1198,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1198,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1198,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1205,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1205,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1205,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1205,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1205,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1209,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1209,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1209,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1209,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1209,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1214,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1214,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1214,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1214,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1214,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1216,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1216,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1216,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1216,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1216,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1218,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1218,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1218,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1218,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1218,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1221,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1221,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1221,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1221,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1221,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1222,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1222,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1222,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1222,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1222,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1224,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1224,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1224,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1224,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1224,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1226,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1226,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1226,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1226,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1226,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1227,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1227,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1227,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1227,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1227,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1230,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1230,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1230,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1230,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1230,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1232,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1232,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1232,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1232,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1232,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1247,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1247,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1247,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1247,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1247,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1256,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1256,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1256,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1256,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1256,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1258,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1258,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1258,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1258,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1258,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1273,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1273,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1273,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1273,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1273,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1274,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1274,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1274,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1274,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1274,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1278,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1278,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1278,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1278,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1278,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1280,
+    "frame": 1,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1280,
+    "frame": 2,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1280,
+    "frame": 3,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1280,
+    "frame": 4,
+    "num_objects": 0,
+    "object_coords": []
+  },
+  {
+    "sequence_id": 1280,
+    "frame": 5,
+    "num_objects": 0,
+    "object_coords": []
+  }
+]
