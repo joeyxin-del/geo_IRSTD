@@ -59,7 +59,7 @@ class TrainingConfig:
         self.optimizer_name: str = 'Adamw'
         self.learning_rate: float = 5e-4
         self.scheduler_name: str = 'CosineAnnealingLR'
-        self.scheduler_settings: Dict = {'epochs': 800, 'min_lr': 0.0005}
+        self.scheduler_settings: Dict = {'epochs': 800, 'min_lr': 0.00001}
         
         # System
         self.num_threads: int = 0
@@ -206,7 +206,7 @@ class OptimizerFactory:
         if config.optimizer_name == 'Adam':
             return {'lr': 5e-4 * 4}
         elif config.optimizer_name == 'Adamw':
-            return {'lr': 0.0015}
+            return {'lr': config.learning_rate}  # 使用配置的学习率
         elif config.optimizer_name == 'Lion':
             return {'lr': 0.00015}
         elif config.optimizer_name == 'Adagrad':
@@ -217,17 +217,21 @@ class OptimizerFactory:
     @staticmethod
     def _get_scheduler_settings(config: TrainingConfig) -> Dict[str, Any]:
         """Get scheduler-specific settings"""
-        # Get base settings based on optimizer
-        if config.optimizer_name == 'Adam':
-            base_settings = {'epochs': 400, 'step': [200, 300], 'gamma': 0.1}
-        elif config.optimizer_name == 'Adamw':
-            base_settings = {'epochs': 800, 'min_lr': 0.0005}
-        elif config.optimizer_name == 'Lion':
-            base_settings = {'epochs': 400, 'min_lr': 0.00001}
-        elif config.optimizer_name == 'Adagrad':
-            base_settings = {'epochs': 400, 'min_lr': 1e-3}
+        # 优先使用用户配置的调度器设置
+        if config.scheduler_settings:
+            base_settings = config.scheduler_settings.copy()
         else:
-            base_settings = config.scheduler_settings
+            # 默认设置
+            if config.optimizer_name == 'Adam':
+                base_settings = {'epochs': 400, 'step': [200, 300], 'gamma': 0.1}
+            elif config.optimizer_name == 'Adamw':
+                base_settings = {'epochs': config.num_epochs, 'min_lr': config.scheduler_settings.get('min_lr', 0.00001)}
+            elif config.optimizer_name == 'Lion':
+                base_settings = {'epochs': 400, 'min_lr': config.scheduler_settings.get('min_lr', 0.00001)}
+            elif config.optimizer_name == 'Adagrad':
+                base_settings = {'epochs': 400, 'min_lr': config.scheduler_settings.get('min_lr', 1e-3)}
+            else:
+                base_settings = {'epochs': config.num_epochs, 'min_lr': config.scheduler_settings.get('min_lr', 0.00001)}
         
         # Ensure scheduler settings match the scheduler type
         if config.scheduler_name == 'MultiStepLR':
@@ -239,7 +243,7 @@ class OptimizerFactory:
         elif config.scheduler_name == 'CosineAnnealingLR':
             # CosineAnnealingLR needs 'epochs' and optionally 'min_lr'
             if 'epochs' not in base_settings:
-                base_settings['epochs'] = 400
+                base_settings['epochs'] = config.num_epochs
             if 'min_lr' not in base_settings:
                 base_settings['min_lr'] = 0
         
@@ -827,13 +831,13 @@ def parse_arguments():
                        help="Image normalization configuration")
     
     # Training parameters
-    parser.add_argument("--batch_size", type=int, default=64,
+    parser.add_argument("--batch_size", type=int, default=128,
                        help="Training batch size")
     parser.add_argument("--val_batch_size", type=int, default=64,
                        help="Validation batch size")
     parser.add_argument("--patch_size", type=int, default=512,
                        help="Training patch size")
-    parser.add_argument("--num_epochs", type=int, default=400,
+    parser.add_argument("--num_epochs", type=int, default=3000,
                        help="Number of training epochs")
     parser.add_argument("--seed", type=int, default=42,
                        help="Random seed")
@@ -841,11 +845,11 @@ def parse_arguments():
     # Optimization
     parser.add_argument("--optimizer_name", default='Adamw', type=str,
                        help="Optimizer name")
-    parser.add_argument("--learning_rate", type=float, default=5e-4,
+    parser.add_argument("--learning_rate", type=float, default=1e-3,
                        help="Learning rate")
     parser.add_argument("--scheduler_name", default='CosineAnnealingLR', type=str,
                        help="Scheduler name")
-    parser.add_argument("--scheduler_settings", default={'epochs': 800, 'min_lr': 0.0005}, type=dict,
+    parser.add_argument("--scheduler_settings", default={'epochs': 1500, 'min_lr': 0.00001}, type=dict,
                        help="Scheduler settings")
     
     # System
