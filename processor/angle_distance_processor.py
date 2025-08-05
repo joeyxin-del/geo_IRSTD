@@ -228,6 +228,7 @@ class AngleDistanceProcessor:
                 dominant_steps.append((step, count))
                 print(f"      主导步长 {step:.2f}: 出现 {count} 次")
         
+        # dominant_steps = dominant_steps[:2]
         print(f"    最终主导步长: {dominant_steps}")
         
         # 标记参与主导模式的点
