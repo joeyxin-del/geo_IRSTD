@@ -7,43 +7,78 @@ import copy
 import math
 import os
 
-class ImprovedSlopeProcessor:
-    """基于改进斜率的轨迹补全处理器，适用于整个数据集"""
+class AngleProcessor:
+    """基于角度阈值的轨迹补全处理器，适用于整个数据集"""
     
     def __init__(self, 
                  base_distance_threshold: float = 80.0,
                  min_track_length: int = 2,
                  expected_sequence_length: int = 5,
-                 slope_tolerance: float = 0.1,  # 斜率容差
-                 min_slope_count: int = 2,      # 最小斜率出现次数
+                 angle_tolerance: float = 10.0,  # 角度容差（度）
+                 min_angle_count: int = 2,       # 最小角度出现次数
                  point_distance_threshold: float = 5.0):  # 重合点过滤阈值
         """
-        初始化改进的斜率处理器
+        初始化角度处理器
         
         Args:
             base_distance_threshold: 基础距离阈值
             min_track_length: 最小轨迹长度
             expected_sequence_length: 期望的序列长度
-            slope_tolerance: 斜率容差，用于聚类相似斜率
-            min_slope_count: 最小斜率出现次数，用于确定主导斜率
+            angle_tolerance: 角度容差（度），用于聚类相似角度
+            min_angle_count: 最小角度出现次数，用于确定主导角度
             point_distance_threshold: 重合点过滤阈值
         """
         self.base_distance_threshold = base_distance_threshold
         self.min_track_length = min_track_length
         self.expected_sequence_length = expected_sequence_length
-        self.slope_tolerance = slope_tolerance
-        self.min_slope_count = min_slope_count
+        self.angle_tolerance = angle_tolerance
+        self.min_angle_count = min_angle_count
         self.point_distance_threshold = point_distance_threshold
     
     def calculate_distance(self, point1: List[float], point2: List[float]) -> float:
         """计算两点之间的欧氏距离"""
         return np.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
     
+    def calculate_angle(self, point1: List[float], point2: List[float]) -> float:
+        """计算两点之间的角度（度）"""
+        dx = point2[0] - point1[0]
+        dy = point2[1] - point1[1]
+        
+        # 计算角度（弧度）
+        angle_rad = math.atan2(dy, dx)
+        
+        # 转换为度
+        angle_deg = math.degrees(angle_rad)
+        
+        # 标准化到 [0, 360) 度
+        if angle_deg < 0:
+            angle_deg += 360
+        
+        return angle_deg
+    
     def calculate_slope(self, point1: List[float], point2: List[float]) -> float:
-        """计算两点之间的斜率"""
+        """计算两点之间的斜率（保持兼容性）"""
         if abs(point2[0] - point1[0]) < 1e-6:  # 避免除零
             return float('inf') if point2[1] > point1[1] else float('-inf')
         return (point2[1] - point1[1]) / (point2[0] - point1[0])
+    
+    def angle_to_slope(self, angle_deg: float) -> float:
+        """将角度转换为斜率"""
+        angle_rad = math.radians(angle_deg)
+        return math.tan(angle_rad)
+    
+    def slope_to_angle(self, slope: float) -> float:
+        """将斜率转换为角度（度）"""
+        if math.isinf(slope):
+            return 90.0 if slope > 0 else 270.0
+        angle_rad = math.atan(slope)
+        angle_deg = math.degrees(angle_rad)
+        
+        # 标准化到 [0, 360) 度
+        if angle_deg < 0:
+            angle_deg += 360
+        
+        return angle_deg
     
     def extract_sequence_info(self, predictions: Dict) -> Dict[int, Dict[int, Dict]]:
         """从预测结果中提取序列信息"""
@@ -65,18 +100,17 @@ class ImprovedSlopeProcessor:
         
         return sequence_data
     
-    def collect_sequence_slopes(self, frames_data: Dict[int, Dict]) -> Dict:
-        """收集单个序列内所有帧间配对的斜率统计，并标识参与主导斜率的点"""
+    def collect_sequence_angles(self, frames_data: Dict[int, Dict]) -> Dict:
+        """收集单个序列内所有帧间配对的角度统计，并标识参与主导角度的点"""
         frames = sorted(frames_data.keys())
         
         if len(frames) < 2:
-            return {'slopes': [], 'slope_pairs': [], 'dominant_slopes': [], 'point_participation': {}}
+            return {'angles': [], 'angle_pairs': [], 'dominant_angles': [], 'point_participation': {}}
         
-        all_slopes = []
-        slope_pairs = []  # 存储斜率对应的点对信息
+        all_angles = []
+        angle_pairs = []  # 存储角度对应的点对信息
         
-        # 创建点参与哈希表，用于标识每个点是否参与了主导斜率的形成
-        # 格式: {(frame_id, point_idx): {'participated': False, 'point': [x, y], 'min_dominant_distance': float('inf')}}
+        # 创建点参与哈希表，用于标识每个点是否参与了主导角度的形成
         point_participation = {}
         
         # 初始化点参与哈希表
@@ -89,8 +123,8 @@ class ImprovedSlopeProcessor:
                         'point': point,
                         'frame_id': frame_id,
                         'point_idx': point_idx,
-                        'min_dominant_distance': float('inf'),  # 记录与主导斜率点的最短距离
-                        'dominant_connections': []  # 记录与主导斜率点的连接信息
+                        'min_dominant_distance': float('inf'),
+                        'dominant_connections': []
                     }
         
         # 计算所有可能的帧间配对
@@ -110,48 +144,51 @@ class ImprovedSlopeProcessor:
                             distance = self.calculate_distance(pos1, pos2)
                             
                             # 只考虑距离合理的配对
-                            if distance <= 300:  # 使用更大的阈值
-                                slope = self.calculate_slope(pos1, pos2)
-                                all_slopes.append(slope)
-                                slope_pairs.append({
+                            if distance <= 145:  # 使用更大的阈值
+                                angle = self.calculate_angle(pos1, pos2)
+                                all_angles.append(angle)
+                                angle_pairs.append({
                                     'frame1': frame1,
                                     'frame2': frame2,
                                     'pos1': pos1,
                                     'pos2': pos2,
-                                    'slope': slope,
+                                    'angle': angle,
                                     'distance': distance,
                                     'pos1_idx': pos1_idx,
                                     'pos2_idx': pos2_idx
                                 })
         
-        # 统计斜率分布
-        slope_counter = Counter()
-        for slope in all_slopes:
-            if not math.isinf(slope):
-                # 将斜率聚类到相近的区间
-                slope_key = round(slope / self.slope_tolerance) * self.slope_tolerance
-                slope_counter[slope_key] += 1
+        # 统计角度分布
+        angle_counter = Counter()
+        for angle in all_angles:
+            # 将角度聚类到相近的区间
+            angle_key = round(angle / self.angle_tolerance) * self.angle_tolerance
+            angle_counter[angle_key] += 1
         
-        # 找到主导斜率
-        dominant_slopes = []
-        for slope, count in slope_counter.most_common():
-            if count >= self.min_slope_count:
-                dominant_slopes.append((slope, count))
+        # 找到主导角度
+        dominant_angles = []
+        for angle, count in angle_counter.most_common():
+            if count >= self.min_angle_count:
+                dominant_angles.append((angle, count))
         
-        # 标记参与主导斜率的点
-        dominant_slope_values = [slope for slope, _ in dominant_slopes]
-        for pair_info in slope_pairs:
-            slope = pair_info['slope']
+        # 标记参与主导角度的点
+        dominant_angle_values = [angle for angle, _ in dominant_angles]
+        for pair_info in angle_pairs:
+            angle = pair_info['angle']
             
-            # 检查是否属于主导斜率
+            # 检查是否属于主导角度
             is_dominant = False
-            for dominant_slope in dominant_slope_values:
-                if abs(slope - dominant_slope) <= self.slope_tolerance:
+            for dominant_angle in dominant_angle_values:
+                # 处理角度环绕问题（0度和360度是相同的）
+                angle_diff = min(abs(angle - dominant_angle), 
+                               abs(angle - dominant_angle + 360),
+                               abs(angle - dominant_angle - 360))
+                if angle_diff <= self.angle_tolerance:
                     is_dominant = True
                     break
             
             if is_dominant:
-                # 标记这两个点参与了主导斜率的形成
+                # 标记这两个点参与了主导角度的形成
                 frame1, pos1_idx = pair_info['frame1'], pair_info['pos1_idx']
                 frame2, pos2_idx = pair_info['frame2'], pair_info['pos2_idx']
                 distance = pair_info['distance']
@@ -168,7 +205,7 @@ class ImprovedSlopeProcessor:
                     point_participation[point_key1]['dominant_connections'].append({
                         'connected_point': point_key2,
                         'distance': distance,
-                        'slope': slope
+                        'angle': angle
                     })
                 
                 # 更新点2的信息
@@ -180,18 +217,18 @@ class ImprovedSlopeProcessor:
                     point_participation[point_key2]['dominant_connections'].append({
                         'connected_point': point_key1,
                         'distance': distance,
-                        'slope': slope
+                        'angle': angle
                     })
         
         # 根据距离阈值重新评估参与状态
         distance_threshold = 150  # 距离阈值
         for point_key, point_info in point_participation.items():
             if point_info['participated']:
-                # 检查该点与所有主导斜率连接点的距离
+                # 检查该点与所有主导角度连接点的距离
                 distances = [connection['distance'] for connection in point_info['dominant_connections']]
                 min_distance = min(distances) if distances else float('inf')
                 
-                print(f"    点 {point_key} {point_info['point']} 参与主导斜率，连接距离: {distances}, 最短距离: {min_distance}")
+                print(f"    点 {point_key} {point_info['point']} 参与主导角度，连接距离: {distances}, 最短距离: {min_distance}")
                 
                 # 如果最短距离大于阈值，则不算参与
                 if min_distance > distance_threshold:
@@ -201,25 +238,25 @@ class ImprovedSlopeProcessor:
                     print(f"    点 {point_key} 最短距离 {min_distance} 小于等于阈值 {distance_threshold}，保持参与状态")
         
         return {
-            'slopes': all_slopes,
-            'slope_pairs': slope_pairs,
-            'dominant_slopes': dominant_slopes,
-            'total_slopes': len(all_slopes),
-            'unique_slopes': len(slope_counter),
-            'total_pairs_considered': len(slope_pairs),
+            'angles': all_angles,
+            'angle_pairs': angle_pairs,
+            'dominant_angles': dominant_angles,
+            'total_angles': len(all_angles),
+            'unique_angles': len(angle_counter),
+            'total_pairs_considered': len(angle_pairs),
             'frames_processed': len(frames),
             'point_participation': point_participation
         }
     
-    def collect_sequence_slopes_hungarian(self, frames_data: Dict[int, Dict]) -> Dict:
-        """收集单个序列内所有帧间配对的斜率统计"""
+    def collect_sequence_angles_hungarian(self, frames_data: Dict[int, Dict]) -> Dict:
+        """收集单个序列内所有帧间配对的角度统计"""
         frames = sorted(frames_data.keys())
         
         if len(frames) < 2:
-            return {'slopes': [], 'slope_pairs': [], 'dominant_slopes': []}
+            return {'angles': [], 'angle_pairs': [], 'dominant_angles': []}
         
-        all_slopes = []
-        slope_pairs = []  # 存储斜率对应的点对信息
+        all_angles = []
+        angle_pairs = []  # 存储角度对应的点对信息
         
         # 计算所有可能的帧间配对
         for i in range(len(frames)):
@@ -240,7 +277,7 @@ class ImprovedSlopeProcessor:
                     if cost_matrix.size > 0:
                         row_indices, col_indices = linear_sum_assignment(cost_matrix)
                         
-                        # 记录匹配点之间的斜率
+                        # 记录匹配点之间的角度
                         for row_idx, col_idx in zip(row_indices, col_indices):
                             pos1 = coords1[row_idx]
                             pos2 = coords2[col_idx]
@@ -248,41 +285,40 @@ class ImprovedSlopeProcessor:
                             
                             # 只考虑距离合理的匹配
                             if distance <= self.base_distance_threshold * 2:
-                                slope = self.calculate_slope(pos1, pos2)
-                                all_slopes.append(slope)
-                                slope_pairs.append({
+                                angle = self.calculate_angle(pos1, pos2)
+                                all_angles.append(angle)
+                                angle_pairs.append({
                                     'frame1': frame1,
                                     'frame2': frame2,
                                     'pos1': pos1,
                                     'pos2': pos2,
-                                    'slope': slope,
+                                    'angle': angle,
                                     'distance': distance
                                 })
         
-        # 统计斜率分布
-        slope_counter = Counter()
-        for slope in all_slopes:
-            if not math.isinf(slope):
-                # 将斜率聚类到相近的区间
-                slope_key = round(slope / self.slope_tolerance) * self.slope_tolerance
-                slope_counter[slope_key] += 1
+        # 统计角度分布
+        angle_counter = Counter()
+        for angle in all_angles:
+            # 将角度聚类到相近的区间
+            angle_key = round(angle / self.angle_tolerance) * self.angle_tolerance
+            angle_counter[angle_key] += 1
         
-        # 找到主导斜率
-        dominant_slopes = []
-        for slope, count in slope_counter.most_common():
-            if count >= self.min_slope_count:
-                dominant_slopes.append((slope, count))
+        # 找到主导角度
+        dominant_angles = []
+        for angle, count in angle_counter.most_common():
+            if count >= self.min_angle_count:
+                dominant_angles.append((angle, count))
         
         return {
-            'slopes': all_slopes,
-            'slope_pairs': slope_pairs,
-            'dominant_slopes': dominant_slopes,
-            'total_slopes': len(all_slopes),
-            'unique_slopes': len(slope_counter)
+            'angles': all_angles,
+            'angle_pairs': angle_pairs,
+            'dominant_angles': dominant_angles,
+            'total_angles': len(all_angles),
+            'unique_angles': len(angle_counter)
         }
 
     def generate_points_from_pair(self, pos1: List[float], pos2: List[float], 
-                                 slope: float, frame1: int, frame2: int, 
+                                 angle: float, frame1: int, frame2: int, 
                                  total_frames: int = 5) -> List[Tuple[int, List[float]]]:
         """从两个点生成缺失帧的点，生成除了原始两个点之外的所有帧点"""
         points = []
@@ -300,52 +336,33 @@ class ImprovedSlopeProcessor:
                 # 在两个检测点之间，使用插值
                 ratio = (frame - frame1) / frame_gap
                 
-                if math.isinf(slope):
-                    # 垂直线，只改变y坐标
-                    x = pos1[0]
-                    y = pos1[1] + ratio * (pos2[1] - pos1[1])
-                else:
-                    # 使用斜率进行插值
-                    x = pos1[0] + ratio * (pos2[0] - pos1[0])
-                    y = pos1[1] + ratio * (pos2[1] - pos1[1])
+                # 使用线性插值
+                x = pos1[0] + ratio * (pos2[0] - pos1[0])
+                y = pos1[1] + ratio * (pos2[1] - pos1[1])
                 
                 points.append((frame, [x, y]))
                 
             elif frame < frame1:
                 # 在第一个检测点之前，使用外推（从frame1向前）
                 frame_gap_to_frame = frame - frame1
-                extrapolated_pos = self.extrapolate_position(pos1, slope, -frame_gap_to_frame, 
-                                                           reference_pos=pos2, reference_frame_gap=frame2-frame1)
+                extrapolated_pos = self.extrapolate_position_by_angle(pos1, angle, -frame_gap_to_frame, 
+                                                                    reference_pos=pos2, reference_frame_gap=frame2-frame1)
                 points.append((frame, extrapolated_pos))
                 
             elif frame > frame2:
                 # 在第二个检测点之后，使用外推（从frame2向后）
                 frame_gap_to_frame = frame - frame2
-                extrapolated_pos = self.extrapolate_position(pos2, slope, frame_gap_to_frame, 
-                                                           reference_pos=pos1, reference_frame_gap=frame2-frame1)
+                extrapolated_pos = self.extrapolate_position_by_angle(pos2, angle, frame_gap_to_frame, 
+                                                                    reference_pos=pos1, reference_frame_gap=frame2-frame1)
                 points.append((frame, extrapolated_pos))
         
         return points
     
-    def extrapolate_position(self, base_pos: List[float], slope: float, frame_gap: int, 
-                           reference_pos: List[float] = None, reference_frame_gap: int = None) -> List[float]:
-        """基于斜率和帧间隔外推位置，正确处理方向"""
-        if math.isinf(slope):
-            # 垂直线
-            if reference_pos and reference_frame_gap:
-                # 使用参考点计算每帧的位移
-                step_size = abs(reference_pos[1] - base_pos[1]) / abs(reference_frame_gap)
-                dy = step_size * frame_gap
-            else:
-                # 使用默认步长
-                step_size = 20.0
-                dy = step_size * frame_gap
-            return [base_pos[0], base_pos[1] + dy]
-        
-        # 计算位移
+    def extrapolate_position_by_angle(self, base_pos: List[float], angle_deg: float, frame_gap: int, 
+                                    reference_pos: List[float] = None, reference_frame_gap: int = None) -> List[float]:
+        """基于角度和帧间隔外推位置"""
         if reference_pos and reference_frame_gap:
             # 使用参考点计算每帧的位移
-            # 计算从reference_pos到base_pos的距离和方向
             dx_ref = base_pos[0] - reference_pos[0]
             dy_ref = base_pos[1] - reference_pos[1]
             ref_distance = abs(reference_frame_gap)
@@ -356,9 +373,10 @@ class ImprovedSlopeProcessor:
         else:
             # 使用默认步长
             step_size = 20.0
-            # 使用斜率计算每帧的位移
-            step_dx = step_size / np.sqrt(1 + slope**2)
-            step_dy = slope * step_dx
+            # 使用角度计算每帧的位移
+            angle_rad = math.radians(angle_deg)
+            step_dx = step_size * math.cos(angle_rad)
+            step_dy = step_size * math.sin(angle_rad)
         
         # 计算总位移
         total_dx = step_dx * frame_gap
@@ -367,7 +385,7 @@ class ImprovedSlopeProcessor:
         return [base_pos[0] + total_dx, base_pos[1] + total_dy]
     
     def extrapolate_trajectory(self, frames_data: Dict[int, Dict], 
-                             dominant_slopes: List[Tuple[float, int]]) -> List[Tuple[int, List[float]]]:
+                             dominant_angles: List[Tuple[float, int]]) -> List[Tuple[int, List[float]]]:
         """外推轨迹，填补间隙"""
         frames = sorted(frames_data.keys())
         if len(frames) < 2:
@@ -381,8 +399,8 @@ class ImprovedSlopeProcessor:
         if len(detected_frames) < 2:
             return extrapolated_points
         
-        # 计算主导斜率
-        dominant_slope = dominant_slopes[0][0] if dominant_slopes else 0.0
+        # 计算主导角度
+        dominant_angle = dominant_angles[0][0] if dominant_angles else 0.0
         
         # 策略1: 填补序列开头的间隙
         first_detected = detected_frames[0]
@@ -393,7 +411,7 @@ class ImprovedSlopeProcessor:
             
             for frame in missing_frames:
                 frame_gap = first_detected - frame
-                extrapolated_pos = self.extrapolate_position(first_pos, dominant_slope, -frame_gap)
+                extrapolated_pos = self.extrapolate_position_by_angle(first_pos, dominant_angle, -frame_gap)
                 extrapolated_points.append((frame, extrapolated_pos))
         
         # 策略2: 填补序列中间的间隙
@@ -405,16 +423,16 @@ class ImprovedSlopeProcessor:
                 pos1 = frames_data[frame1]['coords'][0]
                 pos2 = frames_data[frame2]['coords'][0]
                 
-                # 计算原始斜率
-                original_slope = self.calculate_slope(pos1, pos2)
+                # 计算原始角度
+                original_angle = self.calculate_angle(pos1, pos2)
                 
-                # 使用主导斜率或原始斜率
-                use_slope = self.find_best_slope_match(original_slope, dominant_slopes)
+                # 使用主导角度或原始角度
+                use_angle = self.find_best_angle_match(original_angle, dominant_angles)
                 
                 # 填补间隙
                 for frame in range(frame1 + 1, frame2):
                     ratio = (frame - frame1) / (frame2 - frame1)
-                    interpolated_pos = self.interpolate_with_slope(pos1, pos2, ratio, use_slope)
+                    interpolated_pos = self.interpolate_with_angle(pos1, pos2, ratio, use_angle)
                     extrapolated_points.append((frame, interpolated_pos))
         
         # 策略3: 填补序列结尾的间隙
@@ -426,52 +444,47 @@ class ImprovedSlopeProcessor:
             
             for frame in missing_frames:
                 frame_gap = frame - last_detected
-                extrapolated_pos = self.extrapolate_position(last_pos, dominant_slope, frame_gap)
+                extrapolated_pos = self.extrapolate_position_by_angle(last_pos, dominant_angle, frame_gap)
                 extrapolated_points.append((frame, extrapolated_pos))
         
         return extrapolated_points
     
-    def find_best_slope_match(self, target_slope: float, dominant_slopes: List[Tuple[float, int]]) -> float:
-        """找到与目标斜率最匹配的主导斜率"""
-        if not dominant_slopes:
-            return target_slope
+    def find_best_angle_match(self, target_angle: float, dominant_angles: List[Tuple[float, int]]) -> float:
+        """找到与目标角度最匹配的主导角度"""
+        if not dominant_angles:
+            return target_angle
         
-        best_match = dominant_slopes[0][0]  # 默认使用第一个主导斜率
-        min_diff = abs(target_slope - best_match)
+        best_match = dominant_angles[0][0]  # 默认使用第一个主导角度
+        min_diff = min(abs(target_angle - best_match), 
+                      abs(target_angle - best_match + 360),
+                      abs(target_angle - best_match - 360))
         
-        for slope, _ in dominant_slopes:
-            diff = abs(target_slope - slope)
+        for angle, _ in dominant_angles:
+            diff = min(abs(target_angle - angle), 
+                      abs(target_angle - angle + 360),
+                      abs(target_angle - angle - 360))
             if diff < min_diff:
                 min_diff = diff
-                best_match = slope
+                best_match = angle
         
         return best_match
     
-    def interpolate_with_slope(self, pos1: List[float], pos2: List[float], 
-                             ratio: float, target_slope: float) -> List[float]:
-        """使用目标斜率进行插值"""
+    def interpolate_with_angle(self, pos1: List[float], pos2: List[float], 
+                             ratio: float, target_angle: float) -> List[float]:
+        """使用目标角度进行插值"""
         # 计算原始插值位置
         original_x = pos1[0] + ratio * (pos2[0] - pos1[0])
         original_y = pos1[1] + ratio * (pos2[1] - pos1[1])
         
-        # 如果目标斜率是无穷大（垂直线），保持x坐标不变
-        if math.isinf(target_slope):
-            return [original_x, original_y]
-        
-        # 使用目标斜率调整位置
+        # 使用目标角度调整位置
         # 计算从pos1到目标位置的距离
         total_distance = self.calculate_distance(pos1, pos2)
         target_distance = total_distance * ratio
         
-        # 使用目标斜率计算新位置
-        dx = target_distance / np.sqrt(1 + target_slope**2)
-        dy = target_slope * dx
-        
-        # 根据方向调整符号
-        if pos2[0] < pos1[0]:
-            dx = -dx
-        if pos2[1] < pos1[1]:
-            dy = -dy
+        # 使用目标角度计算新位置
+        angle_rad = math.radians(target_angle)
+        dx = target_distance * math.cos(angle_rad)
+        dy = target_distance * math.sin(angle_rad)
         
         estimated_x = pos1[0] + dx
         estimated_y = pos1[1] + dy
@@ -480,7 +493,7 @@ class ImprovedSlopeProcessor:
     
     def filter_outliers_by_dominant(self, frames_data: Dict[int, Dict], 
                                   point_participation: Dict) -> Dict[int, Dict]:
-        """基于主导斜率参与情况过滤异常点"""
+        """基于主导角度参与情况过滤异常点"""
         if not point_participation:
             return frames_data
         
@@ -494,14 +507,14 @@ class ImprovedSlopeProcessor:
             for point_idx, point in enumerate(frame_data['coords']):
                 point_key = (frame_id, point_idx)
                 
-                # 检查该点是否参与了主导斜率的形成
+                # 检查该点是否参与了主导角度的形成
                 if point_key in point_participation:
                     if point_participation[point_key]['participated']:
-                        # 该点参与了主导斜率的形成，保留
+                        # 该点参与了主导角度的形成，保留
                         kept_coords.append(point)
                     else:
-                        # 该点没有参与主导斜率的形成，可能是异常点
-                        print(f"    移除未参与主导斜率的点: 帧{frame_id}, 位置{point}")
+                        # 该点没有参与主导角度的形成，可能是异常点
+                        print(f"    移除未参与主导角度的点: 帧{frame_id}, 位置{point}")
                 else:
                     # 该点不在参与哈希表中，可能是新增的点，保留
                     kept_coords.append(point)
@@ -513,37 +526,40 @@ class ImprovedSlopeProcessor:
     
     def process_sequence(self, sequence_id: int, frames_data: Dict[int, Dict]) -> Tuple[Dict[int, Dict], Dict[int, Dict]]:
         """处理单个序列，返回轨迹补全和异常点筛选的结果"""
-        # 收集序列内的斜率统计
-        slope_stats = self.collect_sequence_slopes(frames_data)
+        # 收集序列内的角度统计
+        angle_stats = self.collect_sequence_angles(frames_data)
         
-        if not slope_stats['dominant_slopes']:
+        if not angle_stats['dominant_angles']:
             return frames_data, frames_data
         
         # 步骤1: 轨迹补全
-        completed_sequence, generated_points_from_pairs = self.complete_trajectory(frames_data, slope_stats['dominant_slopes'])
+        completed_sequence, generated_points_from_pairs = self.complete_trajectory(frames_data, angle_stats['dominant_angles'])
         
-        # 步骤2: 异常点筛选 - 使用新的基于主导斜率参与情况的过滤方法
-        filtered_sequence = self.filter_outliers_by_dominant(completed_sequence, slope_stats['point_participation'])
-        # filtered_sequence = completed_sequence
+        # 步骤2: 异常点筛选 - 使用基于主导角度参与情况的过滤方法
+        filtered_sequence = self.filter_outliers_by_dominant(completed_sequence, angle_stats['point_participation'])
 
         return completed_sequence, filtered_sequence
     
     def complete_trajectory(self, frames_data: Dict[int, Dict], 
-                          dominant_slopes: List[Tuple[float, int]]) -> Tuple[Dict[int, Dict], List[Tuple[int, List[float]]]]:
+                          dominant_angles: List[Tuple[float, int]]) -> Tuple[Dict[int, Dict], List[Tuple[int, List[float]]]]:
         """轨迹补全"""
         # 收集所有生成的点
         all_generated_points = []
         generated_points_from_pairs = []  # 专门记录从点对生成的点
         
-        # 对每个符合主导斜率的点对生成点
-        slope_stats = self.collect_sequence_slopes_hungarian(frames_data)
-        for pair_info in slope_stats['slope_pairs']:
-            slope = pair_info['slope']
+        # 对每个符合主导角度的点对生成点
+        angle_stats = self.collect_sequence_angles_hungarian(frames_data)
+        for pair_info in angle_stats['angle_pairs']:
+            angle = pair_info['angle']
             
-            # 检查是否属于主导斜率
+            # 检查是否属于主导角度
             is_dominant = False
-            for dominant_slope, _ in dominant_slopes:
-                if abs(slope - dominant_slope) <= self.slope_tolerance:
+            for dominant_angle, _ in dominant_angles:
+                # 处理角度环绕问题
+                angle_diff = min(abs(angle - dominant_angle), 
+                               abs(angle - dominant_angle + 360),
+                               abs(angle - dominant_angle - 360))
+                if angle_diff <= self.angle_tolerance:
                     is_dominant = True
                     break
             
@@ -551,14 +567,14 @@ class ImprovedSlopeProcessor:
                 # 生成缺失帧的点
                 generated_points = self.generate_points_from_pair(
                     pair_info['pos1'], pair_info['pos2'], 
-                    pair_info['slope'], pair_info['frame1'], pair_info['frame2'],
+                    pair_info['angle'], pair_info['frame1'], pair_info['frame2'],
                     total_frames=len(frames_data)  # 传入总帧数
                 )
                 all_generated_points.extend(generated_points)
                 generated_points_from_pairs.extend(generated_points)  # 记录从点对生成的点
         
         # 外推轨迹，填补间隙
-        extrapolated_points = self.extrapolate_trajectory(frames_data, dominant_slopes)
+        extrapolated_points = self.extrapolate_trajectory(frames_data, dominant_angles)
         all_generated_points.extend(extrapolated_points)
         
         # 按帧组织点
@@ -587,8 +603,8 @@ class ImprovedSlopeProcessor:
         return completed_frames, generated_points_from_pairs
     
     def process_dataset(self, predictions: Dict) -> Dict:
-        """处理整个数据集，使用改进的斜率补全策略"""
-        print("开始基于改进斜率的轨迹补全处理...")
+        """处理整个数据集，使用角度补全策略"""
+        print("开始基于角度的轨迹补全处理...")
         
         # 提取序列信息
         sequence_data = self.extract_sequence_info(predictions)
@@ -612,7 +628,7 @@ class ImprovedSlopeProcessor:
                     'num_objects': frame_data['num_objects']
                 }
         
-        print(f"基于改进斜率的轨迹补全完成，处理了 {len(processed_predictions)} 张图像")
+        print(f"基于角度的轨迹补全完成，处理了 {len(processed_predictions)} 张图像")
         return processed_predictions
     
     def evaluate_improvement(self, original_predictions: Dict, processed_predictions: Dict, ground_truth: List[Dict]) -> Dict:
@@ -646,25 +662,25 @@ class ImprovedSlopeProcessor:
 
 
 def main():
-    """主函数，演示改进的斜率轨迹补全"""
+    """主函数，演示角度轨迹补全"""
     import argparse
     import os
     
     # 解析命令行参数
-    parser = argparse.ArgumentParser(description='改进的斜率轨迹补全处理器')
-    parser.add_argument('--pred_path', type=str, default='results/spotgeov2/WTNet/predictions.json',
+    parser = argparse.ArgumentParser(description='角度轨迹补全处理器')
+    parser.add_argument('--pred_path', type=str, default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, default='datasets/spotgeov2-IRSTD/test_anno.json',
                        help='真实标注文件路径')
-    parser.add_argument('--output_path', type=str, default='results/spotgeov2/WTNet/improved_slope_processed_predictions.json',
+    parser.add_argument('--output_path', type=str, default='results/spotgeov2/WTNet/angle_processed_predictions.json',
                        help='输出文件路径')
-    parser.add_argument('--base_distance_threshold', type=float, default=500.0,
+    parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
-    parser.add_argument('--slope_tolerance', type=float, default=0.05,
-                       help='斜率容差')
-    parser.add_argument('--min_slope_count', type=int, default=2,
-                       help='最小斜率出现次数')
-    parser.add_argument('--point_distance_threshold', type=float, default=200.0,
+    parser.add_argument('--angle_tolerance', type=float, default=2,
+                       help='角度容差（度）')
+    parser.add_argument('--min_angle_count', type=int, default=2,
+                       help='最小角度出现次数')
+    parser.add_argument('--point_distance_threshold', type=float, default=95,
                        help='重合点过滤阈值')
     
     args = parser.parse_args()
@@ -696,17 +712,17 @@ def main():
         print(f"加载文件时出错: {e}")
         return
     
-    # 创建改进的斜率处理器
-    processor = ImprovedSlopeProcessor(
+    # 创建角度处理器
+    processor = AngleProcessor(
         base_distance_threshold=args.base_distance_threshold,
         min_track_length=1,           # 允许短轨迹
         expected_sequence_length=5,   # 期望序列长度
-        slope_tolerance=args.slope_tolerance,
-        min_slope_count=args.min_slope_count,
+        angle_tolerance=args.angle_tolerance,
+        min_angle_count=args.min_angle_count,
         point_distance_threshold=args.point_distance_threshold
     )
     
-    # 进行改进的斜率轨迹补全
+    # 进行角度轨迹补全
     processed_predictions = processor.process_dataset(original_predictions)
     
     # 评估改善效果
@@ -714,7 +730,7 @@ def main():
         improvement = processor.evaluate_improvement(original_predictions, processed_predictions, ground_truth)
         
         # 打印结果
-        print("\n=== 改进的斜率轨迹补全效果评估 ===")
+        print("\n=== 角度轨迹补全效果评估 ===")
         print(f"Precision 改善: {improvement['precision_improvement']:.4f}")
         print(f"Recall 改善: {improvement['recall_improvement']:.4f}")
         print(f"F1 Score 改善: {improvement['f1_improvement']:.4f}")
@@ -743,7 +759,7 @@ def main():
     try:
         with open(args.output_path, 'w') as f:
             json.dump(processed_predictions, f, indent=2)
-        print(f"\n改进的斜率轨迹补全结果已保存到: {args.output_path}")
+        print(f"\n角度轨迹补全结果已保存到: {args.output_path}")
     except Exception as e:
         print(f"保存结果时出错: {e}")
 

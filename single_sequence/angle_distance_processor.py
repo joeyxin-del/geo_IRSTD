@@ -10,31 +10,37 @@ import os
 from PIL import Image
 import cv2
 
-# 添加父目录到路径，以便导入improved_slope_processor
+# 添加父目录到路径，以便导入angle_distance_processor
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from processor.improved_slope_processor import ImprovedSlopeProcessor
+from processor.angle_distance_processor import AngleDistanceProcessor
 
-class SingleSequenceSlopeProcessor:
-    """单序列斜率处理器，用于分析和可视化单个序列的后处理效果"""
+class SingleSequenceAngleDistanceProcessor:
+    """单序列角度距离处理器，用于分析和可视化单个序列的角度距离后处理效果"""
     
     def __init__(self, 
                  base_distance_threshold: float = 1000.0,
-                 slope_tolerance: float = 0.05,
-                 min_slope_count: int = 2,
+                 angle_tolerance: float = 2.5,
+                 min_angle_count: int = 2,
+                 step_tolerance: float = 0.2,
+                 min_step_count: int = 1,
                  point_distance_threshold: float = 200.0):
         """
-        初始化单序列斜率处理器
+        初始化单序列角度距离处理器
         
         Args:
             base_distance_threshold: 基础距离阈值
-            slope_tolerance: 斜率容差
-            min_slope_count: 最小斜率出现次数
+            angle_tolerance: 角度容差（度）
+            min_angle_count: 最小角度出现次数
+            step_tolerance: 步长容差（比例）
+            min_step_count: 最小步长出现次数
             point_distance_threshold: 重合点过滤阈值
         """
-        self.processor = ImprovedSlopeProcessor(
+        self.processor = AngleDistanceProcessor(
             base_distance_threshold=base_distance_threshold,
-            slope_tolerance=slope_tolerance,
-            min_slope_count=min_slope_count,
+            angle_tolerance=angle_tolerance,
+            min_angle_count=min_angle_count,
+            step_tolerance=step_tolerance,
+            min_step_count=min_step_count,
             point_distance_threshold=point_distance_threshold
         )
         
@@ -80,7 +86,7 @@ class SingleSequenceSlopeProcessor:
         """处理单个序列，返回原始、补全和过滤后的结果"""
         print(f"开始处理序列 {sequence_id}...")
         
-        # 使用improved_slope_processor的process_sequence方法
+        # 使用angle_distance_processor的process_sequence方法
         completed_sequence, filtered_sequence = self.processor.process_sequence(sequence_id, frames_data)
         
         # 收集处理统计信息
@@ -124,7 +130,7 @@ class SingleSequenceSlopeProcessor:
         
         # 创建图形
         fig, axes = plt.subplots(1, 3, figsize=(18, 6))
-        fig.suptitle(f'Sequence {sequence_id} Post-processing Analysis', fontsize=16, fontweight='bold', color='white')
+        fig.suptitle(f'Sequence {sequence_id} Angle-Distance Post-processing Analysis', fontsize=16, fontweight='bold', color='white')
         fig.patch.set_facecolor('black')
         
         # 设置坐标轴范围
@@ -167,10 +173,10 @@ class SingleSequenceSlopeProcessor:
         plt.tight_layout()
         
         # 保存图像到single_sequence_results目录
-        output_path = f'single_sequence_results/sequence_{sequence_id}_analysis.png'
+        output_path = f'single_sequence_results/sequence_{sequence_id}_angle_distance_analysis.png'
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='black')
-        print(f"可视化结果已保存到: {output_path}")
+        print(f"角度距离分析可视化结果已保存到: {output_path}")
         
         # 关闭图形以释放内存
         plt.close()
@@ -275,9 +281,9 @@ class SingleSequenceSlopeProcessor:
                               filtered: Dict[int, Dict],
                               sequence_id: int,
                               stats: Dict) -> None:
-        """打印详细的分析信息，参考improved_slope_processor.py的输出风格"""
+        """打印详细的分析信息，参考angle_processor.py的输出风格"""
         print(f"\n{'='*60}")
-        print(f"序列 {sequence_id} 详细分析报告")
+        print(f"序列 {sequence_id} 角度距离分析详细报告")
         print(f"{'='*60}")
         
         # 帧级详细信息
@@ -307,7 +313,7 @@ class SingleSequenceSlopeProcessor:
         
         # 统计摘要
         print(f"\n{'='*60}")
-        print(f"处理效果摘要:")
+        print(f"角度距离处理效果摘要:")
         print(f"{'='*60}")
         print(f"总帧数: {stats['total_frames']}")
         print(f"原始检测: {stats['original_points']} 个点, {stats['original_frames']} 帧")
@@ -316,18 +322,18 @@ class SingleSequenceSlopeProcessor:
         print(f"新增点数: {stats['added_points']} (+{stats['added_points']/max(stats['original_points'], 1)*100:.1f}%)")
         print(f"移除点数: {stats['removed_points']} (-{stats['removed_points']/max(stats['original_points'], 1)*100:.1f}%)")
         
-        # 处理建议
+        # 角度距离处理建议
         print(f"\n{'='*60}")
-        print(f"处理建议:")
+        print(f"角度距离处理建议:")
         print(f"{'='*60}")
         if stats['added_points'] > 0:
-            print(f"✓ 轨迹补全成功，新增了 {stats['added_points']} 个检测点")
+            print(f"✓ 基于角度距离的轨迹补全成功，新增了 {stats['added_points']} 个检测点")
         if stats['removed_points'] > 0:
-            print(f"✓ 异常点过滤有效，移除了 {stats['removed_points']} 个异常点")
+            print(f"✓ 基于角度距离的异常点过滤有效，移除了 {stats['removed_points']} 个异常点")
         if stats['filtered_points'] == stats['original_points']:
             print("✓ 所有原始检测点都被保留，无异常点")
         if stats['completed_points'] == stats['original_points']:
-            print("⚠ 轨迹补全未添加新点，可能需要调整参数")
+            print("⚠ 角度距离轨迹补全未添加新点，可能需要调整角度或步长容差参数")
         
         print(f"{'='*60}")
     
@@ -363,8 +369,8 @@ class SingleSequenceSlopeProcessor:
     
     def analyze_sequence(self, predictions_path: str, sequence_id: int, 
                         save_visualization: bool = True) -> Dict:
-        """分析单个序列的后处理效果"""
-        print(f"=== 开始分析序列 {sequence_id} ===")
+        """分析单个序列的角度距离后处理效果"""
+        print(f"=== 开始角度距离分析序列 {sequence_id} ===")
         
         # 加载序列数据
         frames_data = self.load_sequence_data(predictions_path, sequence_id)
@@ -392,20 +398,24 @@ class SingleSequenceSlopeProcessor:
         }
 
 def main():
-    """主函数，演示单序列分析"""
+    """主函数，演示单序列角度距离分析"""
     import argparse
 
-    parser = argparse.ArgumentParser(description='单序列斜率后处理分析')
-    parser.add_argument('--pred_path', type=str, default='results/spotgeov2/WTNet/predictions.json',
+    parser = argparse.ArgumentParser(description='单序列角度距离后处理分析')
+    parser.add_argument('--pred_path', type=str, default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
-    parser.add_argument('--sequence_id', type=int, default=32,
+    parser.add_argument('--sequence_id', type=int, default=67,
                        help='要分析的序列ID')
     parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
-    parser.add_argument('--slope_tolerance', type=float, default=0.01,
-                       help='斜率容差')
-    parser.add_argument('--min_slope_count', type=int, default=2,
-                       help='最小斜率出现次数')
+    parser.add_argument('--angle_tolerance', type=float, default=3,
+                       help='角度容差（度）')
+    parser.add_argument('--min_angle_count', type=int, default=2,
+                       help='最小角度出现次数')
+    parser.add_argument('--step_tolerance', type=float, default=0.1,
+                       help='步长容差（比例）')
+    parser.add_argument('--min_step_count', type=int, default=1,
+                       help='最小步长出现次数')
     parser.add_argument('--point_distance_threshold', type=float, default=200.0,
                        help='重合点过滤阈值')
     parser.add_argument('--no_visualization', action='store_true',
@@ -418,11 +428,13 @@ def main():
         print(f"错误：预测结果文件不存在: {args.pred_path}")
         return
     
-    # 创建单序列处理器
-    processor = SingleSequenceSlopeProcessor(
+    # 创建单序列角度距离处理器
+    processor = SingleSequenceAngleDistanceProcessor(
         base_distance_threshold=args.base_distance_threshold,
-        slope_tolerance=args.slope_tolerance,
-        min_slope_count=args.min_slope_count,
+        angle_tolerance=args.angle_tolerance,
+        min_angle_count=args.min_angle_count,
+        step_tolerance=args.step_tolerance,
+        min_step_count=args.min_step_count,
         point_distance_threshold=args.point_distance_threshold
     )
     
@@ -434,7 +446,7 @@ def main():
     )
     
     if result:
-        print(f"\n序列 {args.sequence_id} 分析完成！")
+        print(f"\n序列 {args.sequence_id} 角度距离分析完成！")
 
 if __name__ == '__main__':
-    main()
+    main() 

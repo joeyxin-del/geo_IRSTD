@@ -257,8 +257,11 @@ def main():
     # pred_path = 'results/WTNet/aggressive_balanced_processed_predictions.json'
     # pred_path = 'results/WTNet/slope_based_processed_predictions.json'
     # pred_path = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json'
-    pred_path = 'results/WTNet/improved_slope_processed_predictions.json'
+    # pred_path = 'results/WTNet/improved_slope_processed_predictions.json'
     # pred_path = 'results/spotgeov2/WTNet/outlier_filtered_predictions.json'
+    # pred_path = 'results/spotgeov2/WTNet/improved_slope_processed_predictions.json'
+    # pred_path = 'results/spotgeov2/WTNet/angle_processed_predictions.json'
+    pred_path = 'results/spotgeov2/WTNet/angle_distance_processed_predictions.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -350,7 +353,7 @@ def main():
         
         # 保存低F1序列到JSON文件
         # low_f1_save_path = './results/WTNet/low_f1_sequences.json'
-        low_f1_save_path = './results/WTNet/low_f1_sequences.json'
+        low_f1_save_path = './results/spotgeov2/WTNet/low_f1_sequences.json'
         low_f1_data = {
             'total_sequences_below_0_5': len(low_f1_sequences),
             'total_sequences': len(metrics['sequence_metrics']),
@@ -401,7 +404,10 @@ def main():
     # results_save_path = './results/WTNet/aggressive_balanced_processed_evaluation_results.json'
     # results_save_path = './results/WTNet/slope_based_evaluation_results.json'
     # results_save_path = './results/WTNet/sequence_slope_evaluation_results.json'
-    results_save_path = './results/WTNet/improved_slope_evaluation_results.json'
+    # results_save_path = './results/WTNet/improved_slope_evaluation_results.json'
+    # results_save_path = './results/spotgeov2/WTNet/improved_slope_evaluation_results.json'
+    # results_save_path = './results/spotgeov2/WTNet/angle_processed_evaluation_results.json'
+    results_save_path = './results/spotgeov2/WTNet/angle_distance_processed_evaluation_results.json'
     # results_save_path = './results/spotgeov2/WTNet/outlier_filtered_evaluation_results.json'
     with open(results_save_path, 'w') as f:
         json.dump(metrics, f, indent=2)
