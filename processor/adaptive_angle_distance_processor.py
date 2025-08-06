@@ -29,7 +29,11 @@ class AdaptiveAngleDistanceProcessor:
                  point_distance_threshold: float = 5.0,
                  dominant_ratio_threshold: float = 0.7,
                  secondary_ratio_threshold: float = 0.2,
-                 max_dominant_patterns: int = 3):
+                 max_dominant_patterns: int = 3,
+                 use_angle_clustering: bool = True,
+                 use_step_clustering: bool = True,
+                 angle_weight: float = 0.65,
+                 step_weight: float = 0.35):
         """
         初始化自适应角度距离处理器
         
@@ -48,6 +52,10 @@ class AdaptiveAngleDistanceProcessor:
             dominant_ratio_threshold: 主导模式占比阈值（0.7表示70%）
             secondary_ratio_threshold: 次主导模式占比阈值（0.2表示20%）
             max_dominant_patterns: 最大主导模式数量
+            use_angle_clustering: 是否使用角度聚类
+            use_step_clustering: 是否使用步长聚类
+            angle_weight: 角度在综合评分中的权重
+            step_weight: 步长在综合评分中的权重
         """
         self.base_distance_threshold = base_distance_threshold
         self.min_track_length = min_track_length
@@ -63,6 +71,17 @@ class AdaptiveAngleDistanceProcessor:
         self.dominant_ratio_threshold = dominant_ratio_threshold
         self.secondary_ratio_threshold = secondary_ratio_threshold
         self.max_dominant_patterns = max_dominant_patterns
+        self.use_angle_clustering = use_angle_clustering
+        self.use_step_clustering = use_step_clustering
+        self.angle_weight = angle_weight
+        self.step_weight = step_weight
+        
+        # 验证权重设置
+        if abs(angle_weight + step_weight - 1.0) > 1e-6:
+            print(f"警告：角度权重({angle_weight}) + 步长权重({step_weight}) != 1.0，将自动归一化")
+            total_weight = angle_weight + step_weight
+            self.angle_weight = angle_weight / total_weight
+            self.step_weight = step_weight / total_weight
     
     def calculate_distance(self, point1: List[float], point2: List[float]) -> float:
         """计算两点之间的欧氏距离"""
@@ -111,7 +130,7 @@ class AdaptiveAngleDistanceProcessor:
         return sequence_data 
     
     def collect_all_angle_step_pairs(self, frames_data: Dict[int, Dict]) -> Tuple[List[float], List[float], List[Dict]]:
-        """收集序列中所有点对的角度和步长"""
+        """收集序列中所有点对的角度和步长，采用angle_distance_processor.py的成功策略"""
         frames = sorted(frames_data.keys())
         
         if len(frames) < 2:
@@ -162,10 +181,60 @@ class AdaptiveAngleDistanceProcessor:
         
         return all_angles, all_steps, angle_step_pairs
     
-    def cluster_angles(self, angles: List[float]) -> Tuple[List[Tuple[float, float]], List[float]]:
+    def cluster_angles(self, angles: List[float]) -> Tuple[List[Tuple[float, float]], List[float], List[Tuple[float, float, int]], List[Tuple[float, float, int]]]:
         """对角度进行聚类，自适应确定主导角度数量"""
+        if len(angles) < 1:
+            return [], [], [], []
+        
+        # 分类处理策略
+        if len(angles) == 1:
+            # 只有一个角度，直接使用该角度
+            single_angle = angles[0]
+            dominant_angles = [(single_angle, 1.0)]  # 置信度为1.0
+            confidences = [1.0]
+            clusters_info = [(single_angle, 1.0, 1)]
+            merged_clusters = [(single_angle, 1.0, 1)]
+            print(f"检测到单一角度: {single_angle:.1f}° (置信度: 1.000)")
+            return dominant_angles, confidences, clusters_info, merged_clusters
+        
+        elif len(angles) == 2:
+            # 只有两个角度，检查是否相似
+            angle_diff = min(abs(angles[0] - angles[1]), 
+                           abs(angles[0] - angles[1] + 360),
+                           abs(angles[0] - angles[1] - 360))
+            
+            if angle_diff <= self.angle_tolerance:
+                # 两个角度相似，取平均值
+                avg_angle = (angles[0] + angles[1]) / 2
+                if avg_angle < 0:
+                    avg_angle += 360
+                dominant_angles = [(avg_angle, 1.0)]
+                confidences = [1.0]
+                clusters_info = [(avg_angle, 1.0, 2)]
+                merged_clusters = [(avg_angle, 1.0, 2)]
+                print(f"检测到相似双角度，取平均值: {avg_angle:.1f}° (置信度: 1.000)")
+                return dominant_angles, confidences, clusters_info, merged_clusters
+            else:
+                # 两个角度不相似，都保留
+                dominant_angles = [(angles[0], 0.5), (angles[1], 0.5)]
+                confidences = [0.5, 0.5]
+                clusters_info = [(angles[0], 0.5, 1), (angles[1], 0.5, 1)]
+                merged_clusters = [(angles[0], 0.5, 1), (angles[1], 0.5, 1)]
+                print(f"检测到双角度模式: {angles[0]:.1f}° 和 {angles[1]:.1f}° (置信度: 0.500)")
+                return dominant_angles, confidences, clusters_info, merged_clusters
+        
+        # 多个角度，使用聚类
         if len(angles) < self.min_cluster_size:
-            return [], []
+            # 角度数量少于最小聚类大小，但大于2，使用简单统计
+            angle_counter = Counter(angles)
+            most_common_angle = angle_counter.most_common(1)[0][0]
+            confidence = angle_counter[most_common_angle] / len(angles)
+            dominant_angles = [(most_common_angle, confidence)]
+            confidences = [confidence]
+            clusters_info = [(most_common_angle, confidence, angle_counter[most_common_angle])]
+            merged_clusters = [(most_common_angle, confidence, angle_counter[most_common_angle])]
+            print(f"角度数量较少，使用最常见角度: {most_common_angle:.1f}° (置信度: {confidence:.3f})")
+            return dominant_angles, confidences, clusters_info, merged_clusters
         
         # 将角度转换为二维坐标（考虑角度的周期性）
         angles_rad = np.array(angles) * np.pi / 180.0
@@ -314,11 +383,70 @@ class AdaptiveAngleDistanceProcessor:
     
     def cluster_steps(self, steps: List[float]) -> Tuple[List[Tuple[float, float]], List[float]]:
         """对步长进行聚类，自适应确定主导步长数量"""
-        if len(steps) < self.min_cluster_size:
+        if len(steps) < 1:
             return [], []
         
+        # 分类处理策略
+        if len(steps) == 1:
+            # 只有一个步长，直接使用该步长
+            single_step = steps[0]
+            dominant_steps = [(single_step, 1.0)]  # 置信度为1.0
+            confidences = [1.0]
+            print(f"检测到单一步长: {single_step:.1f} (置信度: 1.000)")
+            return dominant_steps, confidences
+        
+        elif len(steps) == 2:
+            # 只有两个步长，检查是否相似
+            if steps[0] > 0 and steps[1] > 0:
+                step_ratio = steps[1] / steps[0]
+                step_diff = abs(step_ratio - 1)
+                
+                if step_diff <= self.step_tolerance:
+                    # 两个步长相似，取平均值
+                    avg_step = (steps[0] + steps[1]) / 2
+                    dominant_steps = [(avg_step, 1.0)]
+                    confidences = [1.0]
+                    print(f"检测到相似双步长，取平均值: {avg_step:.1f} (置信度: 1.000)")
+                    return dominant_steps, confidences
+                else:
+                    # 两个步长不相似，都保留
+                    dominant_steps = [(steps[0], 0.5), (steps[1], 0.5)]
+                    confidences = [0.5, 0.5]
+                    print(f"检测到双步长模式: {steps[0]:.1f} 和 {steps[1]:.1f} (置信度: 0.500)")
+                    return dominant_steps, confidences
+            else:
+                # 有无效步长，使用有效的一个
+                valid_steps = [s for s in steps if s > 0]
+                if len(valid_steps) == 1:
+                    dominant_steps = [(valid_steps[0], 1.0)]
+                    confidences = [1.0]
+                    print(f"检测到单一有效步长: {valid_steps[0]:.1f} (置信度: 1.000)")
+                    return dominant_steps, confidences
+                else:
+                    # 没有有效步长
+                    return [], []
+        
+        # 多个步长，使用聚类
+        if len(steps) < self.min_cluster_size:
+            # 步长数量少于最小聚类大小，但大于2，使用简单统计
+            valid_steps = [s for s in steps if s > 0]
+            if not valid_steps:
+                return [], []
+            
+            step_counter = Counter(valid_steps)
+            most_common_step = step_counter.most_common(1)[0][0]
+            confidence = step_counter[most_common_step] / len(valid_steps)
+            dominant_steps = [(most_common_step, confidence)]
+            confidences = [confidence]
+            print(f"步长数量较少，使用最常见步长: {most_common_step:.1f} (置信度: {confidence:.3f})")
+            return dominant_steps, confidences
+        
         # 将步长转换为二维特征
-        steps_array = np.array(steps).reshape(-1, 1)
+        valid_steps = [s for s in steps if s > 0]
+        if not valid_steps:
+            return [], []
+        
+        steps_array = np.array(valid_steps).reshape(-1, 1)
         
         # 标准化
         scaler = StandardScaler()
@@ -341,9 +469,9 @@ class AdaptiveAngleDistanceProcessor:
             cluster_size = np.sum(cluster_mask)
             
             if cluster_size >= self.min_cluster_size:
-                cluster_steps = np.array(steps)[cluster_mask]
+                cluster_steps = np.array(valid_steps)[cluster_mask]
                 dominant_step = np.median(cluster_steps)  # 使用中位数作为主导步长
-                confidence = cluster_size / len(steps)
+                confidence = cluster_size / len(valid_steps)
                 
                 clusters_info.append((dominant_step, confidence, cluster_size))
         
@@ -351,7 +479,7 @@ class AdaptiveAngleDistanceProcessor:
         merged_clusters = self.merge_similar_step_clusters(clusters_info)
         
         # 自适应确定主导步长数量
-        dominant_steps, confidences = self.adaptive_select_dominant_steps(merged_clusters, len(steps))
+        dominant_steps, confidences = self.adaptive_select_dominant_steps(merged_clusters, len(valid_steps))
         
         return dominant_steps, confidences
     
@@ -505,33 +633,57 @@ class AdaptiveAngleDistanceProcessor:
             # 计算角度匹配分数（与所有主导角度比较，取最佳匹配）
             best_angle_score = 0
             best_angle_match = None
-            for dominant_angle, _ in dominant_angles:
-                angle_diff = min(abs(angle - dominant_angle), 
-                               abs(angle - dominant_angle + 360),
-                               abs(angle - dominant_angle - 360))
-                angle_score = max(0, 1 - (angle_diff / self.angle_tolerance))
-                if angle_score > best_angle_score:
-                    best_angle_score = angle_score
-                    best_angle_match = dominant_angle
+            if self.use_angle_clustering and dominant_angles:
+                for dominant_angle, _ in dominant_angles:
+                    angle_diff = min(abs(angle - dominant_angle), 
+                                   abs(angle - dominant_angle + 360),
+                                   abs(angle - dominant_angle - 360))
+                    angle_score = max(0, 1 - (angle_diff / self.angle_tolerance))
+                    if angle_score > best_angle_score:
+                        best_angle_score = angle_score
+                        best_angle_match = dominant_angle
+            else:
+                # 如果不使用角度聚类，给所有角度一个默认分数
+                best_angle_score = 1.0
+                best_angle_match = angle
             
             # 计算步长匹配分数（与所有主导步长比较，取最佳匹配）
             best_step_score = 0
             best_step_match = None
-            if step_size is not None and step_size > 0:
+            if self.use_step_clustering and dominant_steps and step_size is not None and step_size > 0:
                 for dominant_step, _ in dominant_steps:
                     if dominant_step > 0:
                         step_ratio = step_size / dominant_step
-                        if 0.8 <= step_ratio <= 1.2:  # 更宽松的步长匹配范围
-                            step_score = max(0, 1 - abs(step_ratio - 1) / 0.2)
+                        if 0.9 <= step_ratio <= 1.1:  # 使用更宽松的步长匹配范围，参考angle_distance_processor
+                            step_score = max(0, 1 - abs(step_ratio - 1) / 0.1)
                             if step_score > best_step_score:
                                 best_step_score = step_score
                                 best_step_match = dominant_step
+            else:
+                # 如果不使用步长聚类，给所有步长一个默认分数
+                best_step_score = 1.0
+                best_step_match = step_size
             
-            # 综合评分
-            combined_score = (best_angle_score + best_step_score) / 2
+            # 根据启用的聚类类型调整综合评分
+            if self.use_angle_clustering and self.use_step_clustering:
+                # 使用角度和步长的加权平均
+                combined_score = (best_angle_score * self.angle_weight + best_step_score * self.step_weight)
+                threshold = 0.3  # 降低阈值，采用更保守的过滤策略
+            elif self.use_angle_clustering:
+                # 只使用角度评分
+                combined_score = best_angle_score
+                threshold = 0.4  # 降低阈值
+            elif self.use_step_clustering:
+                # 只使用步长评分
+                combined_score = best_step_score
+                threshold = 0.4  # 降低阈值
+            else:
+                # 都不使用，给默认分数
+                combined_score = 1.0
+                threshold = 0.3
             
             # 如果综合分数足够高，标记为参与主导模式
-            if combined_score >= 0.3:  # 阈值可调整
+            if combined_score >= threshold:
                 frame1, pos1_idx = pair_info['frame1'], pair_info['pos1_idx']
                 frame2, pos2_idx = pair_info['frame2'], pair_info['pos2_idx']
                 
@@ -585,6 +737,22 @@ class AdaptiveAngleDistanceProcessor:
                         'matched_angle': best_angle_match,
                         'matched_step': best_step_match
                     })
+        
+        # 根据距离阈值重新评估参与状态（参考angle_distance_processor的做法）
+        distance_threshold = 120  # 使用更大的距离阈值
+        for point_key, point_info in point_participation.items():
+            if point_info['participated']:
+                # 检查该点与所有主导模式连接点的距离
+                distances = [connection['distance'] for connection in point_info['dominant_connections']]
+                min_distance = min(distances) if distances else float('inf')
+                
+                # 如果最短距离大于阈值，则不算参与
+                if min_distance > distance_threshold:
+                    point_info['participated'] = False
+                    print(f"    点 {point_key} 最短距离 {min_distance:.1f} 大于阈值 {distance_threshold}，标记为非参与")
+                else:
+                    print(f"    点 {point_key} {point_info['point']} 参与主导模式，连接距离: {[f'{d:.1f}' for d in distances]}, 最短距离: {min_distance:.1f}")
+                    print(f"    角度分数: {point_info['angle_score']:.3f}, 步长分数: {point_info['step_score']:.3f}")
         
         return point_participation
     
@@ -657,32 +825,61 @@ class AdaptiveAngleDistanceProcessor:
             
             # 检查角度匹配（与所有主导角度比较，取最佳匹配）
             best_angle_score = 0
-            for dominant_angle, _ in dominant_angles:
-                angle_diff = min(abs(angle - dominant_angle), 
-                               abs(angle - dominant_angle + 360),
-                               abs(angle - dominant_angle - 360))
-                if angle_diff <= self.angle_tolerance:
-                    angle_score = 1 - (angle_diff / self.angle_tolerance)
-                    if angle_score > best_angle_score:
-                        best_angle_score = angle_score
-                        angle_match = True
-                        best_angle = dominant_angle
+            if self.use_angle_clustering and dominant_angles:
+                for dominant_angle, _ in dominant_angles:
+                    angle_diff = min(abs(angle - dominant_angle), 
+                                   abs(angle - dominant_angle + 360),
+                                   abs(angle - dominant_angle - 360))
+                    if angle_diff <= self.angle_tolerance:
+                        angle_score = 1 - (angle_diff / self.angle_tolerance)
+                        if angle_score > best_angle_score:
+                            best_angle_score = angle_score
+                            angle_match = True
+                            best_angle = dominant_angle
+            else:
+                # 如果不使用角度聚类，默认匹配
+                angle_match = True
+                best_angle = angle
+                best_angle_score = 1.0
             
             # 检查步长匹配（与所有主导步长比较，取最佳匹配）
             best_step_score = 0
-            if step_size is not None and step_size > 0:
+            if self.use_step_clustering and dominant_steps and step_size is not None and step_size > 0:
                 for dominant_step, _ in dominant_steps:
                     if dominant_step > 0:
                         step_ratio = step_size / dominant_step
-                        if 0.8 <= step_ratio <= 1.2:
-                            step_score = 1 - abs(step_ratio - 1) / 0.2
+                        if 0.9 <= step_ratio <= 1.1:  # 使用更宽松的步长匹配范围
+                            step_score = max(0, 1 - abs(step_ratio - 1) / 0.1)
                             if step_score > best_step_score:
                                 best_step_score = step_score
                                 step_match = True
                                 best_step = dominant_step
+            else:
+                # 如果不使用步长聚类，默认匹配
+                step_match = True
+                best_step = step_size
+                best_step_score = 1.0
             
-            # 如果角度和步长都匹配，则生成点
-            if angle_match and step_match:
+            # 根据启用的聚类类型调整综合评分和匹配条件
+            if self.use_angle_clustering and self.use_step_clustering:
+                # 使用角度和步长的加权平均
+                combined_score = (best_angle_score * self.angle_weight + best_step_score * self.step_weight)
+                should_generate = angle_match and step_match and combined_score >= 0.3  # 降低阈值
+            elif self.use_angle_clustering:
+                # 只使用角度评分
+                combined_score = best_angle_score
+                should_generate = angle_match and combined_score >= 0.4  # 降低阈值
+            elif self.use_step_clustering:
+                # 只使用步长评分
+                combined_score = best_step_score
+                should_generate = step_match and combined_score >= 0.4  # 降低阈值
+            else:
+                # 都不使用，默认生成
+                combined_score = 1.0
+                should_generate = True
+            
+            # 如果综合分数足够高，则生成点
+            if should_generate:
                 # 使用最佳匹配的主导模式生成点
                 generated_points = self.generate_points_from_pattern(
                     pair_info['pos1'], pair_info['pos2'], 
@@ -694,9 +891,24 @@ class AdaptiveAngleDistanceProcessor:
                 generated_points_from_pairs.extend(generated_points)
         
         # 外推轨迹，填补间隙（使用第一个主导模式）
-        if dominant_angles and dominant_steps:
+        if (self.use_angle_clustering and dominant_angles) and (self.use_step_clustering and dominant_steps):
+            # 两者都启用，使用第一个主导模式
             extrapolated_points = self.extrapolate_trajectory_with_patterns(
                 frames_data, dominant_angles[0][0], dominant_steps[0][0]
+            )
+            all_generated_points.extend(extrapolated_points)
+        elif self.use_angle_clustering and dominant_angles:
+            # 只启用角度聚类，使用默认步长
+            default_step = 10.0  # 默认步长
+            extrapolated_points = self.extrapolate_trajectory_with_patterns(
+                frames_data, dominant_angles[0][0], default_step
+            )
+            all_generated_points.extend(extrapolated_points)
+        elif self.use_step_clustering and dominant_steps:
+            # 只启用步长聚类，使用默认角度
+            default_angle = 0.0  # 默认角度
+            extrapolated_points = self.extrapolate_trajectory_with_patterns(
+                frames_data, default_angle, dominant_steps[0][0]
             )
             all_generated_points.extend(extrapolated_points)
         
@@ -805,6 +1017,10 @@ class AdaptiveAngleDistanceProcessor:
                         save_visualization: bool = True) -> Tuple[Dict[int, Dict], Dict[int, Dict]]:
         """处理单个序列，返回轨迹补全和异常点筛选的结果"""
         print(f"开始自适应处理序列 {sequence_id}...")
+        print(f"  角度聚类: {'启用' if self.use_angle_clustering else '禁用'}")
+        print(f"  步长聚类: {'启用' if self.use_step_clustering else '禁用'}")
+        if self.use_angle_clustering and self.use_step_clustering:
+            print(f"  权重设置: 角度={self.angle_weight:.2f}, 步长={self.step_weight:.2f}")
         
         # 收集所有点对的角度和步长
         all_angles, all_steps, angle_step_pairs = self.collect_all_angle_step_pairs(frames_data)
@@ -816,38 +1032,55 @@ class AdaptiveAngleDistanceProcessor:
         print(f"序列 {sequence_id} 计算了 {len(all_angles)} 个角度和步长对")
         
         # 聚类分析角度
-        dominant_angles, angle_confidences, clusters_info, merged_clusters = self.cluster_angles(all_angles)
+        dominant_angles = []
+        angle_confidences = []
+        clusters_info = []
+        merged_clusters = []
         
-        # 可视化角度聚类过程
-        if save_visualization and clusters_info:
-            try:
-                self.visualize_angle_clustering(all_angles, sequence_id, clusters_info, merged_clusters)
-            except Exception as e:
-                print(f"可视化角度聚类时出错: {e}")
+        if self.use_angle_clustering:
+            dominant_angles, angle_confidences, clusters_info, merged_clusters = self.cluster_angles(all_angles)
+            
+            # 可视化角度聚类过程
+            if save_visualization and clusters_info:
+                try:
+                    self.visualize_angle_clustering(all_angles, sequence_id, clusters_info, merged_clusters)
+                except Exception as e:
+                    print(f"可视化角度聚类时出错: {e}")
+        else:
+            print("  跳过角度聚类分析")
         
         # 聚类分析步长
-        dominant_steps, step_confidences = self.cluster_steps(all_steps)
+        dominant_steps = []
+        step_confidences = []
         
-        if dominant_angles:
+        if self.use_step_clustering:
+            dominant_steps, step_confidences = self.cluster_steps(all_steps)
+        else:
+            print("  跳过步长聚类分析")
+        
+        # 输出主导模式信息
+        if self.use_angle_clustering and dominant_angles:
             print(f"主导角度: {dominant_angles[0][0]:.1f}° (置信度: {dominant_angles[0][1]:.3f})")
             if len(dominant_angles) > 1:
                 print(f"次主导角度: {dominant_angles[1][0]:.1f}° (置信度: {dominant_angles[1][1]:.3f})")
-        else:
+        elif self.use_angle_clustering:
             print(f"主导角度: 未发现 (置信度: {angle_confidences[0] if angle_confidences else 0.0:.3f})")
             
-        if dominant_steps:
+        if self.use_step_clustering and dominant_steps:
             print(f"主导步长: {dominant_steps[0][0]:.1f} (置信度: {dominant_steps[0][1]:.3f})")
             if len(dominant_steps) > 1:
                 print(f"次主导步长: {dominant_steps[1][0]:.1f} (置信度: {dominant_steps[1][1]:.3f})")
-        else:
+        elif self.use_step_clustering:
             print(f"主导步长: 未发现 (置信度: {step_confidences[0] if step_confidences else 0.0:.3f})")
         
         # 检查置信度
-        if angle_confidences[0] < self.confidence_threshold or step_confidences[0] < self.confidence_threshold:
+        if (self.use_angle_clustering and angle_confidences and angle_confidences[0] < self.confidence_threshold) or \
+           (self.use_step_clustering and step_confidences and step_confidences[0] < self.confidence_threshold):
             print(f"警告：主导模式置信度较低，可能影响处理效果")
         
-        # 如果无法确定主导模式，返回原始数据
-        if not dominant_angles or not dominant_steps:
+        # 如果无法确定主导模式且启用了聚类，返回原始数据
+        if ((self.use_angle_clustering and not dominant_angles) or 
+            (self.use_step_clustering and not dominant_steps)):
             print(f"无法确定主导模式，返回原始数据")
             return frames_data, frames_data
         
@@ -1062,28 +1295,44 @@ def main():
                        help='基础距离阈值')
     parser.add_argument('--min_cluster_size', type=int, default=1,
                        help='最小聚类大小')
-    parser.add_argument('--angle_cluster_eps', type=float, default=15.0,
+    parser.add_argument('--angle_cluster_eps', type=float, default=15.0,  # 调整为15度，参考angle_distance_processor
                        help='角度聚类半径（度）')
-    parser.add_argument('--step_cluster_eps', type=float, default=0.5,
+    parser.add_argument('--step_cluster_eps', type=float, default=0.2,  # 调整为0.2，参考angle_distance_processor
                        help='步长聚类半径（比例）')
-    parser.add_argument('--confidence_threshold', type=float, default=0.5,
+    parser.add_argument('--confidence_threshold', type=float, default=0.35,
                        help='主导模式置信度阈值')
-    parser.add_argument('--angle_tolerance', type=float, default=15.0,
+    parser.add_argument('--angle_tolerance', type=float, default=15.0,  # 调整为15度
                        help='角度容差（度）')
-    parser.add_argument('--step_tolerance', type=float, default=0.2,
+    parser.add_argument('--step_tolerance', type=float, default=0.2,  # 调整为0.2
                        help='步长容差（比例）')
-    parser.add_argument('--point_distance_threshold', type=float, default=94,
+    parser.add_argument('--point_distance_threshold', type=float, default=5.0,
                        help='重合点过滤阈值')
-    parser.add_argument('--dominant_ratio_threshold', type=float, default=0.9,
+    parser.add_argument('--dominant_ratio_threshold', type=float, default=0.7,
                        help='主导模式占比阈值（0.7表示70%）')
-    parser.add_argument('--secondary_ratio_threshold', type=float, default=0.2,
+    parser.add_argument('--secondary_ratio_threshold', type=float, default=0.15,
                        help='次主导模式占比阈值（0.2表示20%）')
-    parser.add_argument('--max_dominant_patterns', type=int, default=3,
+    parser.add_argument('--max_dominant_patterns', type=int, default=2,
                        help='最大主导模式数量')
     parser.add_argument('--no_visualization', action='store_true',
                        help='不保存可视化结果')
+    parser.add_argument('--use_angle_clustering', action='store_true', default=True,
+                       help='启用角度聚类')
+    parser.add_argument('--no_angle_clustering', action='store_true',
+                       help='禁用角度聚类')
+    parser.add_argument('--use_step_clustering', action='store_true', default=True,
+                       help='启用步长聚类')
+    parser.add_argument('--no_step_clustering', action='store_true',
+                       help='禁用步长聚类')
+    parser.add_argument('--angle_weight', type=float, default=0.5,  # 调整为0.5，平衡角度和步长
+                       help='角度在综合评分中的权重')
+    parser.add_argument('--step_weight', type=float, default=0.5,  # 调整为0.5，平衡角度和步长
+                       help='步长在综合评分中的权重')
     
     args = parser.parse_args()
+    
+    # 处理角度和步长聚类的启用/禁用逻辑
+    use_angle_clustering = args.use_angle_clustering and not args.no_angle_clustering
+    use_step_clustering = args.use_step_clustering and not args.no_step_clustering
     
     # 检查输入文件是否存在
     if not os.path.exists(args.pred_path):
@@ -1126,8 +1375,25 @@ def main():
         point_distance_threshold=args.point_distance_threshold,
         dominant_ratio_threshold=args.dominant_ratio_threshold,
         secondary_ratio_threshold=args.secondary_ratio_threshold,
-        max_dominant_patterns=args.max_dominant_patterns
+        max_dominant_patterns=args.max_dominant_patterns,
+        use_angle_clustering=use_angle_clustering,
+        use_step_clustering=use_step_clustering,
+        angle_weight=args.angle_weight,
+        step_weight=args.step_weight
     )
+    
+    # 打印处理模式
+    print(f"\n=== 处理模式配置 ===")
+    print(f"角度聚类: {'启用' if use_angle_clustering else '禁用'}")
+    print(f"步长聚类: {'启用' if use_step_clustering else '禁用'}")
+    if use_angle_clustering and use_step_clustering:
+        print(f"权重设置: 角度={args.angle_weight:.2f}, 步长={args.step_weight:.2f}")
+    elif use_angle_clustering:
+        print("模式: 仅使用角度聚类")
+    elif use_step_clustering:
+        print("模式: 仅使用步长聚类")
+    else:
+        print("模式: 不使用聚类（仅进行基础处理）")
     
     # 进行自适应角度距离处理
     processed_predictions = processor.process_dataset(
