@@ -5,6 +5,8 @@ from collections import defaultdict, Counter
 import copy
 import math
 import os
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
 
 
 class GeometryUtils:
@@ -282,6 +284,207 @@ class PatternAnalyzer:
         for point_key, point_info in point_participation.items():
             if point_info['participated'] and point_info['min_dominant_distance'] > distance_threshold:
                 point_info['participated'] = False
+
+
+class ClusteringPatternAnalyzer(PatternAnalyzer):
+    """基于角度聚类的模式分析器 - 继承自PatternAnalyzer"""
+    
+    def __init__(self, angle_tolerance: float = 5.0, min_angle_count: int = 2, 
+                 min_step_count: int = 1, angle_cluster_eps: float = 5.0,
+                 min_cluster_size: int = 1, confidence_threshold: float = 0.05):
+        """
+        初始化基于角度聚类的模式分析器
+        
+        Args:
+            angle_tolerance: 角度容差（度）
+            min_angle_count: 最小角度数量
+            min_step_count: 最小步长数量
+            angle_cluster_eps: 角度聚类半径（度）
+            min_cluster_size: 最小聚类大小
+            confidence_threshold: 主导模式置信度阈值（降低默认值）
+        """
+        super().__init__(angle_tolerance, min_angle_count, min_step_count)
+        self.angle_cluster_eps = angle_cluster_eps
+        self.min_cluster_size = min_cluster_size
+        self.confidence_threshold = confidence_threshold
+    
+    def _find_dominant_angles(self, all_angles: List[float]) -> List[Tuple[float, int]]:
+        """
+        通过聚类的方式找到主导角度
+        
+        Args:
+            all_angles: 所有角度列表
+            
+        Returns:
+            主导角度列表，每个元素为(角度, 数量)的元组
+        """
+        if len(all_angles) < self.min_cluster_size:
+            return []
+        
+        # 将角度转换为二维坐标（考虑角度的周期性）
+        angles_rad = np.array(all_angles) * np.pi / 180.0
+        X = np.column_stack([np.cos(angles_rad), np.sin(angles_rad)])
+        
+        # 标准化
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        
+        # 动态调整聚类参数
+        eps = self._adjust_cluster_eps(len(all_angles))
+        min_samples = max(2, min(self.min_cluster_size, len(all_angles) // 10))
+        
+        # 使用DBSCAN聚类
+        clustering = DBSCAN(
+            eps=eps, 
+            min_samples=min_samples
+        ).fit(X_scaled)
+        
+        labels = clustering.labels_
+        unique_labels = set(labels)
+        
+        # 收集所有聚类信息
+        clusters_info = []
+        
+        for label in unique_labels:
+            if label == -1:  # 噪声点
+                continue
+            
+            cluster_mask = labels == label
+            cluster_size = np.sum(cluster_mask)
+            
+            if cluster_size >= self.min_cluster_size:
+                cluster_angles = np.array(all_angles)[cluster_mask]
+                
+                # 计算聚类中心角度
+                cluster_angles_rad = cluster_angles * np.pi / 180.0
+                mean_cos = np.mean(np.cos(cluster_angles_rad))
+                mean_sin = np.mean(np.sin(cluster_angles_rad))
+                dominant_angle = math.degrees(math.atan2(mean_sin, mean_cos))
+                
+                if dominant_angle < 0:
+                    dominant_angle += 360
+                
+                confidence = cluster_size / len(all_angles)
+                
+                if confidence >= self.confidence_threshold:
+                    clusters_info.append((dominant_angle, cluster_size, confidence))
+        
+        # 按聚类大小排序
+        clusters_info.sort(key=lambda x: x[1], reverse=True)
+        
+        # 转换为返回格式
+        dominant_angles = [(angle, count) for angle, count, _ in clusters_info]
+        
+        # 如果没有找到聚类，回退到原始方法
+        if not dominant_angles:
+            return self._fallback_find_dominant_angles(all_angles)
+        
+        return dominant_angles
+    
+    def _adjust_cluster_eps(self, num_angles: int) -> float:
+        """
+        根据角度数量动态调整聚类半径
+        """
+        # 基础半径
+        base_eps = self.angle_cluster_eps / 180.0 * np.pi
+        
+        # 根据数据量调整
+        if num_angles < 10:
+            return base_eps * 2.0  # 数据少时大幅放宽条件
+        elif num_angles < 50:
+            return base_eps * 1.5  # 数据较少时放宽条件
+        elif num_angles > 200:
+            return base_eps * 0.7  # 数据多时收紧条件
+        elif num_angles > 100:
+            return base_eps * 0.8  # 数据较多时稍微收紧条件
+        else:
+            return base_eps
+    
+    def _fallback_find_dominant_angles(self, all_angles: List[float]) -> List[Tuple[float, int]]:
+        """
+        当聚类失败时的回退方法，使用原始的分箱方法
+        """
+        angle_counter = Counter()
+        for angle in all_angles:
+            angle_key = round(angle / self.angle_tolerance) * self.angle_tolerance
+            angle_counter[angle_key] += 1
+        
+        dominant_angles = []
+        for angle, count in angle_counter.most_common():
+            if count >= self.min_angle_count:
+                dominant_angles.append((angle, count))
+        
+        return dominant_angles
+    
+    def cluster_angles_with_info(self, all_angles: List[float]) -> Tuple[List[Tuple[float, int]], List[Tuple[float, float, int]]]:
+        """
+        对角度进行聚类并返回详细信息
+        
+        Args:
+            all_angles: 所有角度列表
+            
+        Returns:
+            (主导角度列表, 聚类详细信息列表)
+        """
+        if len(all_angles) < self.min_cluster_size:
+            return [], []
+        
+        # 将角度转换为二维坐标（考虑角度的周期性）
+        angles_rad = np.array(all_angles) * np.pi / 180.0
+        X = np.column_stack([np.cos(angles_rad), np.sin(angles_rad)])
+        
+        # 标准化
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        
+        # 动态调整聚类参数
+        eps = self._adjust_cluster_eps(len(all_angles))
+        min_samples = max(2, min(self.min_cluster_size, len(all_angles) // 10))
+        
+        # 使用DBSCAN聚类
+        clustering = DBSCAN(
+            eps=eps, 
+            min_samples=min_samples
+        ).fit(X_scaled)
+        
+        labels = clustering.labels_
+        unique_labels = set(labels)
+        
+        # 收集所有聚类信息
+        clusters_info = []
+        dominant_angles = []
+        
+        for label in unique_labels:
+            if label == -1:  # 噪声点
+                continue
+            
+            cluster_mask = labels == label
+            cluster_size = np.sum(cluster_mask)
+            
+            if cluster_size >= self.min_cluster_size:
+                cluster_angles = np.array(all_angles)[cluster_mask]
+                
+                # 计算聚类中心角度
+                cluster_angles_rad = cluster_angles * np.pi / 180.0
+                mean_cos = np.mean(np.cos(cluster_angles_rad))
+                mean_sin = np.mean(np.sin(cluster_angles_rad))
+                dominant_angle = math.degrees(math.atan2(mean_sin, mean_cos))
+                
+                if dominant_angle < 0:
+                    dominant_angle += 360
+                
+                confidence = cluster_size / len(all_angles)
+                
+                clusters_info.append((dominant_angle, confidence, cluster_size))
+                
+                if confidence >= self.confidence_threshold:
+                    dominant_angles.append((dominant_angle, cluster_size))
+        
+        # 按聚类大小排序
+        dominant_angles.sort(key=lambda x: x[1], reverse=True)
+        clusters_info.sort(key=lambda x: x[2], reverse=True)
+        
+        return dominant_angles, clusters_info
 
 
 class TrajectoryGenerator:
@@ -595,7 +798,9 @@ class OutlierFilter:
                     if point_participation[point_key]['participated']:
                         kept_coords.append(point)
                     else:
-                        print(f"    移除未参与主导模式的点: 帧{frame_id}, 位置{point}")
+                       
+                        # print(f"    移除未参与主导模式的点: 帧{frame_id}, 位置{point}")
+                        pass
                 else:
                     kept_coords.append(point)
             
@@ -614,7 +819,8 @@ class AngleDistanceProcessorV3:
                  step_tolerance: float = 0.2,
                  min_step_count: int = 1,
                  max_step_size: float = 40.0,
-                 point_distance_threshold: float = 5.0):
+                 point_distance_threshold: float = 5.0,
+                 use_clustering: bool = True):
         """
         初始化处理器
         
@@ -632,9 +838,13 @@ class AngleDistanceProcessorV3:
         self.min_step_count = min_step_count
         self.max_step_size = max_step_size
         self.point_distance_threshold = point_distance_threshold
+        self.use_clustering = use_clustering
         
         # 初始化组件
-        self.pattern_analyzer = PatternAnalyzer(angle_tolerance, min_angle_count, min_step_count)
+        if use_clustering:
+            self.pattern_analyzer = ClusteringPatternAnalyzer(angle_tolerance, min_angle_count, min_step_count)
+        else:
+            self.pattern_analyzer = PatternAnalyzer(angle_tolerance, min_angle_count, min_step_count)
         self.trajectory_completer = TrajectoryCompleter(point_distance_threshold)
     
     def process_sequence(self, sequence_id: int, frames_data: Dict[int, Dict]) -> Tuple[Dict[int, Dict], Dict[int, Dict]]:
@@ -693,7 +903,7 @@ def main():
     
     parser = argparse.ArgumentParser(description='角度距离轨迹补全处理器 V3')
     parser.add_argument('--pred_path', type=str, 
-                       default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
+                       default='results/spotgeov2/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, 
                        default='datasets/spotgeov2-IRSTD/test_anno.json',
@@ -701,9 +911,11 @@ def main():
     parser.add_argument('--output_path', type=str, 
                        default='results/spotgeov2/WTNet/angle_distance_processed_predictions_v3.json',
                        help='输出文件路径')
-    parser.add_argument('--angle_tolerance', type=float, default=15,
+    parser.add_argument('--angle_tolerance', type=float, default=12,
                        help='角度容差（度）')
-    parser.add_argument('--min_angle_count', type=int, default=2,
+    parser.add_argument('--use_clustering', type=bool, default=True,
+                       help='是否使用聚类')
+    parser.add_argument('--min_angle_count', type=int, default=1,
                        help='最小角度出现次数')
     parser.add_argument('--step_tolerance', type=float, default=0.2,
                        help='步长容差（比例）')
@@ -748,7 +960,8 @@ def main():
         min_angle_count=args.min_angle_count,
         step_tolerance=args.step_tolerance,
         min_step_count=args.min_step_count,
-        point_distance_threshold=args.point_distance_threshold
+        point_distance_threshold=args.point_distance_threshold,
+        use_clustering=args.use_clustering
     )
     
     # 处理数据
