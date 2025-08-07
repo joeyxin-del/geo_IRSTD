@@ -261,7 +261,7 @@ def main():
     # pred_path = 'results/spotgeov2/WTNet/outlier_filtered_predictions.json'
     # pred_path = 'results/spotgeov2/WTNet/improved_slope_processed_predictions.json'
     # pred_path = 'results/spotgeov2/WTNet/angle_processed_predictions.json'
-    pred_path = 'results/spotgeov2/WTNet/angle_distance_processed_predictions.json'
+    pred_path = 'results/spotgeov2/WTNet/8801angle_processed_predictions.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -407,7 +407,7 @@ def main():
     # results_save_path = './results/WTNet/improved_slope_evaluation_results.json'
     # results_save_path = './results/spotgeov2/WTNet/improved_slope_evaluation_results.json'
     # results_save_path = './results/spotgeov2/WTNet/angle_processed_evaluation_results.json'
-    results_save_path = './results/spotgeov2/WTNet/angle_distance_processed_evaluation_results.json'
+    results_save_path = './results/spotgeov2/WTNet/8801angle_processed_evaluation_results.json'
     # results_save_path = './results/spotgeov2/WTNet/outlier_filtered_evaluation_results.json'
     with open(results_save_path, 'w') as f:
         json.dump(metrics, f, indent=2)

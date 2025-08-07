@@ -672,7 +672,7 @@ def main():
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, default='datasets/spotgeov2-IRSTD/test_anno.json',
                        help='真实标注文件路径')
-    parser.add_argument('--output_path', type=str, default='results/spotgeov2/WTNet/angle_processed_predictions.json',
+    parser.add_argument('--output_path', type=str, default='results/spotgeov2/WTNet/8801angle_processed_predictions.json',
                        help='输出文件路径')
     parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
