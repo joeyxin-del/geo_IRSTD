@@ -668,7 +668,7 @@ def main():
     
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='角度轨迹补全处理器')
-    parser.add_argument('--pred_path', type=str, default='results/spotgeov2/WTNet/predictions.json',
+    parser.add_argument('--pred_path', type=str, default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, default='datasets/spotgeov2-IRSTD/test_anno.json',
                        help='真实标注文件路径')
@@ -676,11 +676,11 @@ def main():
                        help='输出文件路径')
     parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')
-    parser.add_argument('--angle_tolerance', type=float, default=2.5,
+    parser.add_argument('--angle_tolerance', type=float, default=2,
                        help='角度容差（度）')
     parser.add_argument('--min_angle_count', type=int, default=2,
                        help='最小角度出现次数')
-    parser.add_argument('--point_distance_threshold', type=float, default=200.0,
+    parser.add_argument('--point_distance_threshold', type=float, default=95,
                        help='重合点过滤阈值')
     
     args = parser.parse_args()

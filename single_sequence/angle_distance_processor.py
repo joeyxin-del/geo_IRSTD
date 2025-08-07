@@ -402,9 +402,9 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description='单序列角度距离后处理分析')
-    parser.add_argument('--pred_path', type=str, default='results/spotgeov2/WTNet/predictions.json',
+    parser.add_argument('--pred_path', type=str, default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
-    parser.add_argument('--sequence_id', type=int, default=69,
+    parser.add_argument('--sequence_id', type=int, default=67,
                        help='要分析的序列ID')
     parser.add_argument('--base_distance_threshold', type=float, default=1000.0,
                        help='基础距离阈值')

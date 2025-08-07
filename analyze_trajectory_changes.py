@@ -14,7 +14,7 @@ class TrajectoryChangeAnalyzer:
     """轨迹变化分析器"""
     
     def __init__(self, 
-                 original_pred_path: str = 'results/spotgeov2/WTNet/predictions.json',
+                 original_pred_path: str = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                 #  processed_pred_path: str = 'results/WTNet/kmeans_trajectory_predictions.json',
                 #  processed_pred_path: str = 'results/WTNet/aggressive_balanced_processed_predictions.json',
                 #  processed_pred_path: str = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json',
