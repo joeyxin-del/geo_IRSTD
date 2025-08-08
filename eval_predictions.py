@@ -94,9 +94,8 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
     total_tp = 0
     total_fp = 0
     total_fn = 0
-    total_mse = 0
-    total_matched_points = 0
-    tau_square = distance_threshold * distance_threshold  # 阈值的平方作为惩罚项
+    total_sse = 0
+    eps = 1e-6  # 截断阈值，小于此值的距离设为0
     
     processed_images = 0
     skipped_images = 0
@@ -133,33 +132,53 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         pred_points = pred_info['coords']
         gt_points = organized_gt[img_name]['object_coords']
 
-        # 匹配点对
-        matches, unmatched_preds, unmatched_gts = match_points(
-            pred_points, gt_points, distance_threshold)
+        # 使用更准确的匹配和评估方法
+        if len(pred_points) == 0 and len(gt_points) == 0:
+            # 都为空，完美匹配
+            tp, fp, fn, sse = 0, 0, 0, 0
+        elif len(pred_points) == 0:
+            # 只有真实点，全部为FN
+            tp, fp, fn, sse = 0, 0, len(gt_points), len(gt_points) * distance_threshold**2
+        elif len(gt_points) == 0:
+            # 只有预测点，全部为FP
+            tp, fp, fn, sse = 0, len(pred_points), 0, len(pred_points) * distance_threshold**2
+        else:
+            # 计算欧氏距离矩阵
+            cost_matrix = np.zeros((len(pred_points), len(gt_points)))
+            for i, pred in enumerate(pred_points):
+                for j, gt in enumerate(gt_points):
+                    distance = calculate_distance(pred, gt)
+                    # 截断距离：超过阈值的设为1000
+                    cost_matrix[i, j] = distance if distance <= distance_threshold else 1000
 
-        # 计算当前图片的指标
-        tp = len(matches)
-        fp = len(unmatched_preds)
-        fn = len(unmatched_gts)
-        
-        # 计算当前图片的MSE
-        current_mse = 0
-        # 对匹配点计算实际距离的平方
-        for pred_idx, gt_idx in matches:
-            distance = calculate_distance(pred_points[pred_idx], gt_points[gt_idx])
-            if distance <= distance_threshold:
-                current_mse += 0  # 距离小于阈值时为0
-            else:
-                current_mse += distance * distance
-        
-        # 对未匹配点添加惩罚项
-        current_mse += (fp + fn) * tau_square  # 每个未匹配点都加上τ²
+            # 使用匈牙利算法进行匹配
+            pred_indices, gt_indices = linear_sum_assignment(cost_matrix)
+            matching = cost_matrix[pred_indices, gt_indices]
+
+            # 计算TP/FN/FP
+            # TP = 匹配且距离≤阈值的点对数量
+            tp = sum(matching <= distance_threshold)
+            
+            # FN = 真实点数量 - 匹配数量 + 超过阈值的匹配数量
+            fn = len(gt_points) - len(pred_indices) + sum(matching > distance_threshold)
+            
+            # FP = 预测点数量 - 匹配数量 + 超过阈值的匹配数量
+            fp = len(pred_points) - len(pred_indices) + sum(matching > distance_threshold)
+            
+            # 计算截断回归误差
+            tp_distances = matching[matching <= distance_threshold]
+            # 截断：小于eps的距离设为0
+            tp_distances = np.where(tp_distances < eps, 0, tp_distances)
+            # 平方误差加上FN和FP的常数惩罚
+            sse = sum(tp_distances**2) + (fn + fp) * distance_threshold**2
         
         # 计算当前图片的指标
         img_precision = tp / (tp + fp) if (tp + fp) > 0 else 0
         img_recall = tp / (tp + fn) if (tp + fn) > 0 else 0
         img_f1 = 2 * (img_precision * img_recall) / (img_precision + img_recall) if (img_precision + img_recall) > 0 else 0
-        img_mse = current_mse / max(len(gt_points), len(pred_points)) if max(len(gt_points), len(pred_points)) > 0 else 0
+        # 计算MSE：F_MSE = F_SSE / (N_TP + N_FN + N_FP)
+        img_total_instances = tp + fn + fp
+        img_mse = sse / img_total_instances if img_total_instances > 0 else 0
         
         # 存储每张图片的指标
         per_image_metrics[img_name] = {
@@ -170,28 +189,27 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
             'tp': tp,
             'fp': fp,
             'fn': fn,
-            'matched_points': len(matches)
+            'sse': sse,
+            'matched_points': tp
         }
         
         # 更新序列指标
         if seq_id not in sequence_metrics:
             sequence_metrics[seq_id] = {
-                'tp': 0, 'fp': 0, 'fn': 0, 'total_mse': 0,
-                'total_points': 0, 'processed_images': 0
+                'tp': 0, 'fp': 0, 'fn': 0, 'total_sse': 0,
+                'processed_images': 0
             }
         sequence_metrics[seq_id]['tp'] += tp
         sequence_metrics[seq_id]['fp'] += fp
         sequence_metrics[seq_id]['fn'] += fn
-        sequence_metrics[seq_id]['total_mse'] += current_mse
-        sequence_metrics[seq_id]['total_points'] += max(len(gt_points), len(pred_points))
+        sequence_metrics[seq_id]['total_sse'] += sse
         sequence_metrics[seq_id]['processed_images'] += 1
 
         # 更新总体指标
         total_tp += tp
         total_fp += fp
         total_fn += fn
-        total_mse += current_mse
-        total_matched_points += max(len(gt_points), len(pred_points))
+        total_sse += sse
         processed_images += 1
 
     # 计算每个序列的最终指标
@@ -200,13 +218,17 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         seq_precision = seq['tp'] / (seq['tp'] + seq['fp']) if (seq['tp'] + seq['fp']) > 0 else 0
         seq_recall = seq['tp'] / (seq['tp'] + seq['fn']) if (seq['tp'] + seq['fn']) > 0 else 0
         seq['f1'] = 2 * (seq_precision * seq_recall) / (seq_precision + seq_recall) if (seq_precision + seq_recall) > 0 else 0
-        seq['mse'] = seq['total_mse'] / seq['total_points'] if seq['total_points'] > 0 else 0
+        # 修正序列MSE计算：F_MSE = F_SSE / (N_TP + N_FN + N_FP)
+        seq_total_instances = seq['tp'] + seq['fn'] + seq['fp']
+        seq['mse'] = seq['total_sse'] / seq_total_instances if seq_total_instances > 0 else 0
 
     # 计算总体指标
     precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) > 0 else 0
     recall = total_tp / (total_tp + total_fn) if (total_tp + total_fn) > 0 else 0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    mse = total_mse / total_matched_points if total_matched_points > 0 else 0
+    # 修正MSE计算：F_MSE = F_SSE / (N_TP + N_FN + N_FP)
+    total_instances = total_tp + total_fn + total_fp
+    mse = total_sse / total_instances if total_instances > 0 else 0
     rmse = np.sqrt(mse)
 
     # 找出最佳性能的图片和序列
@@ -221,7 +243,7 @@ def calculate_metrics(predictions: Dict, ground_truth: List[Dict], distance_thre
         'f1': f1,
         'mse': mse,
         'rmse': rmse,
-        'total_matched_points': total_matched_points,
+        'total_instances': total_instances,
         'processed_images': processed_images,
         'skipped_images': skipped_images,
         'total_tp': total_tp,
@@ -301,7 +323,7 @@ def main():
     
     print(f"\n处理的图片数: {metrics['processed_images']}")
     print(f"跳过的图片数: {metrics['skipped_images']}")
-    print(f"总匹配点对数: {metrics['total_matched_points']}")
+    print(f"总实例数: {metrics['total_instances']}")
     print(f"True Positives: {metrics['total_tp']}")
     print(f"False Positives: {metrics['total_fp']}")
     print(f"False Negatives: {metrics['total_fn']}")

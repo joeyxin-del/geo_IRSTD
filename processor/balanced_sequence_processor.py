@@ -910,7 +910,7 @@ class BalancedSequenceProcessor:
 def main():
     """主函数，演示平衡的序列后处理"""
     # 加载预测结果和真实标注
-    pred_path = 'results/WTNet/predictions.json'
+    pred_path = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -966,7 +966,8 @@ def main():
     print(f"MSE: {improvement['processed_metrics']['mse']:.4f}")
     
     # 保存处理后的结果
-    output_path = 'results/WTNet/aggressive_balanced_processed_predictions.json'
+
+    output_path = 'results/0808/aggressive_balanced_processed_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
     print(f"\n激进平衡的处理后的预测结果已保存到: {output_path}")

@@ -177,7 +177,7 @@ class SimpleSequenceProcessor:
 def main():
     """主函数"""
     # 加载数据
-    pred_path = 'results/WTNet/predictions.json'
+    pred_path = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载数据...")
@@ -194,7 +194,7 @@ def main():
     processed_predictions = processor.process_sequence(original_predictions)
     
     # 保存结果
-    output_path = 'results/WTNet/simple_processed_predictions.json'
+    output_path = 'results/0808/simple_processed_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
     

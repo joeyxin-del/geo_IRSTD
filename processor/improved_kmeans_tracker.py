@@ -461,7 +461,7 @@ class ImprovedKMeansTracker:
 def main():
     """主函数，演示改进的轨迹跟踪器"""
     # 加载预测结果和真实标注
-    pred_path = 'results/WTNet/predictions.json'
+    pred_path = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -543,7 +543,7 @@ def main():
         print("跳过评估，直接保存结果")
     
     # 保存处理后的结果
-    output_path = 'results/WTNet/improved_kmeans_predictions.json'
+    output_path = 'results/0808/improved_kmeans_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
     print(f"\n改进的轨迹跟踪处理后的预测结果已保存到: {output_path}")

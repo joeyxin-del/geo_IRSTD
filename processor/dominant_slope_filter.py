@@ -301,7 +301,7 @@ class DominantSlopeFilter:
 def main():
     """主函数，演示基于主导斜率的异常点筛选和评测"""
     # 加载预测结果和真实标注
-    pred_path = 'results/spotgeov2/WTNet/sequence_slope_processed_predictions.json'
+    pred_path = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -354,7 +354,7 @@ def main():
     print(f"\n基于主导斜率的异常点筛选结果已保存到: {output_path}")
     
     # 保存评测结果
-    evaluation_path = 'results/spotgeov2/WTNet/dominant_slope_evaluation.json'
+    evaluation_path = 'results/0808/dominant_slope_evaluation.json'
     with open(evaluation_path, 'w') as f:
         json.dump(improvement, f, indent=2)
     print(f"评测结果已保存到: {evaluation_path}")

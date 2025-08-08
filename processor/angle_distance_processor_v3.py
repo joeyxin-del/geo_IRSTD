@@ -17,7 +17,7 @@ class AngleDistanceProcessorV3:
                  min_angle_count: int = 2,
                  step_tolerance: float = 0.2,
                  min_step_count: int = 1,
-                 max_step_size: float = 40.0,
+                 max_step_size: float = 500.0,
                  point_distance_threshold: float = 5.0,
                  use_clustering: bool = True):
         """
@@ -105,7 +105,7 @@ def main():
     
     parser = argparse.ArgumentParser(description='角度距离轨迹补全处理器 V3')
     parser.add_argument('--pred_path', type=str, 
-                       default='results/spotgeov2/WTNet/predictions_8807.json',
+                       default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, 
                        default='datasets/spotgeov2-IRSTD/test_anno.json',
@@ -113,13 +113,13 @@ def main():
     parser.add_argument('--output_path', type=str, 
                        default='results/spotgeov2/WTNet/angle_distance_processed_predictions_v3.json',
                        help='输出文件路径')
-    parser.add_argument('--angle_tolerance', type=float, default=12,
+    parser.add_argument('--angle_tolerance', type=float, default=15,
                        help='角度容差（度）')
     parser.add_argument('--use_clustering', type=bool, default=True,
                        help='是否使用聚类')
     parser.add_argument('--min_angle_count', type=int, default=1,
                        help='最小角度出现次数')
-    parser.add_argument('--step_tolerance', type=float, default=0.5,
+    parser.add_argument('--step_tolerance', type=float, default=0.2,
                        help='步长容差（比例）')
     parser.add_argument('--min_step_count', type=int, default=1,
                        help='最小步长出现次数')
@@ -175,7 +175,7 @@ def main():
         sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         from eval_predictions import calculate_metrics
         
-        original_metrics = calculate_metrics(original_predictions, ground_truth, 1000)
+        original_metrics = calculate_metrics(original_predictions, ground_truth,1000)
         processed_metrics = calculate_metrics(processed_predictions, ground_truth, 1000)
         
         print("\n=== 处理效果评估 ===")

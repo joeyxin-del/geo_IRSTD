@@ -652,11 +652,11 @@ def main():
     
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='改进的斜率轨迹补全处理器')
-    parser.add_argument('--pred_path', type=str, default='results/spotgeov2/WTNet/predictions.json',
+    parser.add_argument('--pred_path', type=str, default='results/spotgeov2-IRSTD/WTNet/predictions_8807.json',
                        help='预测结果文件路径')
     parser.add_argument('--gt_path', type=str, default='datasets/spotgeov2-IRSTD/test_anno.json',
                        help='真实标注文件路径')
-    parser.add_argument('--output_path', type=str, default='results/spotgeov2/WTNet/improved_slope_processed_predictions.json',
+    parser.add_argument('--output_path', type=str, default='results/0808/improved_slope_processed_predictions.json',
                        help='输出文件路径')
     parser.add_argument('--base_distance_threshold', type=float, default=500.0,
                        help='基础距离阈值')

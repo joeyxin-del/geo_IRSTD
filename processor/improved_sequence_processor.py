@@ -9,7 +9,7 @@ class ImprovedSequenceProcessor:
     """改进的序列后处理器，更温和的过滤策略"""
     
     def __init__(self, 
-                 distance_threshold: float = 100.0,  # 增大距离阈值
+                 distance_threshold: float = 1000.0,  # 增大距离阈值
                  temporal_window: int = 3,
                  confidence_threshold: float = 0.1,  # 降低置信度阈值
                  min_track_length: int = 1,          # 降低最小轨迹长度
@@ -260,7 +260,7 @@ class ImprovedSequenceProcessor:
 def main():
     """主函数，演示改进的序列后处理"""
     # 加载预测结果和真实标注
-    pred_path = 'results/spotgeov2/WTNet/predictions.json'
+    pred_path = 'results/spotgeov2-IRSTD/WTNet/predictions_8807.json'
     gt_path = 'datasets/spotgeov2-IRSTD/test_anno.json'
     
     print("正在加载预测结果和真实标注...")
@@ -272,11 +272,11 @@ def main():
     
     # 创建改进的序列后处理器
     processor = ImprovedSequenceProcessor(
-        distance_threshold=500.0,  # 更大的距离阈值
-        temporal_window=3,
+        distance_threshold=1000.0,  # 更大的距离阈值
+        temporal_window=2,
         confidence_threshold=0.1,  # 更低的置信度阈值
         min_track_length=1,        # 更短的最小轨迹长度
-        max_frame_gap=2            # 最大帧间隔
+        max_frame_gap=5           # 最大帧间隔
     )
     
     # 进行序列后处理
@@ -305,7 +305,7 @@ def main():
     print(f"MSE: {improvement['processed_metrics']['mse']:.4f}")
     
     # 保存处理后的结果
-    output_path = 'results/spotgeov2/WTNet/improved_processed_predictions.json'
+    output_path = 'results/0808/improved_processed_predictions.json'
     with open(output_path, 'w') as f:
         json.dump(processed_predictions, f, indent=2)
     print(f"\n改进的处理后的预测结果已保存到: {output_path}")
